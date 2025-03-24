@@ -1,0 +1,895 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div class="hidden md:flex md:flex-shrink-0">
+      <div class="flex flex-col w-64">
+        <!-- Sidebar component -->
+        <div class="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto bg-indigo-700">
+          <div class="flex items-center flex-shrink-0 px-4">
+            <div class="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-white">DigitalStore</span>
+          </div>
+          <div class="mt-6 flex-grow flex flex-col">
+            <nav class="flex-1 px-2 space-y-1" aria-label="Sidebar">
+              <!-- Dashboard -->
+              <a href="<%= root_path %>" class="bg-indigo-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" aria-current="page">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "template", size: "sm", color: "blue" %>
+                </div>
+                Dashboard
+              </a>
+
+              <!-- Products -->
+              <a href="<%= products_path if defined?(products_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "star", size: "sm", color: "amber" %>
+                </div>
+                Products
+              </a>
+
+              <!-- Orders -->
+              <a href="<%= orders_path if defined?(orders_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "cart", size: "sm", color: "green" %>
+                </div>
+                My Orders
+              </a>
+
+              <!-- Wishlist -->
+              <a href="<%= wishlist_path if defined?(wishlist_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "lightning", size: "sm", color: "peach" %>
+                </div>
+                Wishlist
+              </a>
+
+              <!-- Settings -->
+              <a href="<%= edit_user_registration_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "user", size: "sm", color: "blue" %>
+                </div>
+                Settings
+              </a>
+
+              <!-- Help -->
+              <a href="<%= help_path if defined?(help_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "search", size: "sm", color: "amber" %>
+                </div>
+                Help Center
+              </a>
+            </nav>
+          </div>
+          <!-- User Profile Section -->
+          <div class="flex-shrink-0 flex border-t border-indigo-800 p-4">
+            <div class="flex items-center">
+              <div>
+                <% if current_user.respond_to?(:profile_picture) && current_user.profile_picture.respond_to?(:attached?) && current_user.profile_picture.attached? %>
+                  <%= image_tag current_user.profile_picture, class: "h-10 w-10 rounded-full", alt: "#{current_user.full_name}'s profile picture" %>
+                <% else %>
+                  <div class="h-10 w-10 rounded-full bg-indigo-200 flex items-center justify-center">
+                    <span class="text-indigo-800 font-medium">
+                      <% if current_user.respond_to?(:first_name) && current_user.respond_to?(:last_name) %>
+                        <%= current_user.first_name.first.upcase %><%= current_user.last_name.first.upcase %>
+                      <% else %>
+                        <%= current_user.email.first.upcase %>
+                      <% end %>
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-white"><%= current_user&.full_name || current_user.email %></p>
+                <div class="flex items-center text-xs font-medium text-indigo-200 group">
+                  <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "group-hover:text-white" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden fixed inset-0 flex z-40 lg:hidden" role="dialog" aria-modal="true" data-controller="mobile-menu" data-mobile-menu-target="menu" style="display: none;">
+      <div class="fixed inset-0 bg-gray-600 bg-opacity-75" aria-hidden="true" data-action="click->mobile-menu#toggle"></div>
+      <div class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-indigo-700">
+        <div class="absolute top-0 right-0 -mr-12 pt-2">
+          <button type="button" class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" data-action="click->mobile-menu#toggle" aria-label="Close menu">
+            <span class="sr-only">Close sidebar</span>
+            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex-shrink-0 flex items-center px-4">
+          <div class="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-white">DigitalStore</span>
+        </div>
+        <div class="mt-5 flex-1 h-0 overflow-y-auto">
+          <nav class="px-2 space-y-1" aria-label="Mobile menu">
+            <a href="<%= root_path %>" class="bg-indigo-800 text-white group flex items-center px-2 py-2 text-base font-medium rounded-md" aria-current="page">
+              <div class="mr-4">
+                <%= render 'shared/icon', name: "template", size: "sm", color: "blue" %>
+              </div>
+              Dashboard
+            </a>
+
+            <a href="<%= products_path if defined?(products_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+              <div class="mr-4">
+                <%= render 'shared/icon', name: "star", size: "sm", color: "amber" %>
+              </div>
+              Products
+            </a>
+
+            <a href="<%= orders_path if defined?(orders_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+              <div class="mr-4">
+                <%= render 'shared/icon', name: "cart", size: "sm", color: "green" %>
+              </div>
+              My Orders
+            </a>
+
+            <a href="<%= wishlist_path if defined?(wishlist_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+              <div class="mr-4">
+                <%= render 'shared/icon', name: "lightning", size: "sm", color: "peach" %>
+              </div>
+              Wishlist
+            </a>
+
+            <a href="<%= edit_user_registration_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+              <div class="mr-4">
+                <%= render 'shared/icon', name: "user", size: "sm", color: "blue" %>
+              </div>
+              Settings
+            </a>
+            
+            <a href="<%= help_path if defined?(help_path) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+              <div class="mr-4">
+                <%= render 'shared/icon', name: "search", size: "sm", color: "amber" %>
+              </div>
+              Help Center
+            </a>
+            
+            <div class="pt-4 pb-3 border-t border-indigo-800">
+              <div class="flex items-center px-5">
+                <div class="flex-shrink-0">
+                  <% if current_user.respond_to?(:profile_picture) && current_user.profile_picture.respond_to?(:attached?) && current_user.profile_picture.attached? %>
+                    <%= image_tag current_user.profile_picture, class: "h-10 w-10 rounded-full", alt: "#{current_user.full_name}'s profile picture" %>
+                  <% else %>
+                    <div class="h-10 w-10 rounded-full bg-indigo-200 flex items-center justify-center">
+                      <span class="text-indigo-800 font-medium">
+                        <% if current_user.respond_to?(:first_name) && current_user.respond_to?(:last_name) %>
+                          <%= current_user.first_name.first.upcase %><%= current_user.last_name.first.upcase %>
+                        <% else %>
+                          <%= current_user.email.first.upcase %>
+                        <% end %>
+                      </span>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="ml-3">
+                  <div class="text-base font-medium text-white"><%= current_user&.full_name || current_user.email %></div>
+                </div>
+              </div>
+              <div class="mt-3 px-2 space-y-1">
+                <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "block w-full text-left px-3 py-2 rounded-md text-base font-medium text-indigo-100 hover:text-white hover:bg-indigo-600" %>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile toggle button -->
+    <div class="md:hidden flex items-center justify-between p-2 bg-indigo-700 shadow-md">
+      <div class="flex items-center">
+        <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" data-action="click->mobile-menu#toggle" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <span class="ml-2 text-xl font-bold text-white">DigitalStore</span>
+      </div>
+      <div class="relative">
+        <button type="button" class="p-1 rounded-full text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="notification-dropdown" aria-expanded="false" aria-haspopup="true">
+          <span class="sr-only">View notifications</span>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400 ring-2 ring-indigo-700"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main content area -->
+    <div class="flex-1 overflow-auto focus:outline-none">
+      <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <!-- Page header -->
+          <div class="md:flex md:items-center md:justify-between">
+            <div class="flex-1 min-w-0">
+              <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Welcome back, <%= current_user.respond_to?(:first_name) ? current_user.first_name : current_user.email.split('@').first %></h1>
+              <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+                <div class="mt-2 flex items-center text-sm text-gray-500">
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                  </svg>
+                  <%= Date.today.strftime("%B %d, %Y") %>
+                </div>
+                <% if @last_login %>
+                <div class="mt-2 flex items-center text-sm text-gray-500">
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                  </svg>
+                  Last login: <%= @last_login.strftime("%B %d, %Y at %I:%M %p") %>
+                </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="mt-4 flex md:mt-0 md:ml-4">
+              <a href="#" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <div class="mr-2">
+                  <%= render 'shared/icon', name: "globe", size: "sm", color: "blue" %>
+                </div>
+                View analytics
+              </a>
+              <a href="<%= new_product_path if defined?(new_product_path) %>" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <div class="mr-2">
+                  <%= render 'shared/icon', name: "plus", size: "sm", color: "green" %>
+                </div>
+                Add product
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <!-- Notification banner -->
+          <% if @new_notifications && @new_notifications > 0 %>
+          <div class="mt-8 rounded-md bg-indigo-50 p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <%= render 'shared/icon', name: "notification", size: "md", color: "blue" %>
+              </div>
+              <div class="ml-3 flex-1 md:flex md:justify-between">
+                <p class="text-sm text-indigo-700">
+                  You have <%= @new_notifications %> new notification<%= @new_notifications > 1 ? 's' : '' %>
+                </p>
+                <p class="mt-3 text-sm md:mt-0 md:ml-6">
+                  <a href="<%= notifications_path if defined?(notifications_path) %>" class="whitespace-nowrap font-medium text-indigo-700 hover:text-indigo-600">View all<span aria-hidden="true"> &rarr;</span></a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <% end %>
+
+          <!-- Stats cards -->
+          <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <!-- Card 1: Revenue -->
+            <div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div class="p-5">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <%= render 'shared/icon', name: "lightning", size: "md", color: "blue" %>
+                  </div>
+                  <div class="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt class="text-sm font-medium text-gray-500 truncate">Total Revenue</dt>
+                      <dd>
+                        <div class="text-lg font-medium text-gray-900">
+                          <%= number_to_currency(@total_revenue || 24500) %>
+                          <% if @revenue_change && @revenue_change > 0 %>
+                            <span class="ml-2 text-sm text-green-500">+<%= number_to_percentage(@revenue_change, precision: 1) %></span>
+                          <% elsif @revenue_change && @revenue_change < 0 %>
+                            <span class="ml-2 text-sm text-red-500"><%= number_to_percentage(@revenue_change, precision: 1) %></span>
+                          <% end %>
+                        </div>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-5 py-3">
+                <div class="text-sm">
+                  <a href="<%= revenue_report_path if defined?(revenue_report_path) %>" class="font-medium text-indigo-600 hover:text-indigo-900">View details</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Orders -->
+            <div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div class="p-5">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <%= render 'shared/icon', name: "cart", size: "md", color: "green" %>
+                  </div>
+                  <div class="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt class="text-sm font-medium text-gray-500 truncate">Total Orders</dt>
+                      <dd>
+                        <div class="text-lg font-medium text-gray-900">
+                          <%= @total_orders || 142 %>
+                          <% if @orders_change && @orders_change > 0 %>
+                            <span class="ml-2 text-sm text-green-500">+<%= number_to_percentage(@orders_change, precision: 1) %></span>
+                          <% elsif @orders_change && @orders_change < 0 %>
+                            <span class="ml-2 text-sm text-red-500"><%= number_to_percentage(@orders_change, precision: 1) %></span>
+                          <% end %>
+                        </div>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-5 py-3">
+                <div class="text-sm">
+                  <a href="<%= orders_path if defined?(orders_path) %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Customers -->
+            <div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div class="p-5">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <%= render 'shared/icon', name: "user", size: "md", color: "amber" %>
+                  </div>
+                  <div class="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt class="text-sm font-medium text-gray-500 truncate">Total Customers</dt>
+                      <dd>
+                        <div class="text-lg font-medium text-gray-900">
+                          <%= @total_customers || 854 %>
+                          <% if @customers_change && @customers_change > 0 %>
+                            <span class="ml-2 text-sm text-green-500">+<%= number_to_percentage(@customers_change, precision: 1) %></span>
+                          <% elsif @customers_change && @customers_change < 0 %>
+                            <span class="ml-2 text-sm text-red-500"><%= number_to_percentage(@customers_change, precision: 1) %></span>
+                          <% end %>
+                        </div>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-5 py-3">
+                <div class="text-sm">
+                  <a href="<%= customers_path if defined?(customers_path) %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Products -->
+            <div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div class="p-5">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <%= render 'shared/icon', name: "star", size: "md", color: "peach" %>
+                  </div>
+                  <div class="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt class="text-sm font-medium text-gray-500 truncate">Total Products</dt>
+                      <dd>
+                        <div class="text-lg font-medium text-gray-900">
+                          <%= @total_products || 47 %>
+                          <% if @products_change && @products_change > 0 %>
+                            <span class="ml-2 text-sm text-green-500">+<%= number_to_percentage(@products_change, precision: 1) %></span>
+                          <% elsif @products_change && @products_change < 0 %>
+                            <span class="ml-2 text-sm text-red-500"><%= number_to_percentage(@products_change, precision: 1) %></span>
+                          <% end %>
+                        </div>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-5 py-3">
+                <div class="text-sm">
+                  <a href="<%= products_path if defined?(products_path) %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sales Overview Chart -->
+          <div class="mt-8">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-lg leading-6 font-medium text-gray-900">Monthly Sales Overview</h3>
+                  <div class="flex space-x-3">
+                    <select id="chart-period" class="mt-1 block pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md">
+                      <option value="30">Last 30 days</option>
+                      <option value="90">Last 90 days</option>
+                      <option value="365">Last year</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="px-6 py-6">
+                <div class="relative h-80">
+                  <%= render 'dashboard/sales_chart' if defined?(render_sales_chart) %>
+                  <% unless defined?(render_sales_chart) %>
+                    <div class="flex items-center justify-center h-full">
+                      <div class="text-center">
+                        <div class="mx-auto h-12 w-12 text-gray-400">
+                          <%= render 'shared/icon', name: "chart", size: "lg", color: "blue" %>
+                        </div>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">No sales data available</h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                          Start selling to see your sales chart.
+                        </p>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two-column layout for Recent Activity and Action Items -->
+          <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
+            <!-- Recent Activity -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Activity</h3>
+                <div class="text-sm">
+                  <a href="<%= activity_path if defined?(activity_path) %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+                </div>
+              </div>
+              <div class="mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="p-6">
+                  <div class="flow-root">
+                    <ul role="list" class="-mb-8">
+                      <% if @recent_activities && @recent_activities.any? %>
+                        <%= render partial: 'dashboard/activity_item', collection: @recent_activities, as: :activity %>
+                      <% else %>
+                        <!-- Default activity items -->
+                        <li>
+                          <div class="relative pb-8">
+                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                            <div class="relative flex space-x-3">
+                              <div>
+                                <span class="h-8 w-8 rounded-full flex items-center justify-center bg-blue-100">
+                                  <%= render 'shared/icon', name: "cart", size: "sm", color: "blue" %>
+                                </span>
+                              </div>
+                              <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                <div>
+                                  <p class="text-sm text-gray-900">New order <span class="font-medium text-indigo-600">#12345</span> was placed</p>
+                                </div>
+                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                  <time datetime="2024-03-24">10 minutes ago</time>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="relative pb-8">
+                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                            <div class="relative flex space-x-3">
+                              <div>
+                                <span class="h-8 w-8 rounded-full flex items-center justify-center bg-green-100">
+                                  <%= render 'shared/icon', name: "check", size: "sm", color: "green" %>
+                                </span>
+                              </div>
+                              <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                <div>
+                                  <p class="text-sm text-gray-900">Order <span class="font-medium text-indigo-600">#12344</span> was completed</p>
+                                </div>
+                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                  <time datetime="2024-03-24">1 hour ago</time>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="relative pb-8">
+                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                            <div class="relative flex space-x-3">
+                              <div>
+                                <span class="h-8 w-8 rounded-full flex items-center justify-center bg-amber-100">
+                                  <%= render 'shared/icon', name: "star", size: "sm", color: "amber" %>
+                                </span>
+                              </div>
+                              <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                <div>
+                                  <p class="text-sm text-gray-900">New product <span class="font-medium text-indigo-600">UI Template Kit</span> was added</p>
+                                </div>
+                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                  <time datetime="2024-03-24">3 hours ago</time>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="relative pb-8">
+                            <div class="relative flex space-x-3">
+                              <div>
+                                <span class="h-8 w-8 rounded-full flex items-center justify-center bg-red-100">
+                                  <%= render 'shared/icon', name: "user", size: "sm", color: "peach" %>
+                                </span>
+                              </div>
+                              <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                <div>
+                                  <p class="text-sm text-gray-900">New customer <span class="font-medium text-indigo-600">Alex Johnson</span> registered</p>
+                                </div>
+                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                  <time datetime="2024-03-24">5 hours ago</time>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Items / Quick Tasks -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Action Items</h3>
+                <div class="text-sm">
+                  <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+                </div>
+              </div>
+              <div class="mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="p-6">
+                  <div class="space-y-5">
+                    <div class="relative flex items-start">
+                      <div class="flex items-center h-5">
+                        <input id="action1" name="action1" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                      </div>
+                      <div class="ml-3 flex justify-between flex-1">
+                        <label for="action1" class="text-sm font-medium text-gray-700">Complete store profile information</label>
+                        <span class="text-xs text-amber-500 font-medium">High Priority</span>
+                      </div>
+                    </div>
+                    <div class="relative flex items-start">
+                      <div class="flex items-center h-5">
+                        <input id="action2" name="action2" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                      </div>
+                      <div class="ml-3 flex justify-between flex-1">
+                        <label for="action2" class="text-sm font-medium text-gray-700">Set up payment methods</label>
+                        <span class="text-xs text-amber-500 font-medium">High Priority</span>
+                      </div>
+                    </div>
+                    <div class="relative flex items-start">
+                      <div class="flex items-center h-5">
+                        <input id="action3" name="action3" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                      </div>
+                      <div class="ml-3 flex justify-between flex-1">
+                        <label for="action3" class="text-sm font-medium text-gray-700">Add at least 5 products to your store</label>
+                        <span class="text-xs text-blue-500 font-medium">Medium Priority</span>
+                      </div>
+                    </div>
+                    <div class="relative flex items-start">
+                      <div class="flex items-center h-5">
+                        <input id="action4" name="action4" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                      </div>
+                      <div class="ml-3 flex justify-between flex-1">
+                        <label for="action4" class="text-sm font-medium text-gray-700">Set up shipping options</label>
+                        <span class="text-xs text-blue-500 font-medium">Medium Priority</span>
+                      </div>
+                    </div>
+                    <div class="relative flex items-start">
+                      <div class="flex items-center h-5">
+                        <input id="action5" name="action5" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                      </div>
+                      <div class="ml-3 flex justify-between flex-1">
+                        <label for="action5" class="text-sm font-medium text-gray-700">Connect social media accounts</label>
+                        <span class="text-xs text-green-500 font-medium">Low Priority</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-6">
+                    <button type="button" class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                      </svg>
+                      Add new action
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Selling Products -->
+          <div class="mt-8">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Top Selling Products</h3>
+              <div class="text-sm">
+                <a href="<%= products_path if defined?(products_path) %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all products</a>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-col">
+              <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="shadow-md overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                        <tr>
+                          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Category
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Price
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Sales
+                          </th>
+                          <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Actions</span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                        <% if @top_products && @top_products.any? %>
+                          <%= render partial: 'products/product_row', collection: @top_products, as: :product %>
+                        <% else %>
+                          <!-- Default product rows -->
+                          <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-md bg-gray-100">
+                                  <%= render 'shared/icon', name: "template", size: "sm", color: "blue" %>
+                                </div>
+                                <div class="ml-4">
+                                  <div class="text-sm font-medium text-gray-900">
+                                    Premium Admin Dashboard
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="text-sm text-gray-900">UI Templates</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="text-sm text-gray-900">$79.00</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              245
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-md bg-gray-100">
+                                  <%= render 'shared/icon', name: "image", size: "sm", color: "green" %>
+                                </div>
+                                <div class="ml-4">
+                                  <div class="text-sm font-medium text-gray-900">
+                                    Essential Icon Set
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="text-sm text-gray-900">Icon Sets</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="text-sm text-gray-900">$49.00</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              189
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-md bg-gray-100">
+                                  <%= render 'shared/icon', name: "book", size: "sm", color: "amber" %>
+                                </div>
+                                <div class="ml-4">
+                                  <div class="text-sm font-medium text-gray-900">
+                                    Mastering Web Development
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="text-sm text-gray-900">Ebooks</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <div class="text-sm text-gray-900">$29.99</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              152
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Reviews -->
+          <div class="mt-8 mb-10">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Reviews</h3>
+              <div class="text-sm">
+                <a href="<%= reviews_path if defined?(reviews_path) %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all reviews</a>
+              </div>
+            </div>
+            <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <% if @recent_reviews && @recent_reviews.any? %>
+                <%= render partial: 'reviews/review_card', collection: @recent_reviews, as: :review %>
+              <% else %>
+                <!-- Default review cards -->
+                <div class="bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <div class="p-6">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                        <span class="text-indigo-800 font-medium">MJ</span>
+                      </div>
+                      <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Michael Johnson</h4>
+                        <div class="mt-1 flex items-center">
+                          <!-- 5 stars -->
+                          <% 5.times do %>
+                            <svg class="h-4 w-4 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <p class="text-sm text-gray-500">The Premium Admin Dashboard is exactly what I needed for my project. Clean code, great documentation, and excellent support!</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                      <span class="text-xs text-gray-500">Posted 2 days ago</span>
+                      <span class="text-xs font-medium text-indigo-600">Premium Admin Dashboard</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <div class="p-6">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                        <span class="text-green-800 font-medium">SW</span>
+                      </div>
+                      <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Sarah Williams</h4>
+                        <div class="mt-1 flex items-center">
+                          <!-- 4 stars -->
+                          <% 4.times do %>
+                            <svg class="h-4 w-4 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          <% end %>
+                          <% 1.times do %>
+                            <svg class="h-4 w-4 text-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <p class="text-sm text-gray-500">Great icon set with a ton of options. Would have given 5 stars if there were more color options available.</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                      <span class="text-xs text-gray-500">Posted 5 days ago</span>
+                      <span class="text-xs font-medium text-indigo-600">Essential Icon Set</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <div class="p-6">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center">
+                        <span class="text-amber-800 font-medium">DB</span>
+                      </div>
+                      <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">David Brown</h4>
+                        <div class="mt-1 flex items-center">
+                          <!-- 5 stars -->
+                          <% 5.times do %>
+                            <svg class="h-4 w-4 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <p class="text-sm text-gray-500">This ebook is an absolute game-changer! I've learned more from this book than from any online course I've taken. Highly recommended!</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                      <span class="text-xs text-gray-500">Posted 1 week ago</span>
+                      <span class="text-xs font-medium text-indigo-600">Mastering Web Development</span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Help and Support Section -->
+          <div class="mt-8 mb-16">
+            <div class="bg-indigo-50 rounded-lg shadow-sm overflow-hidden">
+              <div class="px-6 py-6 md:flex md:items-center md:justify-between">
+                <div class="flex-1 min-w-0">
+                  <h2 class="text-lg font-medium leading-6 text-indigo-700">Need help getting started?</h2>
+                  <p class="mt-1 text-sm text-indigo-500">
+                    Our comprehensive resources and support team are here to help you succeed.
+                  </p>
+                </div>
+                <div class="mt-4 flex md:mt-0 md:ml-6 space-x-3">
+                  <a href="<%= help_path if defined?(help_path) %>" class="inline-flex items-center px-4 py-2 border border-indigo-300 shadow-sm text-sm font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    View documentation
+                  </a>
+                  <a href="<%= contact_path if defined?(contact_path) %>" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Contact support
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for the mobile menu controller -->
+<% content_for :page_scripts do %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof window.Stimulus !== 'undefined') {
+      window.Stimulus.register('mobile-menu', class extends window.Stimulus.Controller {
+        static targets = ['menu'];
+        
+        connect() {
+          console.log('Mobile menu controller connected');
+        }
+        
+        toggle() {
+          const menuElement = this.menuTarget;
+          const currentDisplay = window.getComputedStyle(menuElement).display;
+          
+          if (currentDisplay === 'none') {
+            menuElement.style.display = 'flex';
+          } else {
+            menuElement.style.display = 'none';
+          }
+        }
+      });
+    }
+  });
+</script>
+<% end %>

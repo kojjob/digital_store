@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background gradient with colors inspired by Ghana and Nigeria flags -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#008753" /> <!-- Nigerian green -->
+      <stop offset="100%" stop-color="#006B2D" /> <!-- Ghanaian green -->
+    </linearGradient>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)" />
+  
+  <!-- Abstract background elements with flag colors -->
+  <circle cx="200" cy="100" r="300" fill="#CE1126" opacity="0.1" /> <!-- Ghanaian red -->
+  <circle cx="1000" cy="500" r="250" fill="#FDCB31" opacity="0.15" /> <!-- Ghanaian gold -->
+  
+  <!-- Pattern overlay - representing digital commerce -->
+  <g opacity="0.05" stroke="#FFFFFF" stroke-width="2">
+    <path d="M0,100 L1200,100" />
+    <path d="M0,200 L1200,200" />
+    <path d="M0,300 L1200,300" />
+    <path d="M0,400 L1200,400" />
+    <path d="M0,500 L1200,500" />
+  </g>
+  
+  <!-- Main content area -->
+  <rect x="200" y="165" width="800" height="300" rx="20" fill="white" opacity="0.9" />
+  
+  <!-- Logo (reused from above) -->
+  <g transform="translate(270, 215) scale(0.7)">
+    <!-- Main circle background -->
+    <circle cx="100" cy="100" r="90" fill="#009639" />
+    <circle cx="100" cy="100" r="80" fill="#006B2D" />
+    
+    <!-- Shopping bag icon -->
+    <path d="M65,80 L135,80 L125,140 L75,140 Z" fill="#FFFFFF" />
+    <path d="M85,60 C85,50 90,40 100,40 C110,40 115,50 115,60 L115,80 L85,80 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" />
+    
+    <!-- Mobile phone/payment symbol -->
+    <rect x="85" y="95" width="30" height="35" rx="3" fill="#FDCB31" />
+    <rect x="90" y="100" width="20" height="10" rx="1" fill="#FFFFFF" />
+    <circle cx="100" cy="120" r="5" fill="#FFFFFF" />
+    
+    <!-- Ghana star element -->
+    <path d="M100,75 L103,84 L113,84 L105,90 L108,99 L100,93 L92,99 L95,90 L87,84 L97,84 Z" fill="#000000" />
+    
+    <!-- Nigeria colors accent -->
+    <path d="M65,140 L75,140 L75,150 L65,150 Z" fill="#008753" />
+    <path d="M125,140 L135,140 L135,150 L125,150 Z" fill="#008753" />
+  </g>
+  
+  <!-- Text content -->
+  <text x="420" y="260" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#006B2D">AfriCommerce</text>
+  <text x="420" y="320" font-family="Arial, sans-serif" font-size="24" fill="#333333">Shop Easily Across Ghana &amp; Nigeria</text>
+  
+  <!-- Payment methods -->
+  <g transform="translate(420, 350)">
+    <rect x="0" y="0" width="100" height="30" rx="15" fill="#CE1126" />
+    <text x="50" y="20" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">MoMo</text>
+    
+    <rect x="110" y="0" width="100" height="30" rx="15" fill="#008753" />
+    <text x="160" y="20" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">PayStack</text>
+    
+    <rect x="220" y="0" width="100" height="30" rx="15" fill="#FDCB31" />
+    <text x="270" y="20" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333333" text-anchor="middle">Flutterwave</text>
+  </g>
+</svg>

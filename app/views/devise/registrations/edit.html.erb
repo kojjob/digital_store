@@ -1,43 +1,963 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<!-- Settings Page -->
+<div class="bg-gray-50 min-h-screen">
+  <!-- Page content - positioned below navbar -->
+  <div class="pt-10 sm:pt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="md:grid md:grid-cols-12 md:gap-x-8">
+      <!-- Settings Navigation Sidebar -->
+      <aside class="md:col-span-3">
+        <div class="sticky top-24 md:top-28 space-y-4">
+          <!-- Profile Card -->
+          <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="p-6">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                  <% if resource.respond_to?(:profile_picture) && resource.profile_picture.respond_to?(:attached?) && resource.profile_picture.attached? %>
+                    <%= image_tag resource.profile_picture, class: "h-16 w-16 rounded-full object-cover" %>
+                  <% else %>
+                    <div class="h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center">
+                      <span class="text-indigo-800 font-medium text-xl">
+                        <% if resource.respond_to?(:first_name) && resource.respond_to?(:last_name) && resource.first_name.present? && resource.last_name.present? %>
+                          <%= resource.first_name.first.upcase %><%= resource.last_name.first.upcase %>
+                        <% elsif resource.email.present? %>
+                          <%= resource.email.first.upcase %>
+                        <% end %>
+                      </span>
+                    </div>
+                  <% end %>
+                </div>
+                <div>
+                  <h2 class="text-lg font-medium text-gray-900 truncate">
+                    <% if resource.respond_to?(:full_name) && !resource.full_name.strip.empty? %>
+                      <%= resource.full_name %>
+                    <% else %>
+                      <%= resource.email %>
+                    <% end %>
+                  </h2>
+                  <p class="text-sm text-gray-500 truncate mt-1">
+                    <%= resource.email %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+          <!-- Navigation -->
+          <nav class="bg-white shadow rounded-lg overflow-hidden" aria-label="Settings" data-controller="settings-nav">
+            <div class="py-2">
+              <!-- Section: Account -->
+              <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Account
+              </div>
+              <a href="#profile" class="block px-3 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 border-l-4 border-indigo-600" aria-current="page" data-settings-nav-target="link" data-section="profile">
+                Profile
+              </a>
+              <a href="#security" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="security">
+                Security
+              </a>
+              <%= link_to user_sessions_path, class: "block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" do %>
+                <div class="flex items-center justify-between">
+                  <span>Active Sessions</span>
+                  <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full">New</span>
+                </div>
+              <% end %>
+              <a href="#notifications" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="notifications">
+                Notifications
+              </a>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+              <!-- Section: Billing -->
+              <div class="mt-4 px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Billing
+              </div>
+              <a href="#payment-methods" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="payment-methods">
+                Payment Methods
+              </a>
+              <a href="#billing-history" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="billing-history">
+                Billing History
+              </a>
+              <a href="#subscriptions" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="subscriptions">
+                Subscriptions
+              </a>
+
+              <!-- Section: Advanced -->
+              <div class="mt-4 px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Advanced
+              </div>
+              <a href="#api-keys" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="api-keys">
+                API Keys
+              </a>
+              <a href="#account-data" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="account-data">
+                Data & Privacy
+              </a>
+              <a href="#delete-account" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50" data-settings-nav-target="link" data-section="delete-account">
+                Delete Account
+              </a>
+            </div>
+          </nav>
+
+          <!-- Back Button -->
+          <div class="mt-4 text-center">
+            <%= link_to "← Back to Dashboard", root_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="mt-8 md:mt-0 md:col-span-9">
+        <!-- Display Flash Messages -->
+        <% if flash[:notice] %>
+          <div class="mb-6 rounded-md bg-green-50 p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-green-800"><%= flash[:notice] %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <% if flash[:alert] %>
+          <div class="mb-6 rounded-md bg-red-50 p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-red-800"><%= flash[:alert] %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Settings Form Wrapper -->
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: "settings-form", class: "space-y-8", data: { controller: "settings-form" } }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+          
+          <!-- Profile Section -->
+          <section id="profile" class="bg-white shadow rounded-lg overflow-hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">Profile Information</h2>
+              <p class="mt-1 text-sm text-gray-500">Update your personal information and how others see you on the platform.</p>
+            </div>
+            <div class="px-6 py-6 space-y-6">
+              <!-- Profile Picture -->
+              <div>
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <% if resource.respond_to?(:profile_picture) && resource.profile_picture.respond_to?(:attached?) && resource.profile_picture.attached? %>
+                      <%= image_tag resource.profile_picture, class: "h-24 w-24 rounded-full object-cover" %>
+                    <% else %>
+                      <div class="h-24 w-24 rounded-full bg-indigo-100 flex items-center justify-center">
+                        <span class="text-indigo-800 font-medium text-2xl">
+                          <% if resource.respond_to?(:first_name) && resource.respond_to?(:last_name) && resource.first_name.present? && resource.last_name.present? %>
+                            <%= resource.first_name.first.upcase %><%= resource.last_name.first.upcase %>
+                          <% elsif resource.email.present? %>
+                            <%= resource.email.first.upcase %>
+                          <% end %>
+                        </span>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="ml-6" data-controller="profile-upload">
+                    <div class="relative">
+                      <label for="profile_picture_upload" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer">
+                        Change photo
+                        <%= f.file_field :profile_picture, id: "profile_picture_upload", class: "sr-only", accept: "image/*", data: { profile_upload_target: "input", action: "change->profile-upload#previewImage" } %>
+                      </label>
+                      <button type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" data-action="profile-upload#removeImage">
+                        Remove
+                      </button>
+                    </div>
+                    <p class="mt-2 text-xs text-gray-500" data-profile-upload-target="fileName">
+                      <%= resource.profile_picture.attached? ? "Current: #{resource.profile_picture.filename}" : "No image selected" %>
+                    </p>
+                    <p class="mt-1 text-xs text-gray-500">
+                      JPG, PNG or GIF. 1MB max.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Name Fields -->
+              <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                <div class="sm:col-span-3">
+                  <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
+                  <div class="mt-1">
+                    <%= f.text_field :first_name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                  </div>
+                </div>
+
+                <div class="sm:col-span-3">
+                  <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
+                  <div class="mt-1">
+                    <%= f.text_field :last_name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contact Info -->
+              <div>
+                <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1">
+                  <%= f.email_field :email, autocomplete: "email", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                </div>
+                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                  <p class="mt-2 text-sm text-yellow-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+                  </p>
+                <% end %>
+              </div>
+
+              <!-- Bio/About -->
+              <div>
+                <label for="about" class="block text-sm font-medium text-gray-700">About</label>
+                <div class="mt-1">
+                  <textarea id="about" name="user[about]" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a few sentences about yourself"><%= resource.respond_to?(:about) ? resource.about : "" %></textarea>
+                </div>
+                <p class="mt-2 text-sm text-gray-500">Brief description for your profile.</p>
+              </div>
+
+              <!-- Save Profile Button -->
+              <div class="pt-3">
+                <div class="flex justify-end">
+                  <button type="submit" name="commit_section" value="profile" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Save profile
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Security Section -->
+          <section id="security" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">Security</h2>
+              <p class="mt-1 text-sm text-gray-500">Manage your password and security settings.</p>
+            </div>
+            <div class="px-6 py-6 space-y-6">
+              <!-- Change Password -->
+              <div>
+                <h3 class="text-lg font-medium text-gray-900">Change Password</h3>
+                <p class="mt-1 text-sm text-gray-500">Update your password to keep your account secure.</p>
+              </div>
+
+              <div>
+                <%= f.label :current_password, "Current Password", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1 relative" data-controller="password-toggle">
+                  <%= f.password_field :current_password, autocomplete: "current-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md pr-10", placeholder: "Enter your current password", data: { password_toggle_target: "input" } %>
+                  <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" data-action="password-toggle#toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-password-toggle-target="eyeIcon">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <%= f.label :password, "New Password", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1 relative" data-controller="password-toggle">
+                  <%= f.password_field :password, autocomplete: "new-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md pr-10", placeholder: "Enter your new password", data: { password_toggle_target: "input" } %>
+                  <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" data-action="password-toggle#toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-password-toggle-target="eyeIcon">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <p class="mt-1 text-xs text-gray-500">
+                  <% if @minimum_password_length %>
+                    At least <%= @minimum_password_length %> characters
+                  <% end %>
+                </p>
+              </div>
+
+              <div>
+                <%= f.label :password_confirmation, "Confirm New Password", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1 relative" data-controller="password-toggle">
+                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md pr-10", placeholder: "Confirm your new password", data: { password_toggle_target: "input" } %>
+                  <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" data-action="password-toggle#toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-password-toggle-target="eyeIcon">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Two-Factor Authentication -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Two-Factor Authentication</h3>
+                <p class="mt-1 text-sm text-gray-500">Add an extra layer of security to your account.</p>
+                
+                <div class="mt-4">
+                  <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    Enable Two-Factor Authentication
+                  </button>
+                </div>
+              </div>
+
+              <!-- Session Management -->
+              <div class="pt-6 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-lg font-medium text-gray-900">Active Sessions</h3>
+                    <p class="mt-1 text-sm text-gray-500">Manage your active sessions and sign out from other devices.</p>
+                  </div>
+                  <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Sign out all other sessions
+                  </button>
+                </div>
+                
+                <div class="mt-4 overflow-hidden bg-white border border-gray-200 rounded-md">
+                  <ul role="list" class="divide-y divide-gray-200">
+                    <li class="px-4 py-4">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                          <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">Current Session (This Device)</p>
+                            <p class="text-xs text-gray-500">Last active just now</p>
+                          </div>
+                        </div>
+                        <div class="bg-green-100 px-2 py-1 rounded-full">
+                          <p class="text-xs text-green-800">Active</p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Save Security Button -->
+              <div class="pt-3">
+                <div class="flex justify-end">
+                  <button type="submit" name="commit_section" value="security" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Update security settings
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Notifications Section -->
+          <section id="notifications" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">Notification Preferences</h2>
+              <p class="mt-1 text-sm text-gray-500">Manage how and when you receive notifications.</p>
+            </div>
+            <div class="px-6 py-6 space-y-8">
+              <!-- UI Preferences -->
+              <div class="pb-6 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">UI Preferences</h3>
+                <p class="mt-1 text-sm text-gray-500">Customize your viewing experience.</p>
+                
+                <div class="mt-6" data-controller="dark-mode">
+                  <div class="flex items-center justify-between">
+                    <span class="flex-grow flex flex-col">
+                      <span class="text-sm font-medium text-gray-900" data-dark-mode-target="label">Dark Mode</span>
+                      <span class="text-sm text-gray-500">Use a darker color scheme for reduced eye strain in low-light environments.</span>
+                    </span>
+                    <button type="button" class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 bg-gray-200 dark:bg-indigo-600" role="switch" aria-checked="false" data-dark-mode-target="toggle" data-action="click->dark-mode#toggle">
+                      <span class="sr-only">Use dark mode</span>
+                      <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200 translate-x-0 dark:translate-x-5"></span>
+                    </button>
+                  </div>
+                  <p class="mt-2 text-xs text-gray-500">
+                    Dark mode status: <span class="font-medium text-gray-700" data-dark-mode-target="status">Off</span>
+                  </p>
+                </div>
+              </div>
+              <!-- Email Notifications -->
+              <div>
+                <h3 class="text-lg font-medium text-gray-900">Email Notifications</h3>
+                <p class="mt-1 text-sm text-gray-500">Choose which emails you'd like to receive.</p>
+                
+                <div class="mt-4 space-y-4">
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input id="email_order_confirmation" name="user[notification_preferences][email_order_confirmation]" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" checked>
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="email_order_confirmation" class="font-medium text-gray-700">Order confirmations</label>
+                      <p class="text-gray-500">Receive an email when your order is confirmed.</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input id="email_product_updates" name="user[notification_preferences][email_product_updates]" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" checked>
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="email_product_updates" class="font-medium text-gray-700">Product updates</label>
+                      <p class="text-gray-500">Receive updates when products you've purchased are updated.</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input id="email_newsletter" name="user[notification_preferences][email_newsletter]" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" checked>
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="email_newsletter" class="font-medium text-gray-700">Newsletter</label>
+                      <p class="text-gray-500">Receive our newsletter with product news, tips, and resources.</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input id="email_marketing" name="user[notification_preferences][email_marketing]" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="email_marketing" class="font-medium text-gray-700">Marketing emails</label>
+                      <p class="text-gray-500">Receive special offers, discounts, and promotions.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Push Notifications -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Push Notifications</h3>
+                <p class="mt-1 text-sm text-gray-500">Configure browser push notifications.</p>
+                
+                <div class="mt-4">
+                  <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    Enable Push Notifications
+                  </button>
+                </div>
+              </div>
+
+              <!-- Save Notifications Button -->
+              <div class="pt-3">
+                <div class="flex justify-end">
+                  <button type="submit" name="commit_section" value="notifications" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Update notification preferences
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Payment Methods Section -->
+          <section id="payment-methods" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">Payment Methods</h2>
+              <p class="mt-1 text-sm text-gray-500">Manage your saved payment methods and billing details.</p>
+            </div>
+            <div class="px-6 py-6 space-y-6">
+              <!-- Add New Payment Method -->
+              <div>
+                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                  Add Payment Method
+                </button>
+              </div>
+
+              <!-- Payment Methods List -->
+              <div class="border border-gray-200 rounded-md">
+                <div class="p-8 flex items-center justify-center text-center">
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">No payment methods</h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                      You haven't added any payment methods yet.
+                    </p>
+                    <div class="mt-6">
+                      <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Add payment method
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Billing Address -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Billing Address</h3>
+                <p class="mt-1 text-sm text-gray-500">Used for billing and tax purposes.</p>
+
+                <div class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                  <div class="sm:col-span-3">
+                    <label for="billing_country" class="block text-sm font-medium text-gray-700">Country / Region</label>
+                    <div class="mt-1">
+                      <select id="billing_country" name="user[billing_address][country]" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="GH">Ghana</option>
+                        <option value="NG">Nigeria</option>
+                        <option value="KE">Kenya</option>
+                        <option value="ZA">South Africa</option>
+                        <option value="AU">Australia</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="sm:col-span-6">
+                    <label for="billing_street_address" class="block text-sm font-medium text-gray-700">Street address</label>
+                    <div class="mt-1">
+                      <input type="text" id="billing_street_address" name="user[billing_address][street_address]" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                  </div>
+
+                  <div class="sm:col-span-2">
+                    <label for="billing_city" class="block text-sm font-medium text-gray-700">City</label>
+                    <div class="mt-1">
+                      <input type="text" id="billing_city" name="user[billing_address][city]" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                  </div>
+
+                  <div class="sm:col-span-2">
+                    <label for="billing_state" class="block text-sm font-medium text-gray-700">State / Province</label>
+                    <div class="mt-1">
+                      <input type="text" id="billing_state" name="user[billing_address][state]" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                  </div>
+
+                  <div class="sm:col-span-2">
+                    <label for="billing_postal_code" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
+                    <div class="mt-1">
+                      <input type="text" id="billing_postal_code" name="user[billing_address][postal_code]" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Save Payment Methods Button -->
+              <div class="pt-3">
+                <div class="flex justify-end">
+                  <button type="submit" name="commit_section" value="payment_methods" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Save payment information
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Billing History Section -->
+          <section id="billing-history" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">Billing History</h2>
+              <p class="mt-1 text-sm text-gray-500">View your past invoices and payment history.</p>
+            </div>
+            <div class="px-6 py-6">
+              <!-- Invoices Table -->
+              <div class="flex flex-col">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="overflow-hidden border border-gray-200 rounded-md">
+                      <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                          <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Invoice
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Date
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Amount
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Status
+                            </th>
+                            <th scope="col" class="relative px-6 py-3">
+                              <span class="sr-only">Download</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="bg-white">
+                            <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-500">
+                              <div class="flex flex-col items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <p class="mt-2 font-medium">No invoices yet</p>
+                                <p class="mt-1">Your billing history will appear here once you make a purchase.</p>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Subscriptions Section -->
+          <section id="subscriptions" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">Subscriptions</h2>
+              <p class="mt-1 text-sm text-gray-500">Manage your subscription plans and recurring payments.</p>
+            </div>
+            <div class="px-6 py-6">
+              <div class="p-8 flex items-center justify-center text-center">
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                  <h3 class="mt-2 text-sm font-medium text-gray-900">No active subscriptions</h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    You don't have any active subscriptions at the moment.
+                  </p>
+                  <div class="mt-6">
+                    <a href="/products" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Browse subscription plans
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- API Keys Section -->
+          <section id="api-keys" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">API Keys</h2>
+              <p class="mt-1 text-sm text-gray-500">Manage API keys for programmatic access to your account.</p>
+            </div>
+            <div class="px-6 py-6 space-y-6">
+              <div>
+                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                  Generate New API Key
+                </button>
+              </div>
+
+              <div class="border border-gray-200 rounded-md">
+                <div class="p-8 flex items-center justify-center text-center">
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">No API keys yet</h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                      Generate an API key to interact with our API programmatically.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p class="text-sm text-gray-500">
+                  Learn more about <a href="#" class="text-indigo-600 hover:text-indigo-500">using our API</a> in the developer documentation.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Data & Privacy Section -->
+          <section id="account-data" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h2 class="text-xl font-medium text-gray-900">Data & Privacy</h2>
+              <p class="mt-1 text-sm text-gray-500">Manage your data and privacy settings.</p>
+            </div>
+            <div class="px-6 py-6 space-y-6">
+              <!-- Data Export -->
+              <div>
+                <h3 class="text-lg font-medium text-gray-900">Export Your Data</h3>
+                <p class="mt-1 text-sm text-gray-500">Download a copy of your account data.</p>
+                
+                <div class="mt-4">
+                  <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Request Data Export
+                  </button>
+                </div>
+              </div>
+
+              <!-- Privacy Settings -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Privacy Settings</h3>
+                <p class="mt-1 text-sm text-gray-500">Control how your data is used and shared.</p>
+                
+                <div class="mt-4 space-y-4">
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input id="analytics_tracking" name="user[privacy_settings][analytics_tracking]" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" checked>
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="analytics_tracking" class="font-medium text-gray-700">Allow analytics tracking</label>
+                      <p class="text-gray-500">We use analytics to improve our product and your experience.</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input id="personalized_recommendations" name="user[privacy_settings][personalized_recommendations]" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" checked>
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="personalized_recommendations" class="font-medium text-gray-700">Show personalized recommendations</label>
+                      <p class="text-gray-500">We use your purchase history to recommend products you might like.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cookie Preferences -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Cookie Preferences</h3>
+                <p class="mt-1 text-sm text-gray-500">Manage your cookie settings.</p>
+                
+                <div class="mt-4">
+                  <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Manage Cookie Preferences
+                  </button>
+                </div>
+              </div>
+
+              <!-- Save Privacy Button -->
+              <div class="pt-3">
+                <div class="flex justify-end">
+                  <button type="submit" name="commit_section" value="privacy" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Save privacy settings
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Delete Account Section -->
+          <section id="delete-account" class="bg-white shadow rounded-lg overflow-hidden hidden" data-settings-nav-target="section">
+            <div class="px-6 py-5 border-b border-gray-200 bg-red-50">
+              <h2 class="text-xl font-medium text-red-800">Delete Account</h2>
+              <p class="mt-1 text-sm text-red-700">This action is permanent and cannot be undone.</p>
+            </div>
+            <div class="px-6 py-6 space-y-6">
+              <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">Warning</h3>
+                    <div class="mt-2 text-sm text-red-700">
+                      <p>
+                        Deleting your account is irreversible. All your data will be permanently removed, including:
+                      </p>
+                      <ul class="list-disc pl-5 mt-2 space-y-1">
+                        <li>Your profile information</li>
+                        <li>Purchase history</li>
+                        <li>Downloaded products</li>
+                        <li>Settings and preferences</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label for="delete_confirmation" class="block text-sm font-medium text-gray-700">
+                  To confirm, type "DELETE MY ACCOUNT" below:
+                </label>
+                <div class="mt-1">
+                  <input type="text" id="delete_confirmation" name="delete_confirmation" class="shadow-sm focus:ring-red-500 focus:border-red-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="DELETE MY ACCOUNT" data-controller="delete-confirmation" data-action="input->delete-confirmation#validate" data-delete-confirmation-target="input">
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-center">
+                  <%= button_to registration_path(resource_name), 
+                              data: { 
+                                turbo_confirm: "Are you absolutely sure? This action is permanent and cannot be undone.", 
+                                delete_confirmation_target: "button", 
+                                action: "click->delete-confirmation#confirmDelete"
+                              }, 
+                              method: :delete, 
+                              class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 opacity-50 cursor-not-allowed",
+                              disabled: true do %>
+                    Delete my account permanently
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </section>
+        <% end %>
+      </main>
+    </div>
+    </div>
   </div>
+</div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
+<% content_for :page_scripts do %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof window.Stimulus !== 'undefined') {
+      // Settings navigation controller
+      window.Stimulus.register('settings-nav', class extends window.Stimulus.Controller {
+        static targets = ['link', 'section'];
+        
+        connect() {
+          console.log('Settings navigation controller connected');
+          this.addHashChangeListener();
+          this.handleInitialHash();
+        }
+        
+        addHashChangeListener() {
+          window.addEventListener('hashchange', this.handleHashChange.bind(this));
+        }
+        
+        handleInitialHash() {
+          // Check if there's a hash in the URL
+          const hash = window.location.hash;
+          if (hash) {
+            const sectionId = hash.slice(1);
+            this.showSection(sectionId);
+          }
+        }
+        
+        handleHashChange() {
+          const hash = window.location.hash;
+          if (hash) {
+            const sectionId = hash.slice(1);
+            this.showSection(sectionId);
+          }
+        }
+        
+        showSection(sectionId) {
+          // Hide all sections
+          this.sectionTargets.forEach(section => {
+            section.classList.add('hidden');
+          });
+          
+          // Show the selected section
+          const selectedSection = document.getElementById(sectionId);
+          if (selectedSection) {
+            selectedSection.classList.remove('hidden');
+          }
+          
+          // Update active link styles
+          this.linkTargets.forEach(link => {
+            const linkSectionId = link.getAttribute('data-section');
+            
+            if (linkSectionId === sectionId) {
+              link.classList.add('text-indigo-600', 'bg-indigo-50', 'border-l-4', 'border-indigo-600');
+              link.classList.remove('text-gray-700', 'hover:text-indigo-600', 'hover:bg-indigo-50');
+              link.setAttribute('aria-current', 'page');
+            } else {
+              link.classList.remove('text-indigo-600', 'bg-indigo-50', 'border-l-4', 'border-indigo-600');
+              link.classList.add('text-gray-700', 'hover:text-indigo-600', 'hover:bg-indigo-50');
+              link.removeAttribute('aria-current');
+            }
+          });
+        }
+      });
+      
+      // Password toggle controller
+      window.Stimulus.register('password-toggle', class extends window.Stimulus.Controller {
+        static targets = ['input', 'eyeIcon'];
+        
+        connect() {
+          console.log('Password toggle controller connected');
+        }
+        
+        toggle() {
+          const input = this.inputTarget;
+          
+          if (input.type === 'password') {
+            input.type = 'text';
+            this.eyeIconTarget.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+              </svg>
+            `;
+          } else {
+            input.type = 'password';
+            this.eyeIconTarget.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            `;
+          }
+        }
+      });
+      
+      // Profile upload controller
+      window.Stimulus.register('profile-upload', class extends window.Stimulus.Controller {
+        static targets = ['input', 'fileName'];
+        
+        connect() {
+          console.log('Profile upload controller connected');
+        }
+        
+        previewImage(event) {
+          const file = event.target.files[0];
+          
+          if (file) {
+            this.fileNameTarget.textContent = `Selected: ${file.name}`;
+            
+            // You could add image preview functionality here if desired
+          }
+        }
+        
+        removeImage() {
+          this.inputTarget.value = '';
+          this.fileNameTarget.textContent = 'No image selected';
+          
+          // Add logic to remove the current profile picture (could use a hidden checkbox)
+        }
+      });
+      
+      // Delete confirmation controller
+      window.Stimulus.register('delete-confirmation', class extends window.Stimulus.Controller {
+        static targets = ['input', 'button'];
+        
+        connect() {
+          console.log('Delete confirmation controller connected');
+        }
+        
+        validate(event) {
+          const input = event.target;
+          const confirmText = 'DELETE MY ACCOUNT';
+          
+          if (input.value === confirmText) {
+            this.buttonTarget.disabled = false;
+            this.buttonTarget.classList.remove('opacity-50', 'cursor-not-allowed');
+          } else {
+            this.buttonTarget.disabled = true;
+            this.buttonTarget.classList.add('opacity-50', 'cursor-not-allowed');
+          }
+        }
+        
+        confirmDelete(event) {
+          const input = this.inputTarget;
+          const confirmText = 'DELETE MY ACCOUNT';
+          
+          if (input.value !== confirmText) {
+            event.preventDefault();
+            alert('Please type "DELETE MY ACCOUNT" to confirm deletion.');
+          }
+        }
+      });
+    }
+  });
+</script>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>

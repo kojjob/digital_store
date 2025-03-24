@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#4f46e5" />
+  <circle cx="100" cy="100" r="80" fill="#6366f1" />
+  
+  <!-- Shield outline -->
+  <path d="M100 35 C 60 50 60 90 60 140 C 80 160 100 165 100 165 C 100 165 120 160 140 140 C 140 90 140 50 100 35" fill="#f3f4f6" />
+  
+  <!-- Lock shape inside shield -->
+  <rect x="85" y="95" width="30" height="30" rx="5" fill="#4f46e5" />
+  <circle cx="100" cy="95" r="10" fill="#4f46e5" />
+  <rect x="95" y="85" width="10" height="15" fill="#4f46e5" />
+  
+  <!-- Keyhole -->
+  <circle cx="100" cy="105" r="5" fill="#f3f4f6" />
+  <rect x="98" y="105" width="4" height="10" fill="#f3f4f6" />
+</svg>

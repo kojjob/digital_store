@@ -1,0 +1,146 @@
+<header class="fixed w-full z-50 transition-all duration-300" data-controller="header">
+  <nav class="py-4 px-4 sm:px-6 lg:px-8 transition-all duration-300 bg-white shadow-sm" data-header-target="navbar">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="/" class="flex items-center">
+          <div class="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </div>
+          <span class="text-2xl font-bold text-gray-900">DigitalStore</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-1">
+        <%= link_to "Home", root_path, class: "px-3 py-2 text-gray-700 hover:text-indigo-600 rounded-md text-sm font-medium" %>
+        <%= link_to "Products", products_path, class: "px-3 py-2 text-gray-700 hover:text-indigo-600 rounded-md text-sm font-medium" %>
+        <%= link_to "Features", "#features", class: "px-3 py-2 text-gray-700 hover:text-indigo-600 rounded-md text-sm font-medium" %>
+        <%= link_to "How It Works", "#how-it-works", class: "px-3 py-2 text-gray-700 hover:text-indigo-600 rounded-md text-sm font-medium" %>
+        <%= link_to "Contact", contact_path, class: "px-3 py-2 text-gray-700 hover:text-indigo-600 rounded-md text-sm font-medium" %>
+      </div>
+
+      <!-- Mobile Navigation Menu -->
+      <div class="md:hidden bg-white shadow-lg overflow-hidden transition-all duration-300 max-h-0" 
+           data-controller="mobile-menu" 
+           data-mobile-menu-target="menu">
+        <div class="px-4 pt-2 pb-4 space-y-1">
+          <%= link_to "Home", root_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50" %>
+          <%= link_to "Products", products_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50" %>
+          <%= link_to "Features", "#features", class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50" %>
+          <%= link_to "How It Works", "#how-it-works", class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50" %>
+          <%= link_to "Contact", contact_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50" %>
+        </div>
+      </div>
+
+      <!-- User Actions -->
+      <div class="flex items-center space-x-4">
+        <!-- Search -->
+        <button type="button" class="p-2 text-gray-700 hover:text-indigo-600 focus:outline-none" 
+                data-controller="search" 
+                data-action="search#toggleSearch">
+          <div class="relative">
+            <%= render 'shared/icon', name: "search", size: "sm" %>
+          </div>
+        </button>
+
+        <!-- Cart -->
+        <a href="/cart" class="p-2 text-gray-700 hover:text-indigo-600 relative">
+          <div class="relative">
+            <%= render 'shared/icon', name: "cart", size: "sm" %>
+            <% if @cart_count && @cart_count > 0 %>
+              <span class="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 rounded-full bg-indigo-600 text-white text-xs" data-cart-counter><%= @cart_count %></span>
+            <% else %>
+              <span class="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 rounded-full bg-indigo-600 text-white text-xs hidden" data-cart-counter>0</span>
+            <% end %>
+          </div>
+        </a>
+
+        <!-- Account -->
+        <% if user_signed_in? %>
+          <%= link_to "Edit profile", edit_user_registration_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        <% else %>
+          <%= link_to "Sign In", new_user_session_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        <% end %>
+
+        <!-- Mobile Menu Button -->
+        <button type="button" class="md:hidden p-2 rounded-md text-gray-700 hover:text-indigo-600 focus:outline-none" 
+                data-controller="mobile-menu" 
+                data-action="mobile-menu#toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
+               data-mobile-menu-target="openIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
+               data-mobile-menu-target="closeIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigation Menu -->
+  <div class="md:hidden bg-white shadow-lg overflow-hidden transition-all duration-300 max-h-0" 
+       data-controller="mobile-menu" 
+       data-mobile-menu-target="menu">
+    <div class="px-4 pt-2 pb-4 space-y-1">
+      <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Home</a>
+      <a href="/products" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Products</a>
+      <a href="#features" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Features</a>
+      <a href="#how-it-works" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">How It Works</a>
+      <a href="/contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Contact</a>
+      
+      <% unless current_user %>
+        <div class="pt-2 border-t border-gray-200 mt-4">
+          <a href="/signup" class="block w-full px-4 py-3 text-center font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md">Sign Up</a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Search Overlay -->
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden transition-opacity duration-300 opacity-0" 
+       data-controller="search" 
+       data-search-target="overlay">
+    <div class="flex items-center justify-center min-h-screen px-4">
+      <div class="bg-white w-full max-w-2xl rounded-xl shadow-2xl p-6 transform transition-all duration-300 scale-95 opacity-0" 
+           data-search-target="container">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-900">Search Products</h3>
+          <button type="button" class="text-gray-400 hover:text-gray-500" 
+                  data-action="search#close">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <form action="/products" method="get" 
+              data-controller="search-form" 
+              data-action="search-form#search">
+          <div class="flex rounded-lg shadow-sm">
+            <input type="text" name="query" class="block w-full rounded-l-lg border-0 py-3 pl-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" 
+                   placeholder="Search for products..." 
+                   data-search-form-target="input" 
+                   data-action="keyup->search-form#debounceSearch">
+            <button type="submit" class="flex-shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-r-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <%= render 'shared/icon', name: "search", size: "sm" %>
+            </button>
+          </div>
+        </form>
+        
+        <div class="mt-6" data-search-form-target="results">
+          <!-- Search results will be loaded here via Turbo stream -->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Spacer for fixed header -->
+<div class="h-20"></div>
