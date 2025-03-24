@@ -1,30 +1,149 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= content_for(:title) || "Digital Store" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
+<html lang="en" class="h-full" data-controller="dark-mode">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title><%= content_for?(:title) ? yield(:title) : "DigitalStore - Premium Digital Products" %></title>
+  <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : "Discover our curated collection of digital products with seamless mobile money integration and secure card payments." %>">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : "DigitalStore - Premium Digital Products" %>">
+  <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : "Discover our curated collection of digital products with seamless mobile money integration and secure card payments." %>">
+  <meta property="og:image" content="<%= asset_path('og-image.jpg') %>">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= request.original_url %>">
+  <meta property="twitter:title" content="<%= content_for?(:title) ? yield(:title) : "DigitalStore - Premium Digital Products" %>">
+  <meta property="twitter:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : "Discover our curated collection of digital products with seamless mobile money integration and secure card payments." %>">
+  <meta property="twitter:image" content="<%= asset_path('og-image.jpg') %>">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="<%= asset_path('favicon.png') %>">
+  
+  <!-- CSRF & Turbo -->
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-  </head>
-
-  <body>
-    <main class="">
-      <%= yield %>
-    </main>
-  </body>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Custom Head Content -->
+  <%= yield :head %>
+  
+  <style>
+    /* Dark mode variables */
+    :root {
+      --color-primary: #4f46e5;
+      --color-primary-hover: #4338ca;
+      --color-primary-foreground: #ffffff;
+    }
+    
+    .dark {
+      color-scheme: dark;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-primary-foreground: #ffffff;
+    }
+    
+    /* Custom CSS */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    
+    /* Line clamp utilities */
+    .line-clamp-1 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+    
+    .line-clamp-2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    
+    .line-clamp-3 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+    
+    /* Remove autofill background color */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+    
+    /* Aspect ratio utilities */
+    .aspect-w-16 {
+      position: relative;
+      padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+      --tw-aspect-w: 16;
+    }
+    
+    .aspect-h-9 {
+      --tw-aspect-h: 9;
+    }
+    
+    .aspect-h-10 {
+      --tw-aspect-h: 10;
+    }
+    
+    .aspect-w-16 > * {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body class="h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-200">
+  <!-- Flash Messages -->
+  <%= render 'shared/flash_messages' %>
+  
+  <!-- Header -->
+  <% unless controller_name == 'dashboard' %>
+    <%= render 'shared/header' %>
+    <div class="h-20"></div> <!-- Spacer for fixed header -->
+  <% end %>
+  
+  <%= yield %>
+</body>
 </html>
