@@ -4,7 +4,7 @@ class ContactMailer < ApplicationMailer
     @email = email
     @subject = subject
     @message = message
-    
+
     mail(
       to: "kojcoder@gmail.com",
       subject: "Contact Form: #{@subject}",
