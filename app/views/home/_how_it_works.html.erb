@@ -1,0 +1,60 @@
+<section id="how-it-works" class="py-20 bg-gradient-to-b from-gray-50 to-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-20">
+      <span class="inline-block px-3 py-1 text-sm font-semibold text-indigo-800 bg-indigo-100 rounded-full mb-4">Simple Process</span>
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
+      <p class="text-xl text-gray-600">Get started with our digital products in four simple steps.</p>
+    </div>
+    
+    <div class="relative">
+      <!-- Connection Line (Desktop) -->
+      <div class="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-indigo-100 -translate-y-1/2"></div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
+        <!-- Step 1: Browse & Select -->
+        <div class="relative flex flex-col items-center">
+          <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white border-2 border-indigo-100 shadow-xl mb-6">
+            <%= render 'shared/icon', name: "search", size: "md", color: "blue" %>
+          </div>
+          <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">1</div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Browse & Select</h3>
+          <p class="text-gray-600 text-center">Explore our collection and choose your digital product.</p>
+        </div>
+        
+        <!-- Step 2: Add to Cart -->
+        <div class="relative flex flex-col items-center">
+          <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white border-2 border-indigo-100 shadow-xl mb-6">
+            <%= render 'shared/icon', name: "cart", size: "md", color: "green" %>
+          </div>
+          <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">2</div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Add to Cart</h3>
+          <p class="text-gray-600 text-center">Easily add items to your cart for a streamlined checkout.</p>
+        </div>
+        
+        <!-- Step 3: Choose Payment -->
+        <div class="relative flex flex-col items-center">
+          <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white border-2 border-indigo-100 shadow-xl mb-6">
+            <div class="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+          </div>
+          <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">3</div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Choose Payment</h3>
+          <p class="text-gray-600 text-center">Pay effortlessly using mobile money or card options.</p>
+        </div>
+        
+        <!-- Step 4: Instant Access -->
+        <div class="relative flex flex-col items-center">
+          <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white border-2 border-indigo-100 shadow-xl mb-6">
+            <%= render 'shared/icon', name: "lightning", size: "md", color: "peach" %>
+          </div>
+          <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">4</div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Instant Access</h3>
+          <p class="text-gray-600 text-center">Get immediate access to your product upon successful payment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

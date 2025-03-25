@@ -1,0 +1,116 @@
+<section class="bg-gray-50 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        Product Categories
+      </h2>
+      <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+        Browse our collection of premium digital products organized by category
+      </p>
+    </div>
+    
+    <div class="mt-12 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <!-- UI Templates -->
+      <div class="group relative">
+        <a href="<%= products_path(category: 'UI Templates') %>" class="flex flex-col items-center">
+          <div class="relative">
+            <%= render 'shared/icon', name: "template", size: "lg" %>
+          </div>
+          <div class="mt-4 text-center">
+            <h3 class="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
+              UI Templates
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+              Professional designs ready to use
+            </p>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Icon Sets -->
+      <div class="group relative">
+        <a href="<%= products_path(category: 'Icon Sets') %>" class="flex flex-col items-center">
+          <div class="relative">
+            <%= render 'shared/icon', name: "star", size: "lg" %>
+          </div>
+          <div class="mt-4 text-center">
+            <h3 class="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
+              Icon Sets
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+              Beautiful icons for your projects
+            </p>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Code Snippets -->
+      <div class="group relative">
+        <a href="<%= products_path(category: 'Code Snippets') %>" class="flex flex-col items-center">
+          <div class="relative">
+            <%= render 'shared/icon', name: "code", size: "lg" %>
+          </div>
+          <div class="mt-4 text-center">
+            <h3 class="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
+              Code Snippets
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+              Ready-to-use code components
+            </p>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Ebooks -->
+      <div class="group relative">
+        <a href="<%= products_path(category: 'Ebooks') %>" class="flex flex-col items-center">
+          <div class="relative">
+            <%= render 'shared/icon', name: "book", size: "lg" %>
+          </div>
+          <div class="mt-4 text-center">
+            <h3 class="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
+              Ebooks
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+              In-depth guides and tutorials
+            </p>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Graphic Assets -->
+      <div class="group relative">
+        <a href="<%= products_path(category: 'Graphic Assets') %>" class="flex flex-col items-center">
+          <div class="relative">
+            <%= render 'shared/icon', name: "image", size: "lg" %>
+          </div>
+          <div class="mt-4 text-center">
+            <h3 class="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
+              Graphic Assets
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+              High-quality design resources
+            </p>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Fonts -->
+      <div class="group relative">
+        <a href="<%= products_path(category: 'Fonts') %>" class="flex flex-col items-center">
+          <div class="relative">
+            <%= render 'shared/icon', name: "font", size: "lg" %>
+          </div>
+          <div class="mt-4 text-center">
+            <h3 class="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
+              Fonts
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+              Elegant typography solutions
+            </p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

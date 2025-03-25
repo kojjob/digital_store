@@ -1,0 +1,294 @@
+<div class="bg-gray-50 min-h-screen pt-4">
+  <!-- Hero Section with Search -->
+  <div class="bg-indigo-700 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl font-extrabold text-white sm:text-4xl">
+        How can we help you?
+      </h1>
+      <p class="mt-4 text-xl text-indigo-100 max-w-2xl mx-auto">
+        Find answers to your questions about DigitalStore products, services, and account.
+      </p>
+      <div class="mt-8 max-w-3xl mx-auto">
+        <form action="/help" method="get" class="mt-5 mx-auto max-w-xl flex rounded-full shadow-sm" data-controller="help-search">
+          <div class="relative flex items-center w-full">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <input type="text" name="q" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-10 pr-10 text-base border-gray-300 rounded-full" placeholder="Search for answers..." data-help-search-target="input">
+          </div>
+          <button type="submit" class="-ml-px relative inline-flex items-center space-x-2 px-6 py-4 border border-transparent text-sm font-medium rounded-r-full text-white bg-indigo-800 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <span>Search</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular Topics -->
+  <div class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="lg:text-center mb-10">
+        <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Quick Links</h2>
+        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Popular Help Topics
+        </p>
+        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          Find answers to commonly asked questions and get the support you need.
+        </p>
+      </div>
+
+      <div class="mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% @popular_articles.each do |article| %>
+            <a href="<%= help_article_path(article[:category], article[:slug]) %>" class="bg-gray-50 hover:bg-gray-100 p-6 rounded-lg shadow-sm hover:shadow transition-all duration-200 block">
+              <h3 class="text-lg font-medium text-gray-900"><%= article[:title] %></h3>
+              <div class="mt-4 text-sm text-gray-500 flex items-center">
+                <span class="text-indigo-600 mr-2">Read article</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Categories -->
+  <div class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="lg:text-center mb-10">
+        <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Browse by Category</h2>
+        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Help Center Categories
+        </p>
+        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          Find detailed information organized by topic
+        </p>
+      </div>
+
+      <div class="mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <% @help_categories.each do |category| %>
+            <a href="<%= help_category_path(category[:slug]) %>" class="bg-white shadow-sm hover:shadow-md rounded-xl overflow-hidden transition-all duration-200 flex flex-col h-full">
+              <div class="p-6">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-<%= category[:color] %>-100 text-<%= category[:color] %>-600">
+                      <%= render 'shared/icon', name: category[:icon], size: "md", color: category[:color] %>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="text-lg font-bold text-gray-900"><%= category[:name] %></h3>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <p class="text-sm text-gray-500"><%= category[:description] %></p>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-6 py-4 mt-auto">
+                <div class="text-sm font-medium text-indigo-600 flex items-center">
+                  <span>Browse category</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQs -->
+  <div class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="lg:text-center mb-10">
+        <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Frequently Asked Questions</h2>
+        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Common Questions
+        </p>
+        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          Quick answers to the most common questions we receive
+        </p>
+      </div>
+
+      <div class="mt-10 max-w-3xl mx-auto">
+        <dl class="space-y-6 divide-y divide-gray-200" data-controller="accordion">
+          <% @faqs.each_with_index do |faq, index| %>
+            <div class="pt-6" data-controller="accordion-item" id="faq-<%= index %>">
+              <dt class="text-lg">
+                <button class="text-left w-full flex justify-between items-center text-gray-900 focus:outline-none focus:ring-indigo-500" data-action="click->accordion-item#toggle">
+                  <span class="font-medium"><%= faq[:question] %></span>
+                  <span class="ml-6 flex-shrink-0" data-accordion-item-target="icon">
+                    <svg class="h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                  </span>
+                </button>
+              </dt>
+              <dd class="mt-4 pr-12 hidden" data-accordion-item-target="content">
+                <p class="text-base text-gray-500"><%= faq[:answer] %></p>
+              </dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Help -->
+  <div class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="lg:text-center mb-10">
+        <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Community Support</h2>
+        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Other Ways to Get Help
+        </p>
+        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          Connect with our team and community for additional support
+        </p>
+      </div>
+
+      <div class="mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Contact Support -->
+          <div class="bg-white shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-all duration-200">
+            <div class="px-6 py-8">
+              <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 class="mt-6 text-lg font-medium text-gray-900">Email Support</h3>
+                <p class="mt-2 text-base text-gray-500">
+                  Get personalized help from our support team for complex issues.
+                </p>
+                <div class="mt-6">
+                  <a href="<%= contact_path %>" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Contact Support
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Community Forum -->
+          <div class="bg-white shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-all duration-200">
+            <div class="px-6 py-8">
+              <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                  </svg>
+                </div>
+                <h3 class="mt-6 text-lg font-medium text-gray-900">Community Forum</h3>
+                <p class="mt-2 text-base text-gray-500">
+                  Connect with other users to share tips and solve problems together.
+                </p>
+                <div class="mt-6">
+                  <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Visit Forum
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Chat -->
+          <div class="bg-white shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-all duration-200">
+            <div class="px-6 py-8">
+              <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-amber-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <h3 class="mt-6 text-lg font-medium text-gray-900">Live Chat</h3>
+                <p class="mt-2 text-base text-gray-500">
+                  Chat with our support team in real-time during business hours.
+                </p>
+                <div class="mt-6">
+                  <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                    Start Chat
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Still Need Help Call-to-Action -->
+  <div class="bg-indigo-700">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+      <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+        <span class="block">Still need help?</span>
+        <span class="block text-indigo-200">Our team is here for you.</span>
+      </h2>
+      <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+        <div class="inline-flex rounded-md shadow">
+          <a href="<%= contact_path %>" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
+            Contact Us
+          </a>
+        </div>
+        <div class="ml-3 inline-flex rounded-md shadow">
+          <a href="tel:+11234567890" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500">
+            Call Support
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof window.Stimulus !== 'undefined') {
+      // Accordion controller for FAQ section
+      window.Stimulus.register('accordion-item', class extends window.Stimulus.Controller {
+        static targets = ['content', 'icon'];
+        
+        connect() {
+          console.log('Accordion item controller connected');
+        }
+        
+        toggle() {
+          if (this.contentTarget.classList.contains('hidden')) {
+            this.contentTarget.classList.remove('hidden');
+            this.iconTarget.innerHTML = `
+              <svg class="h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+              </svg>
+            `;
+          } else {
+            this.contentTarget.classList.add('hidden');
+            this.iconTarget.innerHTML = `
+              <svg class="h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            `;
+          }
+        }
+      });
+      
+      // Help search controller
+      window.Stimulus.register('help-search', class extends window.Stimulus.Controller {
+        static targets = ['input'];
+        
+        connect() {
+          console.log('Help search controller connected');
+        }
+      });
+    }
+  });
+</script>
+<% end %>
