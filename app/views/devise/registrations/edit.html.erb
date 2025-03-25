@@ -12,7 +12,7 @@
             <div class="p-6">
               <div class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
-                  <% if resource.respond_to?(:profile_picture) && resource.profile_picture.respond_to?(:attached?) && resource.profile_picture.attached? %>
+                  <% if resource.respond_to?(:has_profile_picture?) && resource.has_profile_picture? %>
                     <%= image_tag resource.profile_picture, class: "h-16 w-16 rounded-full object-cover" %>
                   <% else %>
                     <div class="h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center">
@@ -150,7 +150,7 @@
               <div>
                 <div class="flex items-center">
                   <div class="flex-shrink-0">
-                    <% if resource.respond_to?(:profile_picture) && resource.profile_picture.respond_to?(:attached?) && resource.profile_picture.attached? %>
+                    <% if resource.respond_to?(:has_profile_picture?) && resource.has_profile_picture? %>
                       <%= image_tag resource.profile_picture, class: "h-24 w-24 rounded-full object-cover" %>
                     <% else %>
                       <div class="h-24 w-24 rounded-full bg-indigo-100 flex items-center justify-center">
@@ -175,7 +175,11 @@
                       </button>
                     </div>
                     <p class="mt-2 text-xs text-gray-500" data-profile-upload-target="fileName">
-                      <%= resource.profile_picture.attached? ? "Current: #{resource.profile_picture.filename}" : "No image selected" %>
+                      <% if resource.respond_to?(:has_profile_picture?) && resource.has_profile_picture? %>
+                        Current: <%= resource.profile_picture.filename %>
+                      <% else %>
+                        No image selected
+                      <% end %>
                     </p>
                     <p class="mt-1 text-xs text-gray-500">
                       JPG, PNG or GIF. 1MB max.
@@ -189,14 +193,14 @@
                 <div class="sm:col-span-3">
                   <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
                   <div class="mt-1">
-                    <%= f.text_field :first_name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                    <%= f.text_field :first_name, class: "py-2 px-3shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
                   </div>
                 </div>
 
                 <div class="sm:col-span-3">
                   <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
                   <div class="mt-1">
-                    <%= f.text_field :last_name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                    <%= f.text_field :last_name, class: "py-2 px-3shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
                   </div>
                 </div>
               </div>
@@ -205,7 +209,7 @@
               <div>
                 <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1">
-                  <%= f.email_field :email, autocomplete: "email", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                  <%= f.email_field :email, autocomplete: "email", class: "py-2 px-3shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
                 </div>
                 <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
                   <p class="mt-2 text-sm text-yellow-600">
@@ -372,7 +376,7 @@
                       <span class="text-sm font-medium text-gray-900" data-dark-mode-target="label">Dark Mode</span>
                       <span class="text-sm text-gray-500">Use a darker color scheme for reduced eye strain in low-light environments.</span>
                     </span>
-                    <button type="button" class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 bg-gray-200 dark:bg-indigo-600" role="switch" aria-checked="false" data-dark-mode-target="toggle" data-action="click->dark-mode#toggle">
+                    <button type="button" class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" role="switch" aria-checked="false" data-dark-mode-target="toggle" data-action="click->dark-mode#toggle">
                       <span class="sr-only">Use dark mode</span>
                       <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200 translate-x-0 dark:translate-x-5"></span>
                     </button>
