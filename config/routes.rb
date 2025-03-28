@@ -61,11 +61,16 @@ Rails.application.routes.draw do
 
   # Payment routes
   post "payments", to: "payments#create", as: :create_payment
+  
+  # Stripe routes
   get "payments/stripe/success", to: "payments#stripe_success", as: :stripe_success
   get "payments/stripe/cancel", to: "payments#stripe_cancel", as: :stripe_cancel
-  
-  # Stripe webhook
   post "stripe/webhooks", to: "stripe_webhooks#create"
+  
+  # Mobile Money routes
+  post "payments/momo", to: "payments#momo_initiate", as: :momo_payment
+  get "payments/momo/verify/:transaction_ref", to: "payments#momo_verify", as: :momo_verify
+  post "momo/webhooks/:provider", to: "momo_webhooks#create", as: :momo_webhook
 
   # Dashboard
   get "dashboard", to: "dashboard#index", as: :dashboard

@@ -1,0 +1,102 @@
+<% content_for :title, "Mobile Money Payment" %>
+
+<div class="bg-white">
+  <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class="lg:col-span-2">
+      <div class="max-w-md mx-auto">
+        <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mb-8">Mobile Money Payment</h1>
+        
+        <!-- Order Summary -->
+        <div class="bg-gray-50 rounded-lg p-4 mb-8">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
+          <div class="border-t border-gray-200 pt-4">
+            <div class="flex justify-between py-2">
+              <p class="text-sm text-gray-500">Subtotal</p>
+              <p class="text-sm font-medium text-gray-900">$<%= sprintf("%.2f", @cart.total) %></p>
+            </div>
+            
+            <div class="flex justify-between py-2 border-t border-gray-200 mt-2 pt-2">
+              <p class="text-base font-medium text-gray-900">Total</p>
+              <p class="text-base font-medium text-gray-900">$<%= sprintf("%.2f", @cart.total) %></p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mobile Money Payment Form -->
+        <%= form_with url: momo_payment_path, method: :post, class: "space-y-6" do |form| %>
+          <div>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Select Your Mobile Money Provider</h2>
+            <div class="mt-4 space-y-4">
+              <div class="relative flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.radio_button :provider, "mtn", class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300", checked: true %>
+                </div>
+                <div class="ml-3 text-sm">
+                  <label for="provider_mtn" class="flex items-center font-medium text-gray-700">
+                    <span class="inline-block w-8 h-8 bg-yellow-400 text-black font-bold rounded-md flex items-center justify-center mr-2">MTN</span>
+                    MTN Mobile Money
+                  </label>
+                </div>
+              </div>
+
+              <div class="relative flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.radio_button :provider, "airtel", class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" %>
+                </div>
+                <div class="ml-3 text-sm">
+                  <label for="provider_airtel" class="flex items-center font-medium text-gray-700">
+                    <span class="inline-block w-8 h-8 bg-red-600 text-white font-bold rounded-md flex items-center justify-center mr-2">AIR</span>
+                    Airtel Money
+                  </label>
+                </div>
+              </div>
+
+              <div class="relative flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.radio_button :provider, "vodafone", class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" %>
+                </div>
+                <div class="ml-3 text-sm">
+                  <label for="provider_vodafone" class="flex items-center font-medium text-gray-700">
+                    <span class="inline-block w-8 h-8 bg-red-700 text-white font-bold rounded-md flex items-center justify-center mr-2">V</span>
+                    Vodafone Cash
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <div class="mt-1">
+              <%= form.telephone_field :phone_number, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "Enter your mobile money number", required: true %>
+            </div>
+            <p class="mt-2 text-sm text-gray-500">Enter the phone number registered with your mobile money account.</p>
+          </div>
+
+          <div class="pt-4">
+            <%= form.submit "Pay Now", class: "w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          </div>
+        <% end %>
+        
+        <!-- Security Info -->
+        <div class="mt-8 border-t border-gray-200 pt-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-gray-500">Your payment is secured with industry-standard encryption.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Back to Cart -->
+        <div class="mt-6 text-center">
+          <%= link_to "Back to Cart", cart_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

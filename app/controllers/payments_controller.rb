@@ -11,8 +11,7 @@ class PaymentsController < ApplicationController
     when 'stripe'
       create_stripe_checkout
     when 'momo'
-      # This will be implemented later
-      redirect_to new_checkout_path, alert: 'Mobile Money payment is coming soon!'
+      create_momo_payment
     else
       redirect_to new_checkout_path, alert: 'Please select a valid payment method'
     end
@@ -71,8 +70,69 @@ class PaymentsController < ApplicationController
     redirect_to cart_path, alert: 'Payment was cancelled. Your cart is still saved.'
   end
 
+  # Mobile Money payment flow
+  def momo_initiate
+    @cart = current_user.ensure_cart
+    
+    # Validate the provider and phone number
+    provider = params[:provider]&.downcase
+    phone_number = params[:phone_number]
+    
+    if provider.blank? || phone_number.blank?
+      redirect_to checkout_path, alert: 'Provider and phone number are required for mobile money payments.'
+      return
+    end
+
+    # Create the mobile money payment request
+    momo_service = MomoService.new(current_user)
+    result = momo_service.initiate_payment(@cart, phone_number, provider)
+    
+    if result[:success]
+      # Store the transaction reference in the session
+      session[:momo_transaction_ref] = result[:transaction_ref]
+      session[:pending_order_id] = result[:order_id]
+      
+      # Redirect to the verification page
+      redirect_to momo_verify_path(result[:transaction_ref]), notice: result[:message]
+    else
+      redirect_to checkout_path, alert: result[:error] || 'Could not process mobile money payment. Please try again.'
+    end
+  end
+  
+  def momo_verify
+    transaction_ref = params[:transaction_ref]
+    
+    # Verify the transaction reference matches the one in the session
+    if transaction_ref != session[:momo_transaction_ref]
+      redirect_to cart_path, alert: 'Invalid payment verification. Please try again.'
+      return
+    end
+    
+    # Verify the payment status
+    momo_service = MomoService.new(current_user)
+    result = momo_service.verify_payment(transaction_ref)
+    
+    if result[:success]
+      # Clear the session data
+      session.delete(:momo_transaction_ref)
+      session.delete(:pending_order_id)
+      
+      # Redirect to the order page
+      redirect_to order_path(result[:order_id]), notice: 'Payment successful! Your order has been placed.'
+    else
+      # Keep the session data for retrying
+      @transaction_ref = transaction_ref
+      render :momo_verification
+    end
+  end
+
   private
 
+  def create_momo_payment
+    # Render the mobile money payment form
+    render :momo_payment
+  end
+  
   def create_stripe_checkout
     stripe_service = StripeService.new(current_user)
     checkout_session = stripe_service.create_checkout_session(@cart)
