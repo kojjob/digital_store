@@ -1,0 +1,64 @@
+<% content_for :title, "New Category" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Hero section with styled header -->
+  <div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 mb-8 shadow-md">
+    <div class="absolute inset-0 opacity-20">
+      <svg class="h-full w-full" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 891C126.667 853.667 253.333 835 380 835C633.333 835 760 939.5 1013 939.5C1139.67 939.5 1266.33 911.333 1393 855L1393 1080H0V891Z" fill="white" fill-opacity="0.3" />
+        <path d="M0 986C126.667 928 253.333 899 380 899C633.333 899 760 1010.5 1013 1010.5C1139.67 1010.5 1266.33 950.333 1393 830V1080H0V986Z" fill="white" fill-opacity="0.3" />
+      </svg>
+    </div>
+    <div class="relative py-8 px-8 sm:px-12">
+      <div class="text-white">
+        <h1 class="text-3xl font-bold mb-2">Create New Category</h1>
+        <p class="text-indigo-50 max-w-lg">Add a new category to organize your digital products</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Breadcrumbs -->
+  <nav class="flex mb-6" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <%= link_to root_path, class: "inline-flex items-center text-sm text-indigo-600 hover:text-indigo-800" do %>
+          <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+          Home
+        <% end %>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <%= link_to "Categories", categories_path, class: "ml-1 text-sm text-indigo-600 hover:text-indigo-800 md:ml-2" %>
+        </div>
+      </li>
+      <li aria-current="page">
+        <div class="flex items-center">
+          <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">New Category</span>
+        </div>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200 p-6 md:p-8">
+    <div class="max-w-3xl mx-auto">
+      <%= render "form", category: @category %>
+      
+      <div class="mt-6 flex flex-col sm:flex-row sm:justify-start gap-2">
+        <%= link_to categories_path, class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+          </svg>
+          Back to Categories
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

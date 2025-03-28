@@ -1,0 +1,34 @@
+<section class="py-20 bg-white" data-controller="scroll-reveal">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-16">Shop By Category</h2>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <% @top_categories&.each_with_index do |category, index| %>
+        <a href="/categories/<%= category.slug %>" 
+           class="group"
+           data-scroll-reveal-target="element"
+           data-scroll-reveal-delay="<%= index * 100 %>">
+          <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden">
+            <!-- Display a placeholder instead of trying to access category.image -->
+            <div class="flex items-center justify-center h-full bg-indigo-100 text-indigo-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-75"></div>
+            <div class="absolute bottom-0 left-0 p-4 text-white">
+              <h3 class="text-lg font-bold"><%= category.name %></h3>
+              <p class="text-sm text-white/80">
+                <% if defined?(category.products) && category.products.respond_to?(:count) %>
+                  <%= pluralize(category.products.count, 'product') %>
+                <% else %>
+                  Browse products
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</section>

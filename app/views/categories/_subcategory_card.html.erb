@@ -1,0 +1,19 @@
+<%
+  # Optional parameters
+  category ||= nil
+  return unless category
+  
+  # Category name and color
+  name = category.name
+  color = subcategory_color(name)
+%>
+
+<%= link_to category_path(category), class: "group" do %>
+  <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 text-center">
+    <div class="w-16 h-16 mx-auto bg-gradient-to-br from-<%= color %>-100 via-<%= color %>-200 to-<%= color %>-300 rounded-full flex items-center justify-center mb-3">
+      <%= render partial: "shared/category_icon", locals: { category_name: name } %>
+    </div>
+    <h3 class="text-sm font-medium text-gray-900 group-hover:text-indigo-700"><%= name %></h3>
+    <p class="text-xs text-gray-500 mt-1"><%= pluralize(category.products.count, 'product') %></p>
+  </div>
+<% end %>

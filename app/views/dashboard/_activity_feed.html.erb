@@ -1,0 +1,26 @@
+<%#
+  Activity feed component
+%>
+
+<div class="mt-8">
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Activity</h3>
+    <div class="text-sm">
+      <a href="<%= defined?(activity_path) ? activity_path : "#" %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+    </div>
+  </div>
+  <div class="mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-6">
+      <div class="flow-root">
+        <ul role="list" class="-mb-8">
+          <% @recent_activities.each_with_index do |activity, index| %>
+            <%= render 'dashboard/activity_feed_item', 
+              activity: activity,
+              is_last: index == @recent_activities.length - 1 
+            %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

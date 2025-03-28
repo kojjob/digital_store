@@ -1,0 +1,50 @@
+<div id="<%= dom_id seller %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">User:</strong>
+    <%= seller.user&.email || 'Not available' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Business name:</strong>
+    <%= seller.business_name.presence || 'Not specified' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= seller.description.presence || 'No description provided' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Location:</strong>
+    <%= seller.location.presence || 'Not specified' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Country:</strong>
+    <%= seller.country.presence || 'Not specified' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Phone number:</strong>
+    <%= seller.phone_number.presence || 'Not provided' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Verified:</strong>
+    <%= seller.verified? ? "Yes" : "No" %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Commission rate:</strong>
+    <%= number_to_percentage(seller.commission_rate, precision: 2) if seller.commission_rate.present? %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Bank account details:</strong>
+    <%= seller.bank_account_details.presence || 'Not provided' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Mobile money details:</strong>
+    <%= seller.mobile_money_details.presence || 'Not provided' %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Acceptance rate:</strong>
+    <%= number_to_percentage(seller.acceptance_rate, precision: 2) if seller.acceptance_rate.present? %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Average response time:</strong>
+    <%= pluralize(seller.average_response_time, 'hour') if seller.average_response_time.present? %>
+  </div>
+</div>

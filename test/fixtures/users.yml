@@ -7,6 +7,11 @@ valid_user:
   last_name: Doe
   created_at: <%= Time.current %>
   updated_at: <%= Time.current %>
+  sign_in_count: 5
+  current_sign_in_at: <%= Time.current %>
+  last_sign_in_at: <%= Time.current - 1.day %>
+  current_sign_in_ip: 127.0.0.1
+  last_sign_in_ip: 127.0.0.1
 
 admin_user:
   email: admin@example.com
@@ -15,4 +20,48 @@ admin_user:
   last_name: User
   admin: true
   created_at: <%= Time.current %>
-  updated_at: <%= Time.current %> 
+  updated_at: <%= Time.current %>
+  sign_in_count: 10
+  current_sign_in_at: <%= Time.current %>
+  last_sign_in_at: <%= Time.current - 2.days %>
+  current_sign_in_ip: 127.0.0.1
+  last_sign_in_ip: 127.0.0.1
+
+one:
+  email: seller1@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  first_name: Seller
+  last_name: One
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+  sign_in_count: 3
+  current_sign_in_at: <%= Time.current %>
+  last_sign_in_at: <%= Time.current - 3.days %>
+  current_sign_in_ip: 127.0.0.1
+  last_sign_in_ip: 127.0.0.1
+
+two:
+  email: seller2@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  first_name: Seller
+  last_name: Two
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+  sign_in_count: 2
+  current_sign_in_at: <%= Time.current %>
+  last_sign_in_at: <%= Time.current - 4.days %>
+  current_sign_in_ip: 127.0.0.1
+  last_sign_in_ip: 127.0.0.1
+
+buyer:
+  email: buyer@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  first_name: Regular
+  last_name: Buyer
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+  sign_in_count: 1
+  current_sign_in_at: <%= Time.current %>
+  last_sign_in_at: <%= Time.current - 5.days %>
+  current_sign_in_ip: 127.0.0.1
+  last_sign_in_ip: 127.0.0.1

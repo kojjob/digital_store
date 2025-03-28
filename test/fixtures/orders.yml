@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: valid_user
+  product: one
+  status: completed
+  total_amount: 19.99
+
+two:
+  user: buyer
+  product: two
+  status: processing
+  total_amount: 29.99
+
+seller_one_order:
+  user: buyer
+  product: one
+  status: completed
+  total_amount: 39.99

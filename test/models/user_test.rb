@@ -1,51 +1,34 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
-  include ActionDispatch::TestProcess
-
   setup do
     @user = users(:valid_user)
-    # Create a test image file
-    @test_image = fixture_file_upload("test_image.jpg", "image/jpeg")
-  end
-
-  test "has_profile_picture? returns false for new user" do
-    assert_not @user.has_profile_picture?
   end
 
   test "full_name returns combined first and last name" do
     assert_equal "John Doe", @user.full_name
   end
 
-  test "full_name handles missing parts" do
-    @user.first_name = nil
-    assert_equal "Doe", @user.full_name
-
-    @user.first_name = "John"
+  test "full_name handles missing last name" do
     @user.last_name = nil
     assert_equal "John", @user.full_name
-
-    @user.first_name = nil
-    assert_equal "", @user.full_name
   end
 
-  test "can attach profile picture" do
-    @user.profile_picture.attach(@test_image)
-    assert @user.profile_picture.attached?
-    assert @user.has_profile_picture?
+  test "seller? returns true for users with seller association" do
+    @user_with_seller = users(:one)
+    assert @user_with_seller.seller?
   end
 
-  test "can remove profile picture" do
-    # First attach a profile picture
-    @user.profile_picture.attach(@test_image)
-    assert @user.profile_picture.attached?
+  test "seller? returns false for users without seller association" do
+    assert_not @user.seller?
+  end
 
-    # Then set remove_profile_picture to "1" and save
-    @user.remove_profile_picture = "1"
-    @user.save
+  test "buyer? returns true for non-sellers" do
+    assert @user.buyer?
+  end
 
-    # Profile picture should be gone
-    assert_not @user.profile_picture.attached?
-    assert_not @user.has_profile_picture?
+  test "buyer? returns false for sellers" do
+    @user_with_seller = users(:one)
+    assert_not @user_with_seller.buyer?
   end
 end

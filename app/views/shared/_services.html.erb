@@ -1,0 +1,44 @@
+<section id="services" class="py-20 bg-gray-50" data-controller="scroll-reveal">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">Our Services</h2>
+    <p class="text-xl text-gray-600 text-center max-w-3xl mx-auto mb-16">
+      From individual entrepreneurs to established businesses, we provide the tools you need to succeed in the digital marketplace.
+    </p>
+    
+    <div class="grid md:grid-cols-2 gap-12">
+      <% [
+        {
+          title: "Seller Platform",
+          description: "Create your online store with powerful tools for inventory management, analytics, and order processing.",
+          features: ["Custom store profiles", "Product management", "Sales analytics", "Multi-country selling"]
+        },
+        {
+          title: "Buyer Experience",
+          description: "Discover products from verified sellers across Africa with a seamless shopping experience.",
+          features: ["Secure payments", "Order tracking", "Wishlist functionality", "Personalized recommendations"]
+        }
+      ].each_with_index do |service, index| %>
+        <div class="bg-white p-8 rounded-lg shadow-sm"
+             data-scroll-reveal-target="element"
+             data-scroll-reveal-delay="<%= index * 200 %>">
+          <h3 class="text-2xl font-bold mb-4 text-indigo-700"><%= service[:title] %></h3>
+          <p class="text-gray-600 mb-6"><%= service[:description] %></p>
+          
+          <ul class="space-y-3">
+            <% service[:features].each do |feature| %>
+              <li class="flex items-start">
+                <span class="text-green-500 mt-1 mr-2">
+                  <!-- Checkmark icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span><%= feature %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

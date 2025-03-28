@@ -1,0 +1,33 @@
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+      <p class="text-gray-600 mb-8">Subscribe to our newsletter for the latest products, deals, and marketplace updates.</p>
+      
+      <%= turbo_frame_tag "newsletter_form" do %>
+        <%= form_with url: "/newsletter/subscribe", method: :post, data: { turbo_frame: "_self" } do |f| %>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-1">
+              <%= f.email_field :email, placeholder: "Your email address", class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+            </div>
+            <div>
+              <%= f.button "Subscribe", type: "submit", class: "w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+            </div>
+          </div>
+          
+          <div class="mt-4 flex justify-center space-x-4">
+            <label class="flex items-center">
+              <%= f.radio_button :country, "ghana", class: "mr-2" %> Ghana
+            </label>
+            <label class="flex items-center">
+              <%= f.radio_button :country, "nigeria", class: "mr-2" %> Nigeria
+            </label>
+            <label class="flex items-center">
+              <%= f.radio_button :country, "both", checked: true, class: "mr-2" %> Both
+            </label>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>

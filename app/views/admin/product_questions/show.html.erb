@@ -1,0 +1,113 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-6">
+    <%= link_to admin_product_questions_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-900" do %>
+      <svg class="mr-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to Questions
+    <% end %>
+  </div>
+  
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200 flex justify-between items-center">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        Question Details
+      </h3>
+      <div>
+        <%= link_to edit_admin_product_question_path(@product_question), class: "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+          <svg class="-ml-0.5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+          </svg>
+          Edit
+        <% end %>
+        <%= link_to admin_product_question_path(@product_question), method: :delete, data: { confirm: "Are you sure you want to delete this question?" }, class: "ml-3 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" do %>
+          <svg class="-ml-0.5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          Delete
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
+      <div class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 mb-6">
+        <div class="sm:col-span-2">
+          <h4 class="text-sm font-medium text-gray-500">Product</h4>
+          <div class="mt-1 flex items-center">
+            <div class="flex-shrink-0 h-12 w-12 bg-gray-200 rounded-md overflow-hidden">
+              <% if @product_question.product.images.attached? %>
+                <%= image_tag @product_question.product.images.first, class: "h-full w-full object-cover" %>
+              <% elsif @product_question.product.product_images.any? && @product_question.product.product_images.first.respond_to?(:image) && @product_question.product.product_images.first.has_image? %>
+                <%= image_tag @product_question.product.product_images.first.image, class: "h-full w-full object-cover" %>
+              <% else %>
+                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              <% end %>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg font-medium text-gray-900">
+                <%= link_to @product_question.product.name, product_path(@product_question.product), class: "hover:text-green-600" %>
+              </h4>
+              <p class="text-sm text-gray-500">
+                <%= @product_question.product.category.name %> •
+                <%= @product_question.product.currency == 'NGN' ? '₦' : '₵' %><%= @product_question.product.price %>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-sm font-medium text-gray-500">Asked By</h4>
+          <p class="mt-1 text-sm text-gray-900"><%= @product_question.asked_by %></p>
+        </div>
+        
+        <div>
+          <h4 class="text-sm font-medium text-gray-500">Date</h4>
+          <p class="mt-1 text-sm text-gray-900"><%= @product_question.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+        </div>
+        
+        <div>
+          <h4 class="text-sm font-medium text-gray-500">Status</h4>
+          <div class="mt-1">
+            <% if @product_question.answered? %>
+              <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                Answered on <%= @product_question.answered_at.strftime("%B %d, %Y") %>
+              </span>
+            <% else %>
+              <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                Awaiting Answer
+              </span>
+            <% end %>
+          </div>
+        </div>
+        
+        <div class="sm:col-span-2">
+          <h4 class="text-sm font-medium text-gray-500">Question</h4>
+          <div class="mt-1 p-4 bg-gray-50 rounded-lg">
+            <p class="text-sm text-gray-900"><%= @product_question.question %></p>
+          </div>
+        </div>
+        
+        <% if @product_question.answered? %>
+          <div class="sm:col-span-2">
+            <div class="flex justify-between items-center">
+              <h4 class="text-sm font-medium text-gray-500">Answer</h4>
+              <p class="text-xs text-gray-500">Answered by <%= @product_question.answered_by %></p>
+            </div>
+            <div class="mt-1 p-4 bg-green-50 rounded-lg">
+              <p class="text-sm text-gray-900"><%= @product_question.answer %></p>
+            </div>
+          </div>
+        <% else %>
+          <div class="sm:col-span-2">
+            <div class="border border-dashed border-gray-300 rounded-lg p-4 text-center">
+              <p class="text-sm text-gray-500">This question hasn't been answered yet.</p>
+              <%= link_to "Answer Now", edit_admin_product_question_path(@product_question), class: "mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

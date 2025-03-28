@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  business_name: Seller One Business
+  description: This is a detailed description for the first seller's business.
+  location: Accra
+  country: Ghana
+  phone_number: +233123456789
+  verified: true
+  commission_rate: 10.00
+  bank_account_details: Bank account details for seller one
+  mobile_money_details: Mobile money details for seller one
+  acceptance_rate: 98.5
+  average_response_time: 2
+
+two:
+  user: two
+  business_name: Seller Two Business
+  description: This is a detailed description for the second seller's business.
+  location: Lagos
+  country: Nigeria
+  phone_number: +234987654321
+  verified: false
+  commission_rate: 12.50
+  bank_account_details: Bank account details for seller two
+  mobile_money_details: Mobile money details for seller two
+  acceptance_rate: 85.0
+  average_response_time: 6

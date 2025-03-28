@@ -1,0 +1,23 @@
+<section class="py-16 bg-indigo-900 text-white" data-controller="counter">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <% 
+        stats = @stats || {
+          total_products: 1500,  # Sample data
+          total_sellers: 350,    # Sample data 
+          total_categories: 45,  # Sample data
+          countries_served: 2    # Ghana and Nigeria
+        }
+        
+        [
+          { value: stats[:total_products], label: "Products", icon: "shopping-bag" },
+          { value: stats[:total_sellers], label: "Sellers", icon: "store" },
+          { value: stats[:total_categories], label: "Categories", icon: "collection" },
+          { value: stats[:countries_served], label: "Countries", icon: "globe" }
+        ].each do |stat| 
+      %>
+        <!-- Rest of the code remains the same -->
+      <% end %>
+    </div>
+  </div>
+</section>

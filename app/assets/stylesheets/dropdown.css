@@ -1,0 +1,100 @@
+/*
+ * Dropdown transition styles
+ * These styles ensure smooth transitions for dropdown menus
+ */
+
+/* Apply transitions to all dropdown menus */
+[data-dropdown-target="menu"],
+[data-mega-dropdown-target="menu"],
+[data-cart-preview-target="preview"],
+[data-simple-dropdown-target="menu"] {
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  will-change: opacity, transform;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  
+  /* Aggressively remove all borders */
+  border: none !important;
+  outline: none !important;
+  
+  /* Override any Tailwind ring styles */
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+
+/* Remove all borders from dropdown containers */
+[data-dropdown-target="menu"] *,
+[data-mega-dropdown-target="menu"] *,
+[data-cart-preview-target="preview"] *,
+[data-simple-dropdown-target="menu"] * {
+  border: none !important;
+  border-width: 0 !important;
+  border-top-width: 0 !important;
+  border-bottom-width: 0 !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+}
+
+/* Remove specific ring/border classes that Tailwind might add */
+.ring-1, 
+.ring-black, 
+.ring-opacity-5,
+.border-t,
+.border-b,
+.border-l,
+.border-r,
+.border-gray-100,
+.border-gray-200,
+.border-gray-300 {
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-offset-shadow: none !important;
+  --tw-ring-shadow: none !important;
+}
+
+/* Handle any dividers that might use border classes */
+[data-simple-dropdown-target="menu"] .border-t,
+[data-simple-dropdown-target="menu"] .border-b,
+[data-dropdown-target="menu"] .border-t,
+[data-dropdown-target="menu"] .border-b {
+  border: none !important;
+  position: relative;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Initial state (hidden) - these classes are applied via JavaScript */
+.opacity-0 {
+  opacity: 0 !important;
+}
+
+.translate-y-1 {
+  transform: translateY(0.25rem) !important;
+}
+
+/* Visible state - these classes are applied via JavaScript */
+.opacity-100 {
+  opacity: 1 !important;
+}
+
+.translate-y-0 {
+  transform: translateY(0) !important;
+}
+
+/* Use margin instead of borders for spacing if needed */
+[data-simple-dropdown-target="menu"] > div > div,
+[data-dropdown-target="menu"] > div > div {
+  margin-bottom: 0.5rem;
+}
+
+/* Focus styles for accessibility */
+[data-dropdown-target="menu"] a:focus,
+[data-mega-dropdown-target="menu"] a:focus,
+[data-cart-preview-target="preview"] a:focus,
+[data-simple-dropdown-target="menu"] a:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  background-color: rgba(243, 244, 246, 0.7);
+}

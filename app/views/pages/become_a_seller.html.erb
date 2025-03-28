@@ -1,0 +1,500 @@
+<!-- Hero Section with Social Proof -->
+<section class="hero-pattern relative overflow-hidden py-16 md:py-24">
+  <!-- Decorative elements -->
+  <div class="absolute top-0 left-0 w-64 h-64 bg-primary-400 opacity-20 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl translate-x-1/4 translate-y-1/4"></div>
+  
+  <div class="container px-4 mx-auto max-w-7xl relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div data-aos="fade-right">
+        <!-- Social proof pill - Scarcity -->
+        <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full py-2 px-4 mb-6 border border-white/20">
+          <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+          <span class="text-white text-sm font-medium">Limited time: First 3 months commission-free</span>
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+          Turn Your Digital <span class="text-yellow-300">Skills</span> Into <span class="text-yellow-300">Income</span>
+        </h1>
+        
+        <p class="text-xl text-white/90 mb-8 leading-relaxed">
+          Join thousands of creators across Africa earning <span class="font-semibold">$500-$5,000 monthly</span> by selling digital products on our trusted marketplace.
+        </p>
+        
+        <!-- Social proof stats -->
+        <div class="flex flex-wrap gap-6 mb-8">
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+            <div class="text-3xl font-bold text-white">10K+</div>
+            <div class="text-white/70 text-sm">Sellers</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+            <div class="text-3xl font-bold text-white">97%</div>
+            <div class="text-white/70 text-sm">Satisfaction</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+            <div class="text-3xl font-bold text-white">$2.5M</div>
+            <div class="text-white/70 text-sm">Monthly Payouts</div>
+          </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4">
+          <%= link_to new_seller_path, class: "btn-shine inline-flex items-center justify-center px-6 py-4 font-medium text-primary-700 bg-white rounded-lg hover:bg-gray-100 transition duration-300 shadow-lg text-lg" do %>
+            Start Selling Now
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+          
+          <a href="#how-it-works" class="inline-flex items-center justify-center px-6 py-4 border border-white rounded-lg text-white hover:bg-white/10 transition duration-300 font-medium text-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+            </svg>
+            How It Works
+          </a>
+        </div>
+      </div>
+      
+      <div class="relative" data-aos="fade-left">
+        <!-- Hero Image -->
+        <div class="relative">
+          <% if File.exist?(Rails.root.join('app', 'assets', 'images', 'seller-hero.png')) %>
+            <%= image_tag "seller-hero1.png", alt: "Seller earning income", class: "w-full h-auto rounded-2xl shadow-2xl z-10 relative" %>
+          <% else %>
+            <div class="blob-shape bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-sm p-6 lg:p-10 shadow-2xl">
+              <!-- Featured Seller Testimonial -->
+              <div class="bg-white rounded-xl shadow-lg p-6 max-w-md mx-auto">
+                <div class="flex items-center mb-4">
+                  <div class="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold mr-4">
+                    DO
+                  </div>
+                  <div>
+                    <div class="flex items-center">
+                      <h3 class="font-bold text-xl">David Osei</h3>
+                      <div class="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Top Seller</div>
+                    </div>
+                    <p class="text-gray-500">Digital Artist, Ghana</p>
+                  </div>
+                </div>
+                <p class="text-gray-600 mb-4 font-medium italic">"I started selling my digital art as a side hustle, now it's my full-time income. Last month I made $3,200 from just 14 products!"</p>
+                
+                <div class="border-t border-gray-100 pt-4 mt-4">
+                  <div class="text-sm text-gray-500 mb-2">Monthly Sales (Last 6 months)</div>
+                  <div class="h-10 flex space-x-1">
+                    <div class="w-1/6 bg-primary-100 rounded-t-md relative overflow-hidden">
+                      <div class="absolute bottom-0 w-full bg-primary-500 rounded-t-md" style="height: 40%"></div>
+                    </div>
+                    <div class="w-1/6 bg-primary-100 rounded-t-md relative overflow-hidden">
+                      <div class="absolute bottom-0 w-full bg-primary-500 rounded-t-md" style="height: 55%"></div>
+                    </div>
+                    <div class="w-1/6 bg-primary-100 rounded-t-md relative overflow-hidden">
+                      <div class="absolute bottom-0 w-full bg-primary-500 rounded-t-md" style="height: 45%"></div>
+                    </div>
+                    <div class="w-1/6 bg-primary-100 rounded-t-md relative overflow-hidden">
+                      <div class="absolute bottom-0 w-full bg-primary-500 rounded-t-md" style="height: 60%"></div>
+                    </div>
+                    <div class="w-1/6 bg-primary-100 rounded-t-md relative overflow-hidden">
+                      <div class="absolute bottom-0 w-full bg-primary-500 rounded-t-md" style="height: 75%"></div>
+                    </div>
+                    <div class="w-1/6 bg-primary-100 rounded-t-md relative overflow-hidden">
+                      <div class="absolute bottom-0 w-full bg-primary-500 rounded-t-md" style="height: 100%"></div>
+                    </div>
+                  </div>
+                  <div class="text-right text-primary-600 font-bold mt-1">+137% growth</div>
+                </div>
+              </div>
+              
+              <!-- Floating elements -->
+              <div class="absolute -top-6 -left-6 bg-yellow-400 rounded-lg shadow-lg p-3 rotate-3 floating">
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-700" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="ml-2">
+                    <div class="text-sm font-bold text-yellow-800">$1,248</div>
+                    <div class="text-xs text-yellow-800">Last week earnings</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="absolute -bottom-4 -right-4 bg-green-500 rounded-lg shadow-lg p-3 -rotate-6 floating" style="animation-delay: 1s;">
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="ml-2">
+                    <div class="text-sm font-bold text-white">New Sale!</div>
+                    <div class="text-xs text-white">Just now</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product Types Section - Loss Aversion -->
+<section class="py-16 bg-white">
+  <div class="container px-4 mx-auto max-w-7xl">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">What Can You Sell?</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Our marketplace is perfect for a wide range of digital products. If you're not selling these, you're leaving money on the table.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Product Type 1 -->
+      <div class="bg-white rounded-xl border border-gray-200 hover:border-primary-300 shadow-sm hover:shadow-md transition duration-300 overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+        <div class="h-48 bg-gradient-to-br from-primary-400 to-primary-600 p-6 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-3">E-books & Digital Guides</h3>
+          <p class="text-gray-600 mb-4">Share your expertise with e-books, guides, templates, or cookbooks. Our top sellers earn $1,200-$5,000 monthly from e-books alone.</p>
+          <div class="flex items-center text-primary-600 font-medium">
+            <span>Learn more</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Type 2 -->
+      <div class="bg-white rounded-xl border border-gray-200 hover:border-primary-300 shadow-sm hover:shadow-md transition duration-300 overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+        <div class="h-48 bg-gradient-to-br from-purple-400 to-purple-600 p-6 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+          </svg>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-3">Templates & Design Assets</h3>
+          <p class="text-gray-600 mb-4">Sell website templates, UI kits, presentation decks, or social media graphics. Passive income that works while you sleep.</p>
+          <div class="flex items-center text-primary-600 font-medium">
+            <span>Learn more</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Type 3 -->
+      <div class="bg-white rounded-xl border border-gray-200 hover:border-primary-300 shadow-sm hover:shadow-md transition duration-300 overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+        <div class="h-48 bg-gradient-to-br from-amber-400 to-amber-600 p-6 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-3">Courses & Tutorials</h3>
+          <p class="text-gray-600 mb-4">Share your skills through online courses or tutorial videos. Creators on our platform earn an average of $3,400 monthly from educational content.</p>
+          <div class="flex items-center text-primary-600 font-medium">
+            <span>Learn more</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits Section - Authority + Social Proof -->
+<section class="py-16 bg-gray-50">
+  <div class="container px-4 mx-auto max-w-7xl">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Why Creators Choose Us</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Our platform is built specifically for African creators, with features that help you succeed.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <% @seller_benefits.each_with_index do |benefit, index| %>
+        <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+          <div class="w-14 h-14 rounded-xl bg-primary-100 flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3"><%= benefit[:title] %></h3>
+          <p class="text-gray-600 mb-4"><%= benefit[:description] %></p>
+          
+          <!-- Add relevant testimonial snippet -->
+          <div class="mt-auto pt-4 border-t border-gray-100">
+            <div class="flex items-center">
+              <div class="text-xs font-medium text-gray-500">
+                <%= ["David, Ghana", "Amina, Nigeria", "Kofi, Tanzania", "Fatima, Kenya", "John, Uganda", "Sarah, Ethiopia"].sample %>
+              </div>
+              <div class="ml-auto flex">
+                <% 5.times do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works - Clarity + Process -->
+<section id="how-it-works" class="py-16 bg-white">
+  <div class="container px-4 mx-auto max-w-7xl">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Start Earning in 4 Simple Steps</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Our streamlined process makes it easy to get started and start earning.
+      </p>
+    </div>
+    
+    <div class="relative max-w-5xl mx-auto" data-aos="fade-up">
+      <!-- Timeline line -->
+      <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-primary-100"></div>
+      
+      <!-- Step 1 -->
+      <div class="flex flex-col md:flex-row items-center mb-12 md:mb-24">
+        <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1" data-aos="fade-right">
+          <div class="bg-white p-6 rounded-xl shadow-md md:ml-auto md:mr-0 max-w-md border-t-4 border-primary-500">
+            <h3 class="text-2xl font-bold mb-3 text-primary-700">Create Your Account</h3>
+            <p class="text-gray-600 mb-4">Sign up for a free seller account and complete your profile with your business information. Verification is simple and fast.</p>
+            <div class="text-sm text-gray-500">Average completion time: <span class="font-medium text-primary-600">5 minutes</span></div>
+          </div>
+        </div>
+        <div class="md:w-0 flex justify-center my-6 md:my-0 order-1 md:order-2">
+          <div class="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center z-10 text-xl font-bold shadow-md">1</div>
+        </div>
+        <div class="md:w-1/2 md:pl-12 hidden md:block order-3"></div>
+      </div>
+      
+      <!-- Step 2 -->
+      <div class="flex flex-col md:flex-row items-center mb-12 md:mb-24">
+        <div class="md:w-1/2 md:pr-12 hidden md:block order-1"></div>
+        <div class="md:w-0 flex justify-center my-6 md:my-0 order-2">
+          <div class="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center z-10 text-xl font-bold shadow-md">2</div>
+        </div>
+        <div class="md:w-1/2 md:pl-12 order-3" data-aos="fade-left">
+          <div class="bg-white p-6 rounded-xl shadow-md md:mr-auto md:ml-0 max-w-md border-t-4 border-purple-500">
+            <h3 class="text-2xl font-bold mb-3 text-purple-700">Upload Your Products</h3>
+            <p class="text-gray-600 mb-4">Add your digital products with descriptions, images, and set your pricing. Our platform supports various file types and provides secure hosting.</p>
+            <div class="text-sm text-gray-500">Average time to first sale: <span class="font-medium text-purple-600">24-48 hours</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Step 3 -->
+      <div class="flex flex-col md:flex-row items-center mb-12 md:mb-24">
+        <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1" data-aos="fade-right">
+          <div class="bg-white p-6 rounded-xl shadow-md md:ml-auto md:mr-0 max-w-md border-t-4 border-amber-500">
+            <h3 class="text-2xl font-bold mb-3 text-amber-700">Promote Your Store</h3>
+            <p class="text-gray-600 mb-4">Share your custom store URL and product links with your audience. We also promote top sellers across our platform for additional exposure.</p>
+            <div class="text-sm text-gray-500">Marketing tools included: <span class="font-medium text-amber-600">Social media assets, email templates</span></div>
+          </div>
+        </div>
+        <div class="md:w-0 flex justify-center my-6 md:my-0 order-1 md:order-2">
+          <div class="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center z-10 text-xl font-bold shadow-md">3</div>
+        </div>
+        <div class="md:w-1/2 md:pl-12 hidden md:block order-3"></div>
+      </div>
+      
+      <!-- Step 4 -->
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 md:pr-12 hidden md:block order-1"></div>
+        <div class="md:w-0 flex justify-center my-6 md:my-0 order-2">
+          <div class="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center z-10 text-xl font-bold shadow-md">4</div>
+        </div>
+        <div class="md:w-1/2 md:pl-12 order-3" data-aos="fade-left">
+          <div class="bg-white p-6 rounded-xl shadow-md md:mr-auto md:ml-0 max-w-md border-t-4 border-green-500">
+            <h3 class="text-2xl font-bold mb-3 text-green-700">Get Paid</h3>
+            <p class="text-gray-600 mb-4">Receive payments directly to your mobile money account or bank account. We handle all payment processing and security.</p>
+            <div class="text-sm text-gray-500">Payment schedule: <span class="font-medium text-green-600">Weekly payouts, no minimum</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section - Social Proof -->
+<section class="py-16 bg-gray-50">
+  <div class="container px-4 mx-auto max-w-7xl">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Success Stories from Real Sellers</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Join these sellers who turned their skills into sustainable income streams.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="100">
+        <div class="h-48 bg-gradient-to-tr from-primary-500 to-purple-500 relative">
+          <div class="absolute inset-0 opacity-20 bg-pattern"></div>
+          <div class="absolute bottom-0 left-0 p-6 text-white">
+            <div class="text-3xl font-extrabold">$4,800+</div>
+            <div class="text-white/70 text-sm">Monthly Revenue</div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-primary-100 overflow-hidden flex items-center justify-center text-primary-600 font-bold mr-4">
+              KM
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Kofi Mensah</h3>
+              <p class="text-gray-500 text-sm">Sells UI Templates & Themes</p>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-6">"I've been able to reach customers from across Africa and beyond. The platform's payment options make it easy for anyone to purchase my templates."</p>
+          <div class="flex text-yellow-400">
+            <% 5.times do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Testimonial 2 -->
+      <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="200">
+        <div class="h-48 bg-gradient-to-tr from-amber-500 to-orange-500 relative">
+          <div class="absolute inset-0 opacity-20 bg-pattern"></div>
+          <div class="absolute bottom-0 left-0 p-6 text-white">
+            <div class="text-3xl font-extrabold">$2,350+</div>
+            <div class="text-white/70 text-sm">Monthly Revenue</div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-amber-100 overflow-hidden flex items-center justify-center text-amber-600 font-bold mr-4">
+              AD
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Amina Danladi</h3>
+              <p class="text-gray-500 text-sm">Sells E-books & Courses</p>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-6">"As an author, I was looking for a platform that understood the African market. The mobile money integration has made it possible for me to sell my e-books across Nigeria."</p>
+          <div class="flex text-yellow-400">
+            <% 4.times do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            <% end %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Testimonial 3 -->
+      <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="300">
+        <div class="h-48 bg-gradient-to-tr from-green-500 to-teal-500 relative">
+          <div class="absolute inset-0 opacity-20 bg-pattern"></div>
+          <div class="absolute bottom-0 left-0 p-6 text-white">
+            <div class="text-3xl font-extrabold">$3,200+</div>
+            <div class="text-white/70 text-sm">Monthly Revenue</div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-green-100 overflow-hidden flex items-center justify-center text-green-600 font-bold mr-4">
+              DO
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">David Osei</h3>
+              <p class="text-gray-500 text-sm">Sells Digital Art</p>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-6">"The seller dashboard gives me all the insights I need to understand what's working. I've been able to grow my digital art business by 200% in just 6 months."</p>
+          <div class="flex text-yellow-400">
+            <% 5.times do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-white">
+  <div class="container px-4 mx-auto max-w-7xl">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Frequently Asked Questions</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Everything you need to know about selling on our platform
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <% @faq_items.each_with_index do |faq, index| %>
+        <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-primary-500" data-aos="fade-up" data-aos-delay="<%= index * 50 %>">
+          <h3 class="text-xl font-bold mb-3 text-gray-800"><%= faq[:question] %></h3>
+          <p class="text-gray-600"><%= faq[:answer] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section - Scarcity + Urgency -->
+<section class="py-16 bg-gradient-to-br from-primary-600 to-primary-800 text-white relative overflow-hidden">
+  <!-- Decorative elements -->
+  <div class="absolute top-0 left-0 w-full h-full bg-pattern opacity-10"></div>
+  <div class="absolute top-0 right-0 w-64 h-64 bg-primary-400 opacity-20 rounded-full filter blur-3xl"></div>
+  <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-400 opacity-20 rounded-full filter blur-3xl"></div>
+  
+  <div class="container px-4 mx-auto max-w-7xl relative z-10 text-center" data-aos="fade-up">
+    <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full py-2 px-4 mb-6 border border-white/20">
+      <span class="inline-block w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>
+      <span class="text-white text-sm font-medium">Limited Time Offer: First 100 Sellers Get 0% Commission for 3 Months</span>
+    </div>
+    
+    <h2 class="text-3xl md:text-5xl font-bold mb-6 max-w-3xl mx-auto leading-tight">Ready to Turn Your Digital Skills Into Income?</h2>
+    <p class="text-xl mb-8 text-white/90 max-w-3xl mx-auto">
+      Join our community of digital creators today and start earning income from your digital products. <span class="font-semibold">Don't leave money on the table.</span>
+    </p>
+    
+    <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-lg mx-auto">
+      <%= link_to new_seller_path, class: "btn-shine inline-flex items-center justify-center px-6 py-4 text-lg font-bold text-primary-700 bg-white rounded-lg hover:bg-gray-100 transition duration-300 shadow-lg" do %>
+        Create Your Seller Account
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      <% end %>
+      
+      <a href="#how-it-works" class="inline-flex items-center justify-center px-6 py-4 border border-white rounded-lg text-white hover:bg-white/10 transition duration-300 font-bold text-lg">
+        Learn More
+      </a>
+    </div>
+    
+    <div class="mt-8 flex items-center justify-center space-x-4">
+      <div class="flex -space-x-2">
+        <div class="w-8 h-8 rounded-full bg-amber-300 flex items-center justify-center text-amber-800 text-xs font-bold">JK</div>
+        <div class="w-8 h-8 rounded-full bg-green-300 flex items-center justify-center text-green-800 text-xs font-bold">TA</div>
+        <div class="w-8 h-8 rounded-full bg-red-300 flex items-center justify-center text-red-800 text-xs font-bold">MO</div>
+        <div class="w-8 h-8 rounded-full bg-blue-300 flex items-center justify-center text-blue-800 text-xs font-bold">LP</div>
+        <div class="w-8 h-8 rounded-full bg-purple-300 flex items-center justify-center text-purple-800 text-xs font-bold">FD</div>
+      </div>
+      <div class="text-sm text-white/80">
+        <span class="font-semibold text-white">38 people</span> signed up in the last 24 hours
+      </div>
+    </div>
+  </div>
+</section>

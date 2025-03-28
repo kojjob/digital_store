@@ -1,0 +1,74 @@
+<section class="py-20 bg-indigo-700 text-white" data-controller="carousel">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">What Our Users Say</h2>
+    
+    <div class="relative">
+      <div class="overflow-hidden" data-carousel-target="container">
+        <div class="flex transition-transform duration-500" data-carousel-target="track">
+          <% [
+            {
+              quote: "This platform transformed my small business into a nationwide brand. The cross-country selling feature allowed me to reach customers I never thought possible.",
+              author: "Kwame Mensah",
+              role: "Electronics Seller, Ghana",
+              image: "testimonial-1.jpg"
+            },
+            {
+              quote: "As a buyer, I appreciate the verification system for sellers. It gives me confidence that I'm purchasing authentic products from legitimate businesses.",
+              author: "Amina Okafor",
+              role: "Regular Customer, Nigeria",
+              image: "testimonial-2.jpg"
+            },
+            {
+              quote: "The analytics tools have helped me understand my customers better and optimize my product offerings. My sales have increased by 70% since joining.",
+              author: "Samuel Adeyemi",
+              role: "Fashion Retailer, Nigeria",
+              image: "testimonial-3.jpg"
+            }
+          ].each do |testimonial| %>
+            <div class="w-full flex-shrink-0 px-4">
+              <div class="bg-indigo-800 p-8 rounded-lg">
+                <div class="text-indigo-300 mb-4">
+                  <!-- Quote icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.999v10h-9.999z" />
+                  </svg>
+                </div>
+                <p class="text-lg mb-6"><%= testimonial[:quote] %></p>
+                <div class="flex items-center">
+                  <div class="w-12 h-12 rounded-full bg-indigo-500 overflow-hidden mr-4">
+                    <!-- We'd use a proper image here -->
+                    <div class="w-full h-full bg-indigo-400"></div>
+                  </div>
+                  <div>
+                    <h4 class="font-bold"><%= testimonial[:author] %></h4>
+                    <p class="text-indigo-300"><%= testimonial[:role] %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      
+      <button class="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white text-indigo-700 rounded-full p-2 shadow-lg"
+              data-action="carousel#previous">
+        <!-- Left arrow icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <button class="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white text-indigo-700 rounded-full p-2 shadow-lg"
+              data-action="carousel#next">
+        <!-- Right arrow icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="flex justify-center mt-8" data-carousel-target="indicators">
+      <!-- Will be populated by the carousel controller -->
+    </div>
+  </div>
+</section>

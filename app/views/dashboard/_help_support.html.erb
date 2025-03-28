@@ -1,0 +1,24 @@
+<%#
+  Help and support component
+%>
+
+<div class="mt-8 mb-16">
+  <div class="bg-indigo-50 rounded-lg shadow-sm overflow-hidden">
+    <div class="px-6 py-6 md:flex md:items-center md:justify-between">
+      <div class="flex-1 min-w-0">
+        <h2 class="text-lg font-medium leading-6 text-indigo-700">Need help getting started?</h2>
+        <p class="mt-1 text-sm text-indigo-500">
+          Our comprehensive resources and support team are here to help you succeed.
+        </p>
+      </div>
+      <div class="mt-4 flex md:mt-0 md:ml-6 space-x-3">
+        <a href="<%= defined?(help_path) ? help_path : "#" %>" class="inline-flex items-center px-4 py-2 border border-indigo-300 shadow-sm text-sm font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          View documentation
+        </a>
+        <a href="<%= defined?(contact_path) ? contact_path : "#" %>" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Contact support
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

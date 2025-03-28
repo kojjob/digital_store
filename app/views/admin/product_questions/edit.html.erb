@@ -1,0 +1,78 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-6">
+    <%= link_to admin_product_questions_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-900" do %>
+      <svg class="mr-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to Questions
+    <% end %>
+  </div>
+  
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @product_question.answered? ? "Edit Answer" : "Answer Question" %>
+      </h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        <%= @product_question.answered? ? "Edit your response to this customer question." : "Provide a helpful answer to this customer question." %>
+      </p>
+    </div>
+    
+    <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
+      <div class="grid grid-cols-1 gap-y-6">
+        <div>
+          <h4 class="text-sm font-medium text-gray-500">Product</h4>
+          <div class="mt-1 flex items-center">
+            <div class="flex-shrink-0 h-12 w-12 bg-gray-200 rounded-md overflow-hidden">
+              <% if @product_question.product.images.attached? %>
+                <%= image_tag @product_question.product.images.first, class: "h-full w-full object-cover" %>
+              <% elsif @product_question.product.product_images.any? && @product_question.product.product_images.first.respond_to?(:image) && @product_question.product.product_images.first.has_image? %>
+                <%= image_tag @product_question.product.product_images.first.image, class: "h-full w-full object-cover" %>
+              <% else %>
+                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              <% end %>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg font-medium text-gray-900">
+                <%= link_to @product_question.product.name, product_path(@product_question.product), class: "hover:text-green-600" %>
+              </h4>
+              <p class="text-sm text-gray-500">
+                <%= @product_question.product.category.name %> •
+                <%= @product_question.product.currency == 'NGN' ? '₦' : '₵' %><%= @product_question.product.price %>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-sm font-medium text-gray-500">Question from <%= @product_question.asked_by %></h4>
+          <div class="mt-1 p-4 bg-gray-50 rounded-lg">
+            <p class="text-sm text-gray-900"><%= @product_question.question %></p>
+          </div>
+          <p class="mt-1 text-xs text-gray-500 text-right">
+            Asked on <%= @product_question.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </p>
+        </div>
+        
+        <%= form_with model: [:admin, @product_question], local: true do |f| %>
+          <div>
+            <%= f.label :answer, "Your Answer", class: "block text-sm font-medium text-gray-700" %>
+            <div class="mt-1">
+              <%= f.text_area :answer, rows: 6, class: "shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "Provide your answer to the customer's question..." %>
+            </div>
+            <p class="mt-2 text-sm text-gray-500">
+              Write a clear, helpful answer. Be friendly and conversational in tone.
+            </p>
+          </div>
+          
+          <div class="mt-6 flex justify-end">
+            <%= link_to "Cancel", admin_product_question_path(@product_question), class: "mr-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+            <%= f.submit @product_question.answered? ? "Update Answer" : "Post Answer", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

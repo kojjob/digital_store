@@ -12,8 +12,8 @@
             <div class="p-6">
               <div class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
-                  <% if resource.respond_to?(:has_profile_picture?) && resource.has_profile_picture? %>
-                    <%= image_tag resource.profile_picture, class: "h-16 w-16 rounded-full object-cover" %>
+                  <% if resource.has_profile_picture? %>
+                    <%= image_tag url_for(resource.profile_picture), class: "h-16 w-16 rounded-full object-cover" %>
                   <% else %>
                     <div class="h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center">
                       <span class="text-indigo-800 font-medium text-xl">
@@ -148,12 +148,16 @@
             <div class="px-6 py-6 space-y-6">
               <!-- Profile Picture -->
               <div>
-                <div class="flex items-center">
-                  <div class="flex-shrink-0">
-                    <% if resource.respond_to?(:has_profile_picture?) && resource.has_profile_picture? %>
-                      <%= image_tag resource.profile_picture, class: "h-24 w-24 rounded-full object-cover" %>
+                <div class="flex flex-col md:flex-row md:items-center">
+                  <div class="flex-shrink-0 relative" data-controller="profile-upload">
+                    <!-- Current profile picture or initials -->
+                    <% if resource.has_profile_picture? %>
+                      <%= image_tag url_for(resource.profile_picture), 
+                          class: "h-24 w-24 rounded-full object-cover", 
+                          data: { profile_upload_target: "currentPhoto" } %>
                     <% else %>
-                      <div class="h-24 w-24 rounded-full bg-indigo-100 flex items-center justify-center">
+                      <div class="h-24 w-24 rounded-full bg-indigo-100 flex items-center justify-center"
+                           data-profile-upload-target="currentPhoto">
                         <span class="text-indigo-800 font-medium text-2xl">
                           <% if resource.respond_to?(:first_name) && resource.respond_to?(:last_name) && resource.first_name.present? && resource.last_name.present? %>
                             <%= resource.first_name.first.upcase %><%= resource.last_name.first.upcase %>
@@ -163,27 +167,47 @@
                         </span>
                       </div>
                     <% end %>
-                  </div>
-                  <div class="ml-6" data-controller="profile-upload">
-                    <div class="relative">
-                      <label for="profile_picture_upload" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer">
-                        Change photo
-                        <%= f.file_field :profile_picture, id: "profile_picture_upload", class: "sr-only", accept: "image/*", data: { profile_upload_target: "input", action: "change->profile-upload#previewImage" } %>
-                      </label>
-                      <button type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" data-action="profile-upload#removeImage">
-                        Remove
+                    
+                    <!-- Image preview for newly selected file -->
+                    <img src="#" alt="Profile preview" 
+                         class="h-24 w-24 rounded-full object-cover absolute top-0 left-0 hidden" 
+                         data-profile-upload-target="preview">
+                    
+                    <div class="mt-4 md:mt-0 md:ml-6 md:pl-0">
+                      <div class="relative">
+                        <label for="profile_picture_upload" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer">
+                          Change photo
+                          <%= f.file_field :profile_picture, id: "profile_picture_upload", class: "sr-only", accept: "image/*", data: { profile_upload_target: "input", action: "change->profile-upload#previewImage" } %>
+                        </label>
+                        <button type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" data-action="profile-upload#removeImage">
+                          Remove
+                        </button>
+                        <div class="ml-3">
+                          <%= f.check_box :remove_profile_picture, 
+                                         class: "h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500", 
+                                         data: { profile_upload_target: "removeCheckbox" } %>
+                          <%= f.label :remove_profile_picture, "Delete current profile picture", class: "ml-2 text-sm text-red-600" %>
+                        </div>
+                      </div>
+                      <p class="mt-2 text-xs text-gray-500" data-profile-upload-target="fileName">
+                        <% if resource.has_profile_picture? %>
+                          Current: <%= resource.profile_picture.filename %>
+                        <% else %>
+                          No image selected
+                        <% end %>
+                      </p>
+                      <p class="mt-1 text-xs text-gray-500">
+                        JPG, PNG or GIF. 1MB max.
+                      </p>
+                      
+                      <% if current_user.respond_to?(:admin?) && current_user.admin? %>
+                      <button type="button" 
+                              class="mt-4 text-xs text-gray-500 underline cursor-pointer" 
+                              data-action="profile-upload#troubleshoot">
+                        Debug profile image
                       </button>
-                    </div>
-                    <p class="mt-2 text-xs text-gray-500" data-profile-upload-target="fileName">
-                      <% if resource.respond_to?(:has_profile_picture?) && resource.has_profile_picture? %>
-                        Current: <%= resource.profile_picture.filename %>
-                      <% else %>
-                        No image selected
                       <% end %>
-                    </p>
-                    <p class="mt-1 text-xs text-gray-500">
-                      JPG, PNG or GIF. 1MB max.
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -193,14 +217,14 @@
                 <div class="sm:col-span-3">
                   <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
                   <div class="mt-1">
-                    <%= f.text_field :first_name, class: "py-2 px-3shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                    <%= f.text_field :first_name, class: "py-2 px-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md" %>
                   </div>
                 </div>
 
                 <div class="sm:col-span-3">
                   <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
                   <div class="mt-1">
-                    <%= f.text_field :last_name, class: "py-2 px-3shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                    <%= f.text_field :last_name, class: "py-2 px-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md" %>
                   </div>
                 </div>
               </div>
@@ -209,7 +233,7 @@
               <div>
                 <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1">
-                  <%= f.email_field :email, autocomplete: "email", class: "py-2 px-3shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                  <%= f.email_field :email, autocomplete: "email", class: "py-2 px-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md" %>
                 </div>
                 <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
                   <p class="mt-2 text-sm text-yellow-600">
@@ -225,7 +249,7 @@
               <div>
                 <label for="about" class="block text-sm font-medium text-gray-700">About</label>
                 <div class="mt-1">
-                  <textarea id="about" name="user[about]" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a few sentences about yourself"><%= resource.respond_to?(:about) ? resource.about : "" %></textarea>
+                  <textarea id="about" name="user[about]" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md" placeholder="Write a few sentences about yourself"><%= resource.respond_to?(:about) ? resource.about : "" %></textarea>
                 </div>
                 <p class="mt-2 text-sm text-gray-500">Brief description for your profile.</p>
               </div>
@@ -257,7 +281,7 @@
               <div>
                 <%= f.label :current_password, "Current Password", class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1 relative" data-controller="password-toggle">
-                  <%= f.password_field :current_password, autocomplete: "current-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md pr-10", placeholder: "Enter your current password", data: { password_toggle_target: "input" } %>
+                  <%= f.password_field :current_password, autocomplete: "current-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md pr-10", placeholder: "Enter your current password", data: { password_toggle_target: "input" } %>
                   <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" data-action="password-toggle#toggle">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-password-toggle-target="eyeIcon">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -270,7 +294,7 @@
               <div>
                 <%= f.label :password, "New Password", class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1 relative" data-controller="password-toggle">
-                  <%= f.password_field :password, autocomplete: "new-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md pr-10", placeholder: "Enter your new password", data: { password_toggle_target: "input" } %>
+                  <%= f.password_field :password, autocomplete: "new-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md pr-10", placeholder: "Enter your new password", data: { password_toggle_target: "input" } %>
                   <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" data-action="password-toggle#toggle">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-password-toggle-target="eyeIcon">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -288,7 +312,7 @@
               <div>
                 <%= f.label :password_confirmation, "Confirm New Password", class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1 relative" data-controller="password-toggle">
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md pr-10", placeholder: "Confirm your new password", data: { password_toggle_target: "input" } %>
+                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md pr-10", placeholder: "Confirm your new password", data: { password_toggle_target: "input" } %>
                   <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" data-action="password-toggle#toggle">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-password-toggle-target="eyeIcon">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -782,7 +806,7 @@
                   To confirm, type "DELETE MY ACCOUNT" below:
                 </label>
                 <div class="mt-1">
-                  <input type="text" id="delete_confirmation" name="delete_confirmation" class="shadow-sm focus:ring-red-500 focus:border-red-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="DELETE MY ACCOUNT" data-controller="delete-confirmation" data-action="input->delete-confirmation#validate" data-delete-confirmation-target="input">
+                  <input type="text" id="delete_confirmation" name="delete_confirmation" class="shadow-sm focus:ring-red-500 focus:border-red-500 block w-full sm:text-sm border-2 border-gray-400 bg-white rounded-md" placeholder="DELETE MY ACCOUNT" data-controller="delete-confirmation" data-action="input->delete-confirmation#validate" data-delete-confirmation-target="input">
                 </div>
               </div>
 
@@ -906,10 +930,12 @@
       
       // Profile upload controller
       window.Stimulus.register('profile-upload', class extends window.Stimulus.Controller {
-        static targets = ['input', 'fileName'];
+        static targets = ['input', 'fileName', 'checkbox'];
         
         connect() {
           console.log('Profile upload controller connected');
+          // Find the checkbox by name
+          this.checkbox = document.querySelector('input[name="user[remove_profile_picture]"]');
         }
         
         previewImage(event) {
@@ -917,8 +943,8 @@
           
           if (file) {
             this.fileNameTarget.textContent = `Selected: ${file.name}`;
-            
-            // You could add image preview functionality here if desired
+            // Uncheck remove checkbox when new file is selected
+            if (this.checkbox) this.checkbox.checked = false;
           }
         }
         
@@ -926,7 +952,8 @@
           this.inputTarget.value = '';
           this.fileNameTarget.textContent = 'No image selected';
           
-          // Add logic to remove the current profile picture (could use a hidden checkbox)
+          // Check the remove checkbox
+          if (this.checkbox) this.checkbox.checked = true;
         }
       });
       

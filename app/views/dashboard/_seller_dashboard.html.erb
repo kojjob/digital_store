@@ -1,0 +1,120 @@
+<%#
+  Seller-specific dashboard content
+%>
+
+<!-- Seller Stats -->
+<div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+  <%= render 'dashboard/stat_card', 
+    icon: "lightning", 
+    color: "blue", 
+    title: "Total Revenue", 
+    value: number_to_currency(@total_revenue), 
+    change_percentage: @revenue_change, 
+    link_text: "View details", 
+    link_path: defined?(revenue_report_path) ? revenue_report_path : "#" 
+  %>
+  
+  <%= render 'dashboard/stat_card', 
+    icon: "cart", 
+    color: "green", 
+    title: "Total Orders", 
+    value: @total_orders, 
+    change_percentage: @orders_change, 
+    link_text: "View all", 
+    link_path: orders_path 
+  %>
+  
+  <%= render 'dashboard/stat_card', 
+    icon: "user", 
+    color: "amber", 
+    title: "Total Customers", 
+    value: @total_customers, 
+    change_percentage: @customers_change,
+    link_text: "View all", 
+    link_path: defined?(customers_path) ? customers_path : "#" 
+  %>
+  
+  <%= render 'dashboard/stat_card', 
+    icon: "star", 
+    color: "peach", 
+    title: "Total Products", 
+    value: @total_products, 
+    change_percentage: @products_change, 
+    link_text: "View all", 
+    link_path: products_path 
+  %>
+</div>
+
+<!-- Recent Orders -->
+<div class="mt-8">
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Orders</h3>
+    <div class="text-sm">
+      <a href="<%= orders_path %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+    </div>
+  </div>
+  <div class="mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <% if @recent_orders.present? && @recent_orders.any? %>
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @recent_orders.each do |order| %>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#<%= order.id %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= order.user.try(:full_name) || "Unknown Customer" %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= order.product.try(:name) || "Unknown Product" %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= number_to_currency(order.total_amount) %></td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <%= order.status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+                    <%= order.status.try(:titleize) || "Unknown" %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= order.created_at.try(:strftime, "%B %d, %Y") || "Unknown Date" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="py-10 text-center">
+          <div class="mx-auto h-12 w-12 text-gray-400">
+            <%= render 'shared/icon', name: "cart", size: "lg", color: "gray" %>
+          </div>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No orders yet</h3>
+          <p class="mt-1 text-sm text-gray-500">
+            Start selling to see your orders here.
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% if !current_user.seller.verified? %>
+  <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <p class="text-sm text-yellow-700">
+          Your seller account is pending verification. You'll be able to list products once your account is approved.
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- Analytics Dashboard -->
+<%= render 'dashboard/analytics_dashboard' %>
