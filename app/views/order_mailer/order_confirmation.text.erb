@@ -1,0 +1,24 @@
+Thank you for your order!
+
+Hello <%= @user.first_name || @user.email %>,
+
+Thank you for your order! We've received your order and it's currently being processed.
+
+ORDER #<%= @order.id %>
+Placed on <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+
+Product: <%= @product.name %>
+Price: $<%= sprintf("%.2f", @product.price) %>
+
+Total: $<%= sprintf("%.2f", @order.total_amount) %>
+
+Your order is currently in <%= @order.status.capitalize %> status. Once we've confirmed your payment, we'll send you another email with access to your purchased product.
+
+You can view the details of your order here:
+<%= order_url(@order) %>
+
+Thank you for shopping with Digital Store!
+
+---
+© <%= Date.today.year %> Digital Store. All rights reserved.
+If you have any questions, please contact our support team at support@digitalstore.com.

@@ -37,8 +37,34 @@ class CheckoutsController < ApplicationController
       return
     end
     
-    # Redirect to the payments controller to handle payment
-    redirect_to create_payment_path(payment_method: payment_method)
+    # Create a pending order
+    begin
+      # Get the product (assuming single product checkouts for now)
+      product = @product || @cart.cart_items.first&.product
+      
+      if product.nil?
+        redirect_to checkout_path, alert: "Your cart is empty"
+        return
+      end
+      
+      # Create order
+      order = Order.create!(
+        user: current_user,
+        product: product,
+        total_amount: @cart.total,
+        status: "pending",
+        payment_status: "pending"
+      )
+      
+      # Send order confirmation email
+      OrderMailer.order_confirmation(order).deliver_later
+      
+      # Redirect to the payments controller to handle payment
+      redirect_to create_payment_path(payment_method: payment_method, order_id: order.id)
+    rescue => e
+      Rails.logger.error("Error creating order: #{e.message}")
+      redirect_to checkout_path, alert: "There was a problem processing your order. Please try again."
+    end
   end
 
   private

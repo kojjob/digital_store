@@ -1,0 +1,38 @@
+<h2>Thank you for your order!</h2>
+
+<p>Hello <%= @user.first_name || @user.email %>,</p>
+
+<p>Thank you for your order! We've received your order and it's currently being processed.</p>
+
+<div class="order-detail">
+  <div class="order-header">
+    <h3>Order #<%= @order.id %></h3>
+    <p>Placed on <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+  </div>
+  
+  <div class="order-content">
+    <div class="product-row">
+      <div class="product-info">
+        <h4><%= @product.name %></h4>
+        <p><%= @product.short_description %></p>
+      </div>
+      <div class="product-price">
+        <p>$<%= sprintf("%.2f", @product.price) %></p>
+      </div>
+    </div>
+    
+    <div class="order-total">
+      <p>Total: $<%= sprintf("%.2f", @order.total_amount) %></p>
+    </div>
+  </div>
+</div>
+
+<p>Your order is currently in <strong><%= @order.status.capitalize %></strong> status. Once we've confirmed your payment, we'll send you another email with access to your purchased product.</p>
+
+<p>You can view the details of your order by clicking the button below:</p>
+
+<p>
+  <a href="<%= order_url(@order) %>" class="button">View Order</a>
+</p>
+
+<p>Thank you for shopping with Digital Store!</p>

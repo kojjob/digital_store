@@ -1,0 +1,51 @@
+<h2>Payment Received - Thank You!</h2>
+
+<p>Hello <%= @user.first_name || @user.email %>,</p>
+
+<p>Good news! We've received your payment for order #<%= @order.id %>. Your order has been updated to <strong><%= @order.status.capitalize %></strong> status.</p>
+
+<div class="order-detail">
+  <div class="order-header">
+    <h3>Order #<%= @order.id %> - PAID</h3>
+    <p>Ordered on <%= @order.created_at.strftime("%B %d, %Y") %> | Paid on <%= Time.current.strftime("%B %d, %Y") %></p>
+  </div>
+  
+  <div class="order-content">
+    <div class="product-row">
+      <div class="product-info">
+        <h4><%= @product.name %></h4>
+        <p><%= @product.short_description %></p>
+      </div>
+      <div class="product-price">
+        <p>$<%= sprintf("%.2f", @product.price) %></p>
+      </div>
+    </div>
+    
+    <div class="order-total">
+      <p>Total: $<%= sprintf("%.2f", @order.total_amount) %></p>
+      <p>Payment Method: <%= @order.payment_processor&.upcase || 'Online Payment' %></p>
+    </div>
+  </div>
+</div>
+
+<% if @download_link && @download_link.valid_for_download? %>
+  <div class="download-info">
+    <h3>Your Digital Product is Ready for Download!</h3>
+    <p>Your purchase included a digital product that is now ready to download.</p>
+    <p>You can download <strong><%= @product.name %></strong> by clicking the button below or by visiting your account page:</p>
+    
+    <p>
+      <a href="<%= download_url(@download_link.token) %>" class="button">Download Now</a>
+    </p>
+    
+    <p><small>This download link expires on <%= @download_link.expires_at.strftime("%B %d, %Y") %> and can be used <%= @download_link.download_limit %> times.</small></p>
+  </div>
+<% end %>
+
+<p>You can view the full details of your order by clicking the button below:</p>
+
+<p>
+  <a href="<%= order_url(@order) %>" class="button">View Order Details</a>
+</p>
+
+<p>Thank you for shopping with Digital Store! We hope you enjoy your purchase.</p>

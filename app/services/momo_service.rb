@@ -134,7 +134,7 @@ class MomoService
         
         # Create a download link if this is a digital product with a file
         if order.product.digital_file.attached?
-          DownloadLink.create!(
+          download_link = DownloadLink.create!(
             user: order.user,
             product: order.product,
             order: order,
@@ -144,6 +144,13 @@ class MomoService
             file_size: order.product.digital_file.byte_size,
             content_type: order.product.digital_file.content_type
           )
+          
+          # Send the payment confirmation and download ready emails
+          OrderMailer.payment_confirmation(order).deliver_later
+          OrderMailer.download_ready(download_link).deliver_later
+        else
+          # Send only the payment confirmation email
+          OrderMailer.payment_confirmation(order).deliver_later
         end
         
         Rails.logger.info("Order ##{order.id} marked as paid via MoMo webhook")
