@@ -70,14 +70,28 @@
                         <div class="mt-2 sm:mt-0 text-right">
                           <p class="text-base font-medium text-gray-900">$<%= sprintf("%.2f", @order.product.price) %></p>
                           <% if @order.status == 'paid' || @order.status == 'completed' %>
-                            <div class="mt-2">
-                              <%= link_to "#", class: "inline-flex items-center text-sm text-indigo-600 hover:text-indigo-800" do %>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Download
-                              <% end %>
-                            </div>
+                            <% download_link = DownloadLink.find_by(order: @order, user: current_user) %>
+                            <% if download_link&.valid_for_download? %>
+                              <div class="mt-2">
+                                <%= link_to download_path(download_link.token), class: "inline-flex items-center text-sm text-indigo-600 hover:text-indigo-800" do %>
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                  </svg>
+                                  Download
+                                <% end %>
+                              </div>
+                              <div class="mt-1 text-xs text-gray-500">
+                                <%= download_link.download_count %> of <%= download_link.download_limit %> downloads used
+                              </div>
+                            <% elsif download_link && download_link.expired? %>
+                              <div class="mt-2 text-sm text-red-600">
+                                Download expired
+                              </div>
+                            <% elsif download_link && download_link.download_limit_reached? %>
+                              <div class="mt-2 text-sm text-red-600">
+                                Download limit reached
+                              </div>
+                            <% end %>
                           <% end %>
                         </div>
                       </div>

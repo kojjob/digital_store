@@ -11,7 +11,9 @@ class Product < ApplicationRecord
   has_many :wishlist_items, dependent: :destroy
   has_many :product_images, dependent: :destroy
   has_many :product_questions, dependent: :destroy
+  has_many :download_links, dependent: :destroy
   has_many_attached :images
+  has_one_attached :digital_file
 
   # Validations
   validates :name, presence: true, length: { minimum: 3, maximum: 100 }

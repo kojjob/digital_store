@@ -111,6 +111,20 @@ class StripeService
         status: 'paid',
         payment_status: 'paid'
       )
+      
+      # Create a download link if this is a digital product with a file
+      if order.product.digital_file.attached?
+        DownloadLink.create!(
+          user: order.user,
+          product: order.product,
+          order: order,
+          expires_at: 30.days.from_now,
+          download_limit: 5,
+          file_name: order.product.digital_file.filename.to_s,
+          file_size: order.product.digital_file.byte_size,
+          content_type: order.product.digital_file.content_type
+        )
+      end
       Rails.logger.info("Order ##{order.id} marked as paid via webhook")
       
       # Here you would trigger any post-payment processes

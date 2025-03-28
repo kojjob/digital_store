@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product: one
+  user: one
+  token: MyString
+  expires_at: 2025-03-28 10:43:01
+  download_count: 1
+  download_limit: 1
+  active: false
+
+two:
+  product: two
+  user: two
+  token: MyString
+  expires_at: 2025-03-28 10:43:01
+  download_count: 1
+  download_limit: 1
+  active: false

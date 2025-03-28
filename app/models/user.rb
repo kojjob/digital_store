@@ -28,6 +28,7 @@ class User < ApplicationRecord
   has_many :activities, class_name: "UserActivity", dependent: :destroy if existing_tables.include?("user_activities")
   has_many :notifications, dependent: :destroy if existing_tables.include?("notifications")
   has_many :wishlist_items, dependent: :destroy if existing_tables.include?("wishlist_items")
+  has_many :download_links, dependent: :destroy if existing_tables.include?("download_links")
   has_one_attached :profile_picture
 
   # Validations

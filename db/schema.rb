@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_28_100000) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_28_104301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -89,6 +89,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_100000) do
     t.string "icon_color", default: "blue"
     t.index ["parent_id"], name: "index_categories_on_parent_id"
     t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "download_links", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "user_id", null: false
+    t.string "token"
+    t.datetime "expires_at"
+    t.integer "download_count"
+    t.integer "download_limit"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_download_links_on_product_id"
+    t.index ["user_id"], name: "index_download_links_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -287,6 +301,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_100000) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
   add_foreign_key "categories", "categories", column: "parent_id"
+  add_foreign_key "download_links", "products"
+  add_foreign_key "download_links", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"

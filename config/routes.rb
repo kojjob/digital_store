@@ -44,7 +44,8 @@ Rails.application.routes.draw do
     get "account", to: "users/registrations#edit", as: :account
   end
   get "account/orders", to: "orders#index", as: :account_orders
-  get "account/downloads", to: "downloads#index", as: :account_downloads
+  get "account/downloads", to: "downloads#index", as: :downloads
+  get "account/downloads/:token", to: "downloads#show", as: :download
   get "account/wishlist", to: "wishlist_items#index", as: :account_wishlist
   post "account/wishlist/add", to: "wishlist_items#create", as: :add_to_wishlist
 
