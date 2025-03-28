@@ -59,6 +59,14 @@ Rails.application.routes.draw do
   get "checkout", to: "checkouts#new", as: :checkout
   post "checkout", to: "checkouts#create"
 
+  # Payment routes
+  post "payments", to: "payments#create", as: :create_payment
+  get "payments/stripe/success", to: "payments#stripe_success", as: :stripe_success
+  get "payments/stripe/cancel", to: "payments#stripe_cancel", as: :stripe_cancel
+  
+  # Stripe webhook
+  post "stripe/webhooks", to: "stripe_webhooks#create"
+
   # Dashboard
   get "dashboard", to: "dashboard#index", as: :dashboard
   get "dashboard/schedule", to: "dashboard#schedule", as: :dashboard_schedule

@@ -66,3 +66,4 @@ end
 
 gem "devise"
 gem "kaminari", "~> 1.2"
+gem "stripe"

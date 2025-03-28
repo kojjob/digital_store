@@ -23,6 +23,7 @@
           <% status_class = {
             'pending' => 'bg-yellow-100 text-yellow-800 border-yellow-200',
             'processing' => 'bg-blue-100 text-blue-800 border-blue-200',
+            'paid' => 'bg-green-100 text-green-800 border-green-200',
             'completed' => 'bg-green-100 text-green-800 border-green-200',
             'refunded' => 'bg-red-100 text-red-800 border-red-200'
           } %>
@@ -43,48 +44,45 @@
             <!-- Order Items -->
             <div class="px-4 py-5 sm:p-6">
               <div class="divide-y divide-gray-200">
-                <% if @order.line_items.present? %>
-                  <% @order.line_items.each do |item| %>
-                    <div class="py-4 flex flex-col sm:flex-row">
-                      <div class="flex-none sm:w-20 h-20 sm:h-auto bg-gray-100 rounded-md overflow-hidden mb-3 sm:mb-0 mr-4">
-                        <% if item.product&.product_images&.first&.image&.attached? %>
-                          <%= image_tag item.product.product_images.first.image, class: "h-full w-full object-cover" %>
-                        <% else %>
-                          <div class="w-full h-full flex items-center justify-center bg-gray-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                          </div>
-                        <% end %>
-                      </div>
-                      <div class="flex-1">
-                        <div class="flex flex-col sm:flex-row sm:justify-between">
-                          <div>
-                            <h3 class="text-base font-medium text-gray-900">
-                              <%= item.product&.name || "Product No Longer Available" %>
-                            </h3>
-                            <p class="text-sm text-gray-500">Qty: <%= item.quantity %></p>
-                            <% if item.product&.seller %>
-                              <p class="text-xs text-gray-500 mt-1">Sold by: <%= item.product.seller.business_name %></p>
-                            <% end %>
-                          </div>
-                          <div class="mt-2 sm:mt-0 text-right">
-                            <p class="text-base font-medium text-gray-900"><%= number_to_currency(item.unit_price) %></p>
-                            <% if item.product&.digital_download_url.present? %>
-                              <div class="mt-2">
-                                <%= link_to "#", class: "inline-flex items-center text-sm text-indigo-600 hover:text-indigo-800" do %>
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                  </svg>
-                                  Download
-                                <% end %>
-                              </div>
-                            <% end %>
-                          </div>
+                <% if @order.product.present? %>
+                  <div class="py-4 flex flex-col sm:flex-row">
+                    <div class="flex-none sm:w-20 h-20 sm:h-auto bg-gray-100 rounded-md overflow-hidden mb-3 sm:mb-0 mr-4">
+                      <% if @order.product.product_images.attached? %>
+                        <%= image_tag @order.product.product_images.first, class: "h-full w-full object-cover" %>
+                      <% else %>
+                        <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-col sm:flex-row sm:justify-between">
+                        <div>
+                          <h3 class="text-base font-medium text-gray-900">
+                            <%= @order.product.name || "Product No Longer Available" %>
+                          </h3>
+                          <% if @order.product.seller %>
+                            <p class="text-xs text-gray-500 mt-1">Sold by: <%= @order.product.seller.business_name %></p>
+                          <% end %>
+                        </div>
+                        <div class="mt-2 sm:mt-0 text-right">
+                          <p class="text-base font-medium text-gray-900">$<%= sprintf("%.2f", @order.product.price) %></p>
+                          <% if @order.status == 'paid' || @order.status == 'completed' %>
+                            <div class="mt-2">
+                              <%= link_to "#", class: "inline-flex items-center text-sm text-indigo-600 hover:text-indigo-800" do %>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Download
+                              <% end %>
+                            </div>
+                          <% end %>
                         </div>
                       </div>
                     </div>
-                  <% end %>
+                  </div>
                 <% else %>
                   <div class="py-4 text-gray-500 text-center">
                     No items in this order
@@ -123,17 +121,19 @@
                     <p class="text-xs text-gray-500"><%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
                   </div>
                 </div>
-                <div class="flex items-center">
-                  <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
+                <% if @order.status == 'paid' || @order.status == 'completed' %>
+                  <div class="flex items-center">
+                    <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-900">Download Links Email Sent</p>
+                      <p class="text-xs text-gray-500"><%= (@order.created_at + 5.minutes).strftime("%B %d, %Y at %I:%M %p") %></p>
+                    </div>
                   </div>
-                  <div>
-                    <p class="text-sm font-medium text-gray-900">Download Links Email Sent</p>
-                    <p class="text-xs text-gray-500"><%= (@order.created_at + 5.minutes).strftime("%B %d, %Y at %I:%M %p") %></p>
-                  </div>
-                </div>
+                <% end %>
               </div>
             </div>
           </div>
@@ -150,15 +150,11 @@
               <dl class="space-y-3">
                 <div class="flex justify-between">
                   <dt class="text-sm text-gray-600">Subtotal</dt>
-                  <dd class="text-sm font-medium text-gray-900"><%= number_to_currency(@order.total_amount.to_f - (@order.tax_amount.to_f || 0)) %></dd>
-                </div>
-                <div class="flex justify-between">
-                  <dt class="text-sm text-gray-600">Tax</dt>
-                  <dd class="text-sm font-medium text-gray-900"><%= number_to_currency(@order.tax_amount || 0) %></dd>
+                  <dd class="text-sm font-medium text-gray-900">$<%= sprintf("%.2f", @order.total_amount) %></dd>
                 </div>
                 <div class="pt-3 border-t border-gray-200 flex justify-between">
                   <dt class="text-base font-medium text-gray-900">Total</dt>
-                  <dd class="text-base font-medium text-indigo-600"><%= number_to_currency(@order.total_amount) %></dd>
+                  <dd class="text-base font-medium text-indigo-600">$<%= sprintf("%.2f", @order.total_amount) %></dd>
                 </div>
               </dl>
             </div>
@@ -171,7 +167,7 @@
             </div>
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center">
-                <% if @order.payment_method == 'mobile_money' %>
+                <% if @order.payment_processor == 'momo' %>
                   <div class="h-10 w-10 rounded bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -179,7 +175,7 @@
                   </div>
                   <div>
                     <p class="text-sm font-medium text-gray-900">Mobile Money</p>
-                    <p class="text-xs text-gray-500"><%= @order.payment_details || "Transaction completed" %></p>
+                    <p class="text-xs text-gray-500">Transaction ID: <%= @order.payment_id || "Not available" %></p>
                   </div>
                 <% else %>
                   <div class="h-10 w-10 rounded bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
@@ -188,10 +184,15 @@
                     </svg>
                   </div>
                   <div>
-                    <p class="text-sm font-medium text-gray-900">Card Payment</p>
-                    <p class="text-xs text-gray-500"><%= @order.payment_details || "Transaction completed" %></p>
+                    <p class="text-sm font-medium text-gray-900">Card Payment (Stripe)</p>
+                    <p class="text-xs text-gray-500">Transaction ID: <%= @order.payment_id ? @order.payment_id.truncate(20) : "Not available" %></p>
                   </div>
                 <% end %>
+              </div>
+              <div class="mt-4">
+                <span class="<%= @order.payment_status == 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %> px-2 py-1 text-xs font-medium rounded">
+                  <%= @order.payment_status.capitalize if @order.payment_status.present? %>
+                </span>
               </div>
             </div>
           </div>
@@ -206,4 +207,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>
