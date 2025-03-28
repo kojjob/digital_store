@@ -1,0 +1,33 @@
+<%#
+  Recent reviews component
+%>
+
+<div class="mt-8 mb-10">
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Reviews</h3>
+    <div class="text-sm">
+      <a href="<%= defined?(reviews_path) ? reviews_path : "#" %>" class="font-medium text-indigo-600 hover:text-indigo-900">View all reviews</a>
+    </div>
+  </div>
+  <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <% if @recent_reviews.present? && @recent_reviews.any? %>
+      <% @recent_reviews.each do |review| %>
+        <%= render 'dashboard/review_card', review: review %>
+      <% end %>
+    <% else %>
+      <div class="col-span-3 py-10 text-center bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="mx-auto h-12 w-12 text-gray-400">
+          <%= render 'shared/icon', name: "star", size: "lg", color: "gray" %>
+        </div>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No reviews yet</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          <% if current_user.seller? %>
+            Start selling to get reviews from your customers.
+          <% else %>
+            Purchase products and leave reviews to see them here.
+          <% end %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

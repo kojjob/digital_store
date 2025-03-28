@@ -1,0 +1,44 @@
+<%#
+  Review card component
+  
+  Required local variables:
+  - review: Review model instance with:
+    - user: User association
+    - rating: Integer - star rating
+    - content: String - review text
+    - created_at: DateTime - when the review was posted
+    - product: Product association (optional)
+%>
+
+<div class="bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+  <div class="p-6">
+    <div class="flex items-center">
+      <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+        <span class="text-indigo-800 font-medium">
+          <% if review.user.respond_to?(:first_name) && review.user.respond_to?(:last_name) && review.user.first_name.present? && review.user.last_name.present? %>
+            <%= review.user.first_name.first.upcase %><%= review.user.last_name.first.upcase %>
+          <% else %>
+            <%= review.user.email&.first&.upcase || 'U' %>
+          <% end %>
+        </span>
+      </div>
+      <div class="ml-4">
+        <h4 class="text-sm font-medium text-gray-900"><%= review.user.respond_to?(:full_name) ? review.user.full_name : review.user.email %></h4>
+        <div class="mt-1 flex items-center">
+          <% review.rating.to_i.times do %>
+            <svg class="h-4 w-4 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <p class="text-sm text-gray-500"><%= review.content %></p>
+    </div>
+    <div class="mt-6 flex items-center justify-between">
+      <span class="text-xs text-gray-500">Posted <%= time_ago_in_words(review.created_at) rescue "some time" %> ago</span>
+      <span class="text-xs font-medium text-indigo-600"><%= review.product&.name || "Product" %></span>
+    </div>
+  </div>
+</div>

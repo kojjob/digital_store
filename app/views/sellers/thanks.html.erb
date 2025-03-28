@@ -1,0 +1,87 @@
+<% content_for :title, "Thank You for Registering" %>
+
+<div class="bg-gray-50 min-h-screen py-12">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+      <!-- Success Banner -->
+      <div class="bg-gradient-to-r from-green-500 to-teal-400 px-6 py-8 md:p-10 text-white">
+        <div class="flex items-center justify-center">
+          <div class="bg-white bg-opacity-25 rounded-full p-2 mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h1 class="text-2xl md:text-3xl font-bold">Application Submitted!</h1>
+        </div>
+      </div>
+      
+      <!-- Content -->
+      <div class="p-6 md:p-10">
+        <div class="text-center mb-8">
+          <p class="text-lg text-gray-700 mb-4">
+            Thank you for applying to become a seller. Your application has been received and is being reviewed by our team.
+          </p>
+          <p class="text-gray-600">
+            We typically process applications within <span class="font-medium">1-2 business days</span>.
+          </p>
+        </div>
+        
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-blue-700">
+                You'll receive an email notification once your account is approved or if we need additional information.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Next Steps -->
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">What's Next?</h2>
+          <ol class="space-y-4">
+            <li class="flex">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-600 font-medium">1</div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-md font-medium text-gray-800">Application Review</h3>
+                <p class="mt-1 text-sm text-gray-600">Our team will review your business information and verification documents.</p>
+              </div>
+            </li>
+            <li class="flex">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-600 font-medium">2</div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-md font-medium text-gray-800">Account Approval</h3>
+                <p class="mt-1 text-sm text-gray-600">Once approved, you'll receive an email with details on how to access your seller dashboard.</p>
+              </div>
+            </li>
+            <li class="flex">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-600 font-medium">3</div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-md font-medium text-gray-800">List Your Products</h3>
+                <p class="mt-1 text-sm text-gray-600">Start adding your digital products and begin selling!</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        
+        <div class="flex flex-col items-center space-y-4">
+          <%= link_to "Return to Dashboard", dashboard_path, class: "w-full md:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <a href="mailto:support@digitalstore.com" class="text-sm text-gray-500 hover:text-gray-700">
+            Questions? Contact our support team
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

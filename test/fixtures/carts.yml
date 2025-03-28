@@ -1,0 +1,10 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+user_cart:
+  user: valid_user
+
+buyer_cart:
+  user: buyer
+
+empty_cart:
+  user: one

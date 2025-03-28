@@ -1,0 +1,44 @@
+<%# 
+  Reusable statistics card component
+  
+  Required local variables:
+  - icon: String - name of the icon to display
+  - color: String - color theme for the icon (blue, green, amber, red, etc.)
+  - title: String - card title
+  - value: String/Number - main statistic to display
+  - change_percentage: Float (optional) - percentage change to display
+  - link_text: String (optional) - text for the "View details" link
+  - link_path: String/Path (optional) - path for the link
+%>
+
+<div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+  <div class="p-5">
+    <div class="flex items-center">
+      <div class="flex-shrink-0">
+        <%= render 'shared/icon', name: icon, size: "md", color: color %>
+      </div>
+      <div class="ml-5 w-0 flex-1">
+        <dl>
+          <dt class="text-sm font-medium text-gray-500 truncate"><%= title %></dt>
+          <dd>
+            <div class="text-lg font-medium text-gray-900">
+              <%= value %>
+              <% if defined?(change_percentage) && change_percentage != 0 %>
+                <span class="ml-2 text-sm <%= change_percentage > 0 ? 'text-green-500' : 'text-red-500' %>">
+                  <%= change_percentage > 0 ? '+' : '' %><%= number_to_percentage(change_percentage, precision: 1) %>
+                </span>
+              <% end %>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <% if defined?(link_text) && defined?(link_path) %>
+    <div class="bg-gray-50 px-5 py-3">
+      <div class="text-sm">
+        <a href="<%= link_path %>" class="font-medium text-indigo-600 hover:text-indigo-900"><%= link_text %></a>
+      </div>
+    </div>
+  <% end %>
+</div>

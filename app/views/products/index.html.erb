@@ -1,6 +1,1320 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-8">Our Products</h1>
-  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    <!-- Product cards will go here -->
+<div class="bg-gradient-to-br from-white to-blue-50 min-h-screen">
+  <div class="w-full pt-6">
+    <!-- Hero carousel section - Z-pattern top horizontal line -->
+    <div class="mb-8 relative overflow-hidden shadow-lg" style="height: 66vh; min-height: 500px;">
+      <div id="hero-carousel" class="carousel-container relative h-full w-full">
+        <!-- Banner 1: Seasonal promotion with aspirational lifestyle imagery -->
+        <div class="carousel-slide bg-gradient-to-r from-blue-700 to-blue-500">
+          <div class="relative w-full px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center h-full">
+            <div class="text-white mb-6 md:mb-0 z-10 max-w-xl">
+              <h1 class="text-6xl font-bold mb-6 text-shadow-lg tracking-tight">Spring Collection</h1>
+              <p class="text-xl text-blue-50 max-w-lg leading-relaxed text-shadow-sm mb-8">Discover fresh styles and exclusive deals from our finest artisans</p>
+              <div class="mt-8">
+                <a href="#featured-products" class="inline-flex items-center px-10 py-5 border border-transparent rounded-lg shadow-md text-xl font-medium text-blue-600 bg-white hover:bg-blue-50 transition-colors duration-150 ease-in-out">
+                  Shop Now
+                  <svg class="ml-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="relative w-96 h-96 md:w-[28rem] md:h-[28rem] mt-6 md:mt-0 flex-shrink-0">
+              <div class="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-full animate-pulse-slow"></div>
+              <img src="/assets/seasonal_collection.jpg" alt="Spring Collection" class="relative z-10 object-cover rounded-lg shadow-xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Banner 2: Best-sellers showcase with subtle scarcity messaging -->
+        <div class="carousel-slide bg-gradient-to-r from-orange-600 to-orange-400">
+          <div class="relative w-full px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center h-full">
+            <div class="text-white mb-6 md:mb-0 z-10 max-w-xl">
+              <div class="mb-4 inline-flex items-center px-4 py-2 bg-orange-700 bg-opacity-60 rounded-lg backdrop-blur-sm">
+                <span class="text-sm font-bold uppercase tracking-wide">Top Rated</span>
+              </div>
+              <h1 class="text-6xl font-bold mb-6 text-shadow-lg tracking-tight">Best Sellers</h1>
+              <p class="text-xl text-orange-50 max-w-lg leading-relaxed text-shadow-sm mb-8">Our most popular items are flying off the shelves</p>
+              
+              <div class="mt-5 mb-6 inline-flex items-center px-4 py-2 bg-orange-700 bg-opacity-60 rounded-lg backdrop-blur-sm">
+                <svg class="mr-2 h-5 w-5 text-orange-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-base font-bold" id="banner-countdown">Sale ends in: 23:45:12</span>
+              </div>
+              
+              <div class="mt-8">
+                <a href="#best-sellers" class="inline-flex items-center px-10 py-5 border border-transparent rounded-lg shadow-md text-xl font-medium text-orange-600 bg-white hover:bg-orange-50 transition-colors duration-150 ease-in-out">
+                  Shop Now
+                </a>
+              </div>
+            </div>
+            <div class="flex items-end space-x-6 mt-6 md:mt-0 flex-shrink-0">
+              <div class="bg-white rounded-lg p-4 shadow-xl transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                <div class="relative">
+                  <img src="/assets/bestseller_1.jpg" alt="Best Seller Product" class="h-40 w-40 object-cover rounded">
+                  <div class="absolute -top-2 -right-2 bg-orange-500 text-white font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                    1
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg p-4 shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                <div class="relative">
+                  <img src="/assets/bestseller_2.jpg" alt="Best Seller Product" class="h-40 w-40 object-cover rounded">
+                  <div class="absolute -top-2 -right-2 bg-orange-400 text-white font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                    2
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Banner 3: New arrivals with curiosity-inducing partial product reveals -->
+        <div class="carousel-slide bg-gradient-to-r from-blue-800 to-purple-600">
+          <div class="relative w-full px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center h-full">
+            <div class="text-white mb-6 md:mb-0 z-10 max-w-xl">
+              <div class="mb-4 inline-flex items-center px-4 py-2 bg-blue-900 bg-opacity-60 rounded-lg backdrop-blur-sm">
+                <span class="text-sm font-bold uppercase tracking-wide">Just Arrived</span>
+              </div>
+              <h1 class="text-6xl font-bold mb-6 text-shadow-lg tracking-tight">New Arrivals</h1>
+              <p class="text-xl text-blue-50 max-w-lg leading-relaxed text-shadow-sm mb-8">Be the first to discover our latest innovations</p>
+              <div class="mt-8">
+                <a href="#new-arrivals" class="inline-flex items-center px-10 py-5 border border-transparent rounded-lg shadow-md text-xl font-medium text-blue-800 bg-white hover:bg-blue-50 transition-colors duration-150 ease-in-out">
+                  Explore Now
+                </a>
+              </div>
+            </div>
+            <!-- Partially revealed products for curiosity -->
+            <div class="relative flex mt-6 md:mt-0 flex-shrink-0">
+              <div class="absolute -left-10 top-5 w-32 h-32 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+              <div class="absolute left-20 -top-10 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+              <div class="absolute -bottom-10 left-10 w-32 h-32 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+              <div class="relative h-64 w-64 overflow-hidden rounded-lg shadow-2xl">
+                <!-- Partial reveal of new product -->
+                <div class="relative h-full w-full">
+                  <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-transparent to-transparent"></div>
+                  <img src="/assets/new_arrival.jpg" alt="New Arrival Teaser" class="h-full w-full object-cover">
+                  <div class="absolute bottom-3 left-3 right-3">
+                    <span class="text-white text-lg font-bold">Coming This Week</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Banner 4: Limited edition or exclusive products -->
+        <div class="carousel-slide bg-gradient-to-r from-red-700 to-red-500">
+          <div class="relative w-full px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center h-full">
+            <div class="text-white mb-6 md:mb-0 z-10 max-w-xl">
+              <div class="mb-4 inline-flex items-center px-4 py-2 bg-red-800 bg-opacity-60 rounded-lg backdrop-blur-sm">
+                <span class="text-sm font-bold uppercase tracking-wide text-red-100">Exclusive</span>
+              </div>
+              <h1 class="text-6xl font-bold mb-6 text-shadow-lg tracking-tight">Limited Edition</h1>
+              <p class="text-xl text-red-50 max-w-lg leading-relaxed text-shadow-sm mb-8">Handcrafted treasures with strictly limited availability</p>
+              <div class="flex items-center mt-4 mb-8">
+                <span class="text-white text-lg font-bold mr-3">Only 8 collections available</span>
+                <div class="w-32 h-4 bg-red-800 bg-opacity-60 rounded-full overflow-hidden">
+                  <div class="h-full w-1/3 bg-white rounded-full"></div>
+                </div>
+              </div>
+              <div class="mt-8">
+                <a href="#limited-edition" class="inline-flex items-center px-10 py-5 border border-transparent rounded-lg shadow-md text-xl font-medium text-red-700 bg-white hover:bg-red-50 transition-colors duration-150 ease-in-out">
+                  Shop Exclusive
+                </a>
+              </div>
+            </div>
+            <div class="relative mt-6 md:mt-0 flex-shrink-0">
+              <div class="absolute -inset-1 bg-white rounded-lg filter blur opacity-70"></div>
+              <div class="relative bg-white rounded-lg p-4 shadow-xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                <div class="relative">
+                  <img src="/assets/limited_edition.jpg" alt="Limited Edition Collection" class="h-64 w-64 object-cover rounded">
+                  <div class="absolute -top-3 -right-3 bg-red-600 text-white font-bold rounded-full px-2 py-1 text-xs uppercase tracking-wider">
+                    Limited
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Overlay gradient for better text readability -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent pointer-events-none"></div>
+        
+        <!-- Carousel navigation -->
+        <button type="button" aria-label="Previous slide" class="carousel-nav prev absolute top-1/2 left-6 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center hover:bg-white/50 transition-colors z-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+        <button type="button" aria-label="Next slide" class="carousel-nav next absolute top-1/2 right-6 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center hover:bg-white/50 transition-colors z-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+        
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+          <button type="button" aria-label="Go to slide 1" class="w-3 h-3 rounded-full bg-white opacity-60 hover:opacity-100 transition-opacity carousel-indicator active focus:outline-none" data-slide-index="0"></button>
+          <button type="button" aria-label="Go to slide 2" class="w-3 h-3 rounded-full bg-white opacity-60 hover:opacity-100 transition-opacity carousel-indicator focus:outline-none" data-slide-index="1"></button>
+          <button type="button" aria-label="Go to slide 3" class="w-3 h-3 rounded-full bg-white opacity-60 hover:opacity-100 transition-opacity carousel-indicator focus:outline-none" data-slide-index="2"></button>
+          <button type="button" aria-label="Go to slide 4" class="w-3 h-3 rounded-full bg-white opacity-60 hover:opacity-100 transition-opacity carousel-indicator focus:outline-none" data-slide-index="3"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content area -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Recently viewed items section - Creates psychological ownership -->
+      <div id="recently-viewed" class="mb-8 bg-white rounded-xl shadow-sm border border-blue-100 p-6 transform transition-all duration-300 hover:shadow-md">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+          Recently Viewed
+        </h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <% 6.times do |i| %>
+            <div class="bg-blue-50 rounded-lg overflow-hidden shadow-sm border border-blue-100 hover:shadow-md hover:border-blue-200 transition-all duration-300">
+              <div class="aspect-w-1 aspect-h-1 w-full">
+                <div class="flex h-full w-full items-center justify-center bg-blue-100">
+                  <svg class="h-10 w-10 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium text-gray-900 truncate group-hover:text-blue-700 transition-colors">
+                  Recent Product
+                </h3>
+                <p class="text-sm font-bold text-gray-900 mt-1">
+                  <%= params[:country] == 'nigeria' ? '₦' : '₵' %>1,299
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Breadcrumbs with enhanced styling - Z-pattern left -->
+      <nav class="py-3 mb-4 flex items-center" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2">
+          <li>
+            <%= link_to root_path, class: "text-blue-600 hover:text-blue-700" do %>
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+              </svg>
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              <% if @category %>
+                <%= link_to "Products", products_path, class: "ml-2 text-gray-500 hover:text-blue-600" %>
+              <% else %>
+                <span class="ml-2 text-blue-700 font-medium">Products</span>
+              <% end %>
+            </div>
+          </li>
+          <% if @category %>
+            <li>
+              <div class="flex items-center">
+                <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="ml-2 text-blue-700 font-medium"><%= @category.name %></span>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Main content area with filters and products - Z-pattern bottom horizontal -->
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Mobile filter toggle - Z-pattern top left -->
+        <div class="lg:hidden mb-4">
+          <button type="button" id="mobile-filter-toggle" class="w-full flex items-center justify-center px-4 py-3 border border-blue-300 rounded-lg shadow-sm bg-white text-blue-700 hover:bg-blue-50 transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+            Filter Products
+          </button>
+        </div>
+
+        <!-- Filters sidebar - Z-pattern bottom left -->
+        <div id="filters-sidebar" class="lg:col-span-1 lg:block hidden">
+          <div class="sticky top-4 space-y-6 bg-white rounded-xl shadow-sm border border-blue-100 p-6 transform transition-all duration-300 hover:shadow-md">
+            <div class="mb-4 pb-4 border-b border-gray-100">
+              <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                </svg>
+                Filters
+              </h2>
+            </div>
+
+            <!-- Categories filter with icons -->
+            <div class="mb-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                Categories
+              </h3>
+              <ul class="space-y-2">
+                <li class="transform transition-transform hover:translate-x-1">
+                  <%= link_to products_path(country: params[:country]), 
+                            class: "block py-1.5 px-2 rounded #{params[:category_id].blank? ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700 hover:text-blue-600'} transition duration-150" do %>
+                    <span class="flex items-center">
+                      <% if params[:category_id].blank? %>
+                        <svg class="w-4 h-4 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      <% end %>
+                      All Products
+                    </span>
+                  <% end %>
+                </li>
+                <% @categories.each do |category| %>
+                  <li class="transform transition-transform hover:translate-x-1">
+                    <%= link_to products_path(category_id: category.id, country: params[:country]), 
+                                class: "block py-1.5 px-2 rounded #{params[:category_id].to_i == category.id ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700 hover:text-blue-600'} transition duration-150" do %>
+                      <span class="flex items-center">
+                        <% if params[:category_id].to_i == category.id %>
+                          <svg class="w-4 h-4 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                          </svg>
+                        <% end %>
+                        <%= category.name %>
+                      </span>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <!-- Price range filter with slider -->
+            <div class="mb-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Price Range
+              </h3>
+              <%= form_with url: products_path, method: :get, class: "space-y-3", data: { controller: "filters" } do |f| %>
+                <%= f.hidden_field :category_id, value: params[:category_id] %>
+                <%= f.hidden_field :country, value: params[:country] %>
+                
+                <div class="flex items-center justify-between">
+                  <div class="w-5/12">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Min</label>
+                    <div class="relative rounded-md shadow-sm">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500 sm:text-sm"><%= params[:country] == 'nigeria' ? '₦' : '₵' %></span>
+                      </div>
+                      <%= f.number_field :min_price, value: params[:min_price], 
+                                      class: "block w-full pl-8 pr-3 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                                      placeholder: "0" %>
+                    </div>
+                  </div>
+                  <div class="text-gray-400 pt-6">—</div>
+                  <div class="w-5/12">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Max</label>
+                    <div class="relative rounded-md shadow-sm">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500 sm:text-sm"><%= params[:country] == 'nigeria' ? '₦' : '₵' %></span>
+                      </div>
+                      <%= f.number_field :max_price, value: params[:max_price], 
+                                      class: "block w-full pl-8 pr-3 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                                      placeholder: "1000" %>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="pt-2">
+                  <%= f.submit "Apply Filter", class: "w-full bg-gradient-to-r from-blue-600 to-blue-500 border border-transparent rounded-md py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition hover:scale-[1.02]" %>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Availability filter with toggle switches -->
+            <div class="mb-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Availability
+              </h3>
+              <%= form_with url: products_path, method: :get, id: "availability-form" do |f| %>
+                <%= f.hidden_field :category_id, value: params[:category_id] %>
+                <%= f.hidden_field :country, value: params[:country] %>
+                <%= f.hidden_field :min_price, value: params[:min_price] %>
+                <%= f.hidden_field :max_price, value: params[:max_price] %>
+                <%= f.hidden_field :search, value: params[:search] %>
+                
+                <ul class="space-y-3">
+                  <li class="flex items-center justify-between">
+                    <label for="in_stock" class="text-sm text-gray-700">In Stock Only</label>
+                    <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                      <%= check_box_tag 'in_stock', '1', params[:in_stock] == '1', 
+                                      class: "toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 border-gray-300 appearance-none cursor-pointer transition-transform duration-200 ease-in-out checked:right-0 checked:border-blue-500",
+                                      onchange: "document.getElementById('availability-form').submit()" %>
+                      <div class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer <%= params[:in_stock] == '1' ? 'bg-blue-500' : '' %>"></div>
+                    </div>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <label for="free_shipping" class="text-sm text-gray-700">Free Shipping</label>
+                    <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                      <%= check_box_tag 'free_shipping', '1', params[:free_shipping] == '1', 
+                                      class: "toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 border-gray-300 appearance-none cursor-pointer transition-transform duration-200 ease-in-out checked:right-0 checked:border-blue-500",
+                                      onchange: "document.getElementById('availability-form').submit()" %>
+                      <div class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer <%= params[:free_shipping] == '1' ? 'bg-blue-500' : '' %>"></div>
+                    </div>
+                  </li>
+                </ul>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products main content area -->
+        <div class="lg:col-span-3 space-y-8">
+          <!-- Enhanced search bar -->
+          <div class="relative">
+            <%= form_with url: products_path, method: :get, class: "flex" do |f| %>
+              <%= f.hidden_field :category_id, value: params[:category_id] %>
+              <%= f.hidden_field :country, value: params[:country] %>
+              <%= f.hidden_field :min_price, value: params[:min_price] %>
+              <%= f.hidden_field :max_price, value: params[:max_price] %>
+              <%= f.hidden_field :in_stock, value: params[:in_stock] %>
+              <%= f.hidden_field :free_shipping, value: params[:free_shipping] %>
+              
+              <div class="relative flex-grow">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </div>
+                <%= f.text_field :search, value: params[:search], 
+                            class: "block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-l-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm shadow-sm",
+                            placeholder: "Search for products..." %>
+              </div>
+              <%= f.submit "Search", class: "inline-flex items-center px-6 py-3 border border-transparent rounded-r-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            <% end %>
+          </div>
+
+          <!-- Country selector with enhanced visuals -->
+          <div class="mb-6 flex justify-center">
+            <div class="inline-flex items-center bg-blue-50 rounded-full p-1.5 shadow-sm">
+              <%= link_to products_path(country: 'ghana', category_id: params[:category_id]), 
+                        class: "relative px-5 py-2 rounded-full #{params[:country] != 'nigeria' ? 'bg-white text-blue-700 shadow-sm' : 'text-blue-600 hover:bg-white/10'} transition duration-150 ease-in-out country-selector", 
+                        data: { country: 'ghana' } do %>
+                <span class="flex items-center">
+                  <span class="text-xl mr-2">🇬🇭</span>
+                  <span class="font-medium">Ghana</span>
+                </span>
+                <% if params[:country] != 'nigeria' %>
+                  <span class="absolute inset-0 rounded-full border-2 border-blue-200 animate-pulse"></span>
+                <% end %>
+              <% end %>
+              <%= link_to products_path(country: 'nigeria', category_id: params[:category_id]),
+                        class: "relative px-5 py-2 rounded-full #{params[:country] == 'nigeria' ? 'bg-white text-blue-700 shadow-sm' : 'text-blue-600 hover:bg-white/10'} transition duration-150 ease-in-out country-selector",
+                        data: { country: 'nigeria' } do %>
+                <span class="flex items-center">
+                  <span class="text-xl mr-2">🇳🇬</span>
+                  <span class="font-medium">Nigeria</span>
+                </span>
+                <% if params[:country] == 'nigeria' %>
+                  <span class="absolute inset-0 rounded-full border-2 border-blue-200 animate-pulse"></span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+
+          <% if @products.any? %>
+            <!-- Featured products section (top margin products) -->
+            <div id="featured-products" class="mb-10">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900 flex items-center">
+                  <svg class="w-5 h-5 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                  </svg>
+                  Featured Products
+                </h2>
+                <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
+                  View all
+                  <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </a>
+              </div>
+              
+              <!-- Featured products grid -->
+              <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+                <% @products.select { |p| p.discounted? }.take(3).each do |product| %>
+                  <div class="group relative bg-gradient-to-b from-white to-blue-50 rounded-xl overflow-hidden shadow-md border border-blue-100 hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1">
+                    <!-- Featured badge -->
+                    <div class="absolute top-3 left-3 z-10 bg-orange-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-full shadow-sm">
+                      Featured
+                    </div>
+                    
+                    <!-- Product image with discount badge -->
+                    <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden relative">
+                      <% if product.images.attached? %>
+                        <%= image_tag product.images.first, class: "h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500", alt: "#{product.name} image" %>
+                      <% elsif product.product_images.any? && product.product_images.first.respond_to?(:image) && product.product_images.first.has_image? %>
+                        <%= image_tag product.product_images.first.image, class: "h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500", alt: product.product_images.first.safe_alt_text %>
+                      <% else %>
+                        <div class="flex h-full w-full items-center justify-center bg-blue-100">
+                          <svg class="h-16 w-16 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                      <% end %>
+                      
+                      <!-- Sale ribbon -->
+                      <div class="absolute top-0 right-0 bg-gradient-to-l from-red-600 to-red-500 text-white font-bold py-1.5 px-5 shadow-md">
+                        -<%= product.discount_percentage %>%
+                      </div>
+                      
+                      <!-- Limited time countdown for urgency -->
+                      <div class="absolute bottom-3 left-3 right-3 bg-black/60 backdrop-blur-sm text-white text-sm font-medium rounded-md px-3 py-1.5 flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-1 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="countdown-timer" data-minutes="<%= rand(10..59) %>" data-seconds="<%= rand(10..59) %>">
+                          Offer ends soon
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <!-- Product details with enhanced styling -->
+                    <div class="p-4">
+                      <!-- Star rating with precise decimals -->
+                      <div class="flex items-center mb-2">
+                        <div class="flex text-orange-400">
+                          <% full_stars = rand(3..4) %>
+                          <% half_star = [true, false].sample %>
+                          <% empty_stars = 5 - full_stars - (half_star ? 1 : 0) %>
+                          
+                          <% full_stars.times do %>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                            </svg>
+                          <% end %>
+                          
+                          <% if half_star %>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill-opacity="0.5"></path>
+                              <path d="M12 17.27V2l-2.81 6.63L2 9.24l5.46 4.73L5.82 21 12 17.27z" fill-opacity="1"></path>
+                            </svg>
+                          <% end %>
+                          
+                          <% empty_stars.times do %>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill-opacity="0.3"></path>
+                            </svg>
+                          <% end %>
+                        </div>
+                        <span class="ml-1 text-xs font-medium text-gray-500"><%= (full_stars + (half_star ? 0.5 : 0) + rand(0.1..0.4)).round(1) %></span>
+                      </div>
+                      
+                      <h3 class="text-base font-medium text-gray-900 mb-1 group-hover:text-blue-700 transition-colors">
+                        <%= link_to product.name, product_path(product), class: "hover:underline" %>
+                      </h3>
+                      
+                      <!-- One-line benefit statement -->
+                      <p class="text-sm text-gray-600 mb-2 italic">Premium quality, handcrafted with care</p>
+                      
+                      <div class="flex items-center justify-between">
+                        <p class="text-sm text-gray-500 flex items-center truncate">
+                          <span><%= product.seller.business_name %></span>
+                        </p>
+                        
+                        <!-- Price anchoring -->
+                        <div class="text-right">
+                          <p class="text-lg font-bold text-blue-700">
+                            <%= product.currency == 'NGN' ? '₦' : '₵' %><%= product.discounted_price %>
+                          </p>
+                          <p class="text-sm text-gray-500 line-through">
+                            <%= product.currency == 'NGN' ? '₦' : '₵' %><%= product.price %>
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <!-- Social proof indicator -->
+                      <div class="mt-2 text-xs text-gray-500 flex items-center">
+                        <svg class="w-4 h-4 text-blue-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span><%= rand(5..50) %> people purchased this week</span>
+                      </div>
+                      
+                      <!-- Stock indicator for scarcity -->
+                      <% if product.stock_quantity <= 5 && product.stock_quantity > 0 %>
+                        <div class="mt-2 text-xs text-red-600 font-semibold flex items-center">
+                          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                          </svg>
+                          Only <%= product.stock_quantity %> left in stock - order soon!
+                        </div>
+                      <% end %>
+                      
+                      <!-- Micro-commitment buttons -->
+                      <div class="mt-4 grid grid-cols-4 gap-2">
+                        <button class="col-span-3 bg-gradient-to-r from-blue-600 to-blue-500 border border-transparent rounded-md py-2 px-3 flex items-center justify-center text-sm font-medium text-white hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition hover:scale-[1.02] shadow-sm">
+                          <svg class="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                          </svg>
+                          Add to Cart
+                        </button>
+                        <button class="bg-white border border-blue-300 rounded-md py-2 flex items-center justify-center text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Main product grid with hover effects - Z-pattern bottom right -->
+            <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+              <% @products.reject { |p| p.discounted? }.each do |product| %>
+                <div class="group relative bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1">
+                  <!-- Product image with zoom effect -->
+                  <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden relative">
+                    <% if product.images.attached? %>
+                      <%= image_tag product.images.first, class: "h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500", alt: "#{product.name} image" %>
+                    <% elsif product.product_images.any? && product.product_images.first.respond_to?(:image) && product.product_images.first.has_image? %>
+                      <%= image_tag product.product_images.first.image, class: "h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500", alt: product.product_images.first.safe_alt_text %>
+                    <% else %>
+                      <div class="flex h-full w-full items-center justify-center bg-gray-100">
+                        <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    <% end %>
+                    
+                    <!-- Stock indicator for scarcity -->
+                    <% if product.stock_quantity <= 5 && product.stock_quantity > 0 %>
+                      <div class="absolute top-3 left-3 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full px-2.5 py-1">
+                        Only <%= product.stock_quantity %> left!
+                      </div>
+                    <% end %>
+                    
+                    <!-- Quick view button on hover -->
+                    <div class="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <button class="bg-white rounded-full p-2 shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <svg class="h-6 w-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Product details with enhanced styling -->
+                  <div class="p-4">
+                    <!-- Star rating with precise decimals -->
+                    <div class="flex items-center mb-2">
+                      <div class="flex text-orange-400">
+                        <% full_stars = rand(3..5) %>
+                        <% half_star = full_stars < 5 ? [true, false].sample : false %>
+                        <% empty_stars = 5 - full_stars - (half_star ? 1 : 0) %>
+                        
+                        <% full_stars.times do %>
+                          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                          </svg>
+                        <% end %>
+                        
+                        <% if half_star %>
+                          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill-opacity="0.5"></path>
+                            <path d="M12 17.27V2l-2.81 6.63L2 9.24l5.46 4.73L5.82 21 12 17.27z" fill-opacity="1"></path>
+                          </svg>
+                        <% end %>
+                        
+                        <% empty_stars.times do %>
+                          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill-opacity="0.3"></path>
+                          </svg>
+                        <% end %>
+                      </div>
+                      <span class="ml-1 text-xs font-medium text-gray-500"><%= (full_stars + (half_star ? 0.5 : 0) + rand(0.1..0.4)).round(1) %></span>
+                    </div>
+                    
+                    <div class="flex items-start justify-between mb-2">
+                      <div class="flex-1 min-w-0">
+                        <h3 class="text-base font-medium text-gray-900 truncate mb-1 group-hover:text-blue-700 transition-colors">
+                          <%= link_to product.name, product_path(product), class: "hover:underline" %>
+                        </h3>
+                        
+                        <!-- One-line benefit statement -->
+                        <p class="text-sm text-gray-600 mb-2">High-quality craftsmanship</p>
+                        
+                        <p class="text-sm text-gray-500 flex items-center">
+                          <span class="truncate"><%= product.seller.business_name %></span>
+                        </p>
+                      </div>
+                      
+                      <!-- Product price -->
+                      <div class="text-right ml-2">
+                        <p class="text-lg font-bold text-gray-900">
+                          <%= product.currency == 'NGN' ? '₦' : '₵' %><%= product.price %>
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <!-- Status badges with enhanced styling -->
+                    <div class="flex flex-wrap items-center mt-3 space-x-2">
+                      <% if product.stock_quantity > 0 %>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-green-500" fill="currentColor" viewBox="0 0 8 8">
+                            <circle cx="4" cy="4" r="3" />
+                          </svg>
+                          In stock
+                        </span>
+                      <% else %>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                          <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-red-500" fill="currentColor" viewBox="0 0 8 8">
+                            <circle cx="4" cy="4" r="3" />
+                          </svg>
+                          Out of stock
+                        </span>
+                      <% end %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <svg class="mr-1 h-3 w-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <%= product.shipping_time %>
+                      </span>
+                    </div>
+                    
+                    <!-- Social proof indicator -->
+                    <div class="mt-2 text-xs text-gray-500 flex items-center">
+                      <svg class="w-4 h-4 text-blue-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                      </svg>
+                      <span><%= rand(2..30) %> people purchased this week</span>
+                    </div>
+                    
+                    <!-- Micro-commitment buttons -->
+                    <div class="mt-4 grid grid-cols-4 gap-2">
+                      <button class="col-span-3 bg-gradient-to-r from-blue-600 to-blue-500 border border-transparent rounded-md py-2 px-3 flex items-center justify-center text-sm font-medium text-white hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition hover:scale-[1.02] shadow-sm">
+                        <svg class="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        Add to Cart
+                      </button>
+                      <button class="bg-white border border-blue-300 rounded-md py-2 flex items-center justify-center text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            
+            <!-- Frequently bought together section -->
+            <div class="mt-12 bg-white rounded-xl shadow-sm border border-blue-100 p-6 transform transition-all duration-300 hover:shadow-md">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"></path>
+                </svg>
+                Frequently Bought Together
+              </h2>
+              
+              <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="flex flex-wrap items-center justify-center mb-6 md:mb-0">
+                  <div class="w-20 h-20 rounded-lg bg-gray-100 flex items-center justify-center mx-2 mb-2">
+                    <img src="/assets/bundle_item1.jpg" alt="Bundle Item 1" class="max-h-16 max-w-16 object-contain">
+                  </div>
+                  <div class="mx-2">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                  </div>
+                  <div class="w-20 h-20 rounded-lg bg-gray-100 flex items-center justify-center mx-2 mb-2">
+                    <img src="/assets/bundle_item2.jpg" alt="Bundle Item 2" class="max-h-16 max-w-16 object-contain">
+                  </div>
+                  <div class="mx-2">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                  </div>
+                  <div class="w-20 h-20 rounded-lg bg-gray-100 flex items-center justify-center mx-2 mb-2">
+                    <img src="/assets/bundle_item3.jpg" alt="Bundle Item 3" class="max-h-16 max-w-16 object-contain">
+                  </div>
+                </div>
+                
+                <div class="text-center md:text-right">
+                  <div class="mb-2">
+                    <span class="text-gray-500 text-sm line-through"><%= params[:country] == 'nigeria' ? '₦' : '₵' %>4,597</span>
+                    <span class="text-xl font-bold text-blue-700 ml-2"><%= params[:country] == 'nigeria' ? '₦' : '₵' %>3,999</span>
+                  </div>
+                  <p class="text-green-600 text-sm font-medium mb-3">Save <%= params[:country] == 'nigeria' ? '₦' : '₵' %>598 when bought together</p>
+                  <button class="bg-gradient-to-r from-blue-600 to-blue-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition hover:scale-[1.02] shadow-sm">
+                    Add Bundle to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Enhanced pagination -->
+            <div class="mt-12 flex justify-center">
+              <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <div class="paginate-wrapper">
+                  <%= paginate @products %>
+                </div>
+              </nav>
+            </div>
+          <% else %>
+            <!-- Engaging empty state -->
+            <div class="rounded-xl overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 p-6 text-center">
+              <div class="flex flex-col items-center justify-center space-y-4">
+                <div class="rounded-full bg-blue-200 p-3">
+                  <svg class="h-8 w-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-lg font-medium text-blue-900">No products found</h3>
+                <p class="text-blue-700 max-w-md mx-auto">
+                  We couldn't find any products matching your criteria. Try adjusting your filters or search terms.
+                </p>
+                <%= link_to "Clear all filters", products_path(country: params[:country]), class: "mt-2 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Mobile filters slide-in panel (hidden by default) -->
+<div id="mobile-filters" class="fixed inset-0 overflow-hidden z-40 transform translate-x-full transition-transform duration-300 ease-in-out">
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" id="mobile-filters-backdrop"></div>
+    <div class="fixed inset-y-0 right-0 max-w-full flex">
+      <div class="relative w-screen max-w-md">
+        <div class="h-full flex flex-col bg-white shadow-xl overflow-y-auto">
+          <div class="py-6 px-4 bg-blue-600 sm:px-6">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-medium text-white">Filters</h2>
+              <button type="button" id="close-mobile-filters" class="text-blue-200 hover:text-white focus:outline-none">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="mt-6 relative flex-1 px-4 sm:px-6">
+            <!-- Clone of filter content for mobile -->
+            <div class="space-y-6">
+              <!-- Categories (mobile) -->
+              <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Categories</h3>
+                <ul class="space-y-2">
+                  <li>
+                    <%= link_to "All Products", products_path(country: params[:country]), class: "block px-2 py-2 rounded-md #{params[:category_id].blank? ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700 hover:text-blue-600'}" %>
+                  </li>
+                  <% @categories.each do |category| %>
+                    <li>
+                      <%= link_to category.name, products_path(category_id: category.id, country: params[:country]), 
+                                  class: "block px-2 py-2 rounded-md #{params[:category_id].to_i == category.id ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700 hover:text-blue-600'}" %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+
+              <!-- Price range (mobile) -->
+              <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Price Range</h3>
+                <%= form_with url: products_path, method: :get, class: "space-y-3" do |f| %>
+                  <%= f.hidden_field :category_id, value: params[:category_id] %>
+                  <%= f.hidden_field :country, value: params[:country] %>
+                  
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Min</label>
+                      <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <span class="text-gray-500 sm:text-sm"><%= params[:country] == 'nigeria' ? '₦' : '₵' %></span>
+                        </div>
+                        <%= f.number_field :min_price, value: params[:min_price], 
+                                        class: "block w-full pl-7 pr-3 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                                        placeholder: "0" %>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Max</label>
+                      <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <span class="text-gray-500 sm:text-sm"><%= params[:country] == 'nigeria' ? '₦' : '₵' %></span>
+                        </div>
+                        <%= f.number_field :max_price, value: params[:max_price], 
+                                        class: "block w-full pl-7 pr-3 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                                        placeholder: "1000" %>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="pt-2">
+                    <%= f.submit "Apply Filter", class: "w-full bg-blue-600 border border-transparent rounded-md py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- Availability (mobile) -->
+              <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Availability</h3>
+                <%= form_with url: products_path, method: :get, id: "mobile-availability-form" do |f| %>
+                  <%= f.hidden_field :category_id, value: params[:category_id] %>
+                  <%= f.hidden_field :country, value: params[:country] %>
+                  <%= f.hidden_field :min_price, value: params[:min_price] %>
+                  <%= f.hidden_field :max_price, value: params[:max_price] %>
+                  <%= f.hidden_field :search, value: params[:search] %>
+                  
+                  <ul class="space-y-3">
+                    <li class="flex items-center p-2 rounded-md hover:bg-gray-50">
+                      <%= check_box_tag 'in_stock', '1', params[:in_stock] == '1', 
+                                    class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500",
+                                    onchange: "document.getElementById('mobile-availability-form').submit()" %>
+                      <label for="in_stock" class="ml-3 text-sm text-gray-700">In Stock Only</label>
+                    </li>
+                    <li class="flex items-center p-2 rounded-md hover:bg-gray-50">
+                      <%= check_box_tag 'free_shipping', '1', params[:free_shipping] == '1', 
+                                    class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500",
+                                    onchange: "document.getElementById('mobile-availability-form').submit()" %>
+                      <label for="free_shipping" class="ml-3 text-sm text-gray-700">Free Shipping</label>
+                    </li>
+                  </ul>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mobile filter toggle functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
+    const mobileFilters = document.getElementById('mobile-filters');
+    const closeMobileFilters = document.getElementById('close-mobile-filters');
+    const mobileFiltersBackdrop = document.getElementById('mobile-filters-backdrop');
+    
+    if (mobileFilterToggle && mobileFilters && closeMobileFilters) {
+      mobileFilterToggle.addEventListener('click', function() {
+        mobileFilters.classList.remove('translate-x-full');
+      });
+      
+      closeMobileFilters.addEventListener('click', function() {
+        mobileFilters.classList.add('translate-x-full');
+      });
+      
+      mobileFiltersBackdrop.addEventListener('click', function() {
+        mobileFilters.classList.add('translate-x-full');
+      });
+    }
+    
+    // Carousel functionality
+    const initCarousel = () => {
+      // Select carousel elements
+      const carousel = document.getElementById('hero-carousel');
+      if (!carousel) return;
+      
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      if (!slides.length) return;
+      
+      const indicators = carousel.querySelectorAll('.carousel-indicator');
+      const prevBtn = carousel.querySelector('.carousel-nav.prev');
+      const nextBtn = carousel.querySelector('.carousel-nav.next');
+      
+      // Initialize state
+      let currentSlide = 0;
+      let isAnimating = false;
+      let slideInterval;
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      // Set up initial state
+      const setupInitialState = () => {
+        slides.forEach((slide, index) => {
+          // Position all slides absolutely and set initial opacity/visibility
+          slide.style.position = 'absolute';
+          slide.style.top = '0';
+          slide.style.left = '0';
+          slide.style.width = '100%';
+          slide.style.height = '100%';
+          slide.setAttribute('aria-hidden', index === 0 ? 'false' : 'true');
+          
+          if (index !== 0) {
+            slide.style.opacity = '0';
+            slide.style.visibility = 'hidden';
+          } else {
+            slide.style.opacity = '1';
+            slide.style.visibility = 'visible';
+          }
+        });
+        
+        // Set first indicator as active
+        if (indicators.length > 0) {
+          indicators[0].classList.add('opacity-100');
+          indicators[0].setAttribute('aria-current', 'true');
+        }
+      };
+      
+      // Function to show a specific slide
+      const showSlide = (index) => {
+        if (isAnimating || index === currentSlide) return;
+        isAnimating = true;
+        
+        // Stop the auto slide interval when user interacts
+        clearInterval(slideInterval);
+        
+        // Update aria-hidden attributes
+        slides[currentSlide].setAttribute('aria-hidden', 'true');
+        slides[index].setAttribute('aria-hidden', 'false');
+        
+        // Hide current slide
+        slides[currentSlide].style.opacity = '0';
+        setTimeout(() => {
+          slides[currentSlide].style.visibility = 'hidden';
+          
+          // Show new slide
+          slides[index].style.visibility = 'visible';
+          requestAnimationFrame(() => {
+            slides[index].style.opacity = '1';
+          });
+        }, 300);
+        
+        // Update indicators
+        if (indicators.length > 0) {
+          indicators[currentSlide].classList.remove('opacity-100');
+          indicators[currentSlide].setAttribute('aria-current', 'false');
+          indicators[index].classList.add('opacity-100');
+          indicators[index].setAttribute('aria-current', 'true');
+        }
+        
+        // Update currentSlide and reset animation flag after transition
+        currentSlide = index;
+        setTimeout(() => {
+          isAnimating = false;
+          startSlideInterval();
+        }, 600);
+      };
+      
+      // Navigate to next slide
+      const nextSlide = () => {
+        const next = (currentSlide + 1) % slides.length;
+        showSlide(next);
+      };
+      
+      // Navigate to previous slide
+      const prevSlide = () => {
+        const prev = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(prev);
+      };
+      
+      // Function to start auto-slide interval
+      const startSlideInterval = () => {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, 5000);
+      };
+      
+      // Set up event listeners
+      const setupEventListeners = () => {
+        // Next/prev button clicks
+        if (prevBtn) {
+          prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isAnimating) prevSlide();
+          });
+        }
+        
+        if (nextBtn) {
+          nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isAnimating) nextSlide();
+          });
+        }
+        
+        // Indicator clicks
+        indicators.forEach((indicator, index) => {
+          indicator.addEventListener('click', () => {
+            if (!isAnimating && index !== currentSlide) {
+              showSlide(index);
+            }
+          });
+        });
+        
+        // Keyboard navigation
+        carousel.setAttribute('tabindex', '0');
+        carousel.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            if (!isAnimating) prevSlide();
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            if (!isAnimating) nextSlide();
+          }
+        });
+        
+        // Touch events for swipe
+        carousel.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        carousel.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        }, { passive: true });
+        
+        // Pause autoplay on hover/focus
+        carousel.addEventListener('mouseenter', () => {
+          clearInterval(slideInterval);
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+          startSlideInterval();
+        });
+        
+        carousel.addEventListener('focusin', () => {
+          clearInterval(slideInterval);
+        });
+        
+        carousel.addEventListener('focusout', () => {
+          startSlideInterval();
+        });
+      };
+      
+      // Handle swipe gestures
+      const handleSwipe = () => {
+        const swipeThreshold = 50;
+        if (touchEndX < touchStartX - swipeThreshold) {
+          if (!isAnimating) nextSlide();
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+          if (!isAnimating) prevSlide();
+        }
+      };
+      
+      // Initialize
+      setupInitialState();
+      setupEventListeners();
+      startSlideInterval();
+      
+      // Window resize handling for responsiveness
+      window.addEventListener('resize', () => {
+        // Adjust any responsive behavior if needed
+      });
+      
+      // Return public API for programmatic control
+      return {
+        next: nextSlide,
+        prev: prevSlide,
+        goTo: showSlide
+      };
+    };
+    
+    // Initialize carousel and store API
+    const carouselAPI = initCarousel();
+    
+    // Handle country selector to prevent carousel from expanding
+    document.querySelectorAll('.country-selector').forEach(link => {
+      link.addEventListener('click', function(e) {
+        // Show a loading indicator if needed instead of just preventing default
+        // We'll use a subtle visual cue instead of preventing navigation
+        const countryName = this.getAttribute('data-country');
+        localStorage.setItem('selectedCountry', countryName);
+        // Let the navigation continue naturally
+      });
+    });
+    
+    // Check if there was a previous country selection after page load
+    const storedCountry = localStorage.getItem('selectedCountry');
+    if (storedCountry) {
+      // Could use this to preselect or perform any other actions
+      localStorage.removeItem('selectedCountry'); // Clear it after use
+    }
+      
+      // Update countdown timers
+      const updateCountdowns = () => {
+        document.querySelectorAll('.countdown-timer').forEach(timer => {
+          if (!timer.getAttribute('data-initialized')) {
+            // Initialize with random time between 10 minutes and 5 hours
+            const minutes = parseInt(timer.getAttribute('data-minutes')) || Math.floor(Math.random() * 290) + 10;
+            const seconds = parseInt(timer.getAttribute('data-seconds')) || Math.floor(Math.random() * 59);
+            
+            let totalSeconds = (minutes * 60) + seconds;
+            timer.setAttribute('data-total-seconds', totalSeconds);
+            timer.setAttribute('data-initialized', 'true');
+          }
+          
+          let totalSeconds = parseInt(timer.getAttribute('data-total-seconds'));
+          if (totalSeconds <= 0) {
+            // Reset to a new random time when it reaches zero
+            totalSeconds = Math.floor(Math.random() * 18000) + 600; // 10 minutes to 5 hours
+          } else {
+            totalSeconds--;
+          }
+          
+          timer.setAttribute('data-total-seconds', totalSeconds);
+          
+          const hours = Math.floor(totalSeconds / 3600);
+          const mins = Math.floor((totalSeconds % 3600) / 60);
+          const secs = totalSeconds % 60;
+          
+          let timeStr = '';
+          if (hours > 0) {
+            timeStr += `${hours}h `;
+          }
+          timeStr += `${mins.toString().padStart(2, '0')}m ${secs.toString().padStart(2, '0')}s`;
+          
+          timer.textContent = `Offer ends in: ${timeStr}`;
+          
+          // Banner countdown update
+          const bannerCountdown = document.getElementById('banner-countdown');
+          if (bannerCountdown) {
+            bannerCountdown.textContent = `Sale ends in: ${timeStr}`;
+          }
+        });
+      };
+      
+      // Update countdowns every second
+      setInterval(updateCountdowns, 1000);
+      updateCountdowns(); // Initial call
+    
+    // Additional styles for toggle checkboxes
+    const toggleCheckboxes = document.querySelectorAll('.toggle-checkbox');
+    toggleCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const label = this.nextElementSibling;
+        if (this.checked) {
+          label.classList.add('bg-blue-500');
+          label.classList.remove('bg-gray-300');
+        } else {
+          label.classList.remove('bg-blue-500');
+          label.classList.add('bg-gray-300');
+        }
+      });
+    });
+    
+    // Add custom styles to pagination
+    document.querySelectorAll('.paginate-wrapper a').forEach(link => {
+      link.classList.add('relative', 'inline-flex', 'items-center', 'px-4', 'py-2', 'text-sm', 'font-medium', 'text-gray-700', 'bg-white', 'border', 'border-gray-300', 'hover:bg-gray-50');
+    });
+    
+    document.querySelectorAll('.paginate-wrapper em.current').forEach(current => {
+      current.classList.add('z-10', 'bg-blue-50', 'border-blue-500', 'text-blue-600', 'relative', 'inline-flex', 'items-center', 'px-4', 'py-2', 'text-sm', 'font-medium');
+    });
+    
+    document.querySelectorAll('.paginate-wrapper span.gap').forEach(gap => {
+      gap.classList.add('relative', 'inline-flex', 'items-center', 'px-4', 'py-2', 'border', 'border-gray-300', 'bg-white', 'text-sm', 'font-medium', 'text-gray-700');
+    });
+  });
+</script>
+
+<style>
+  /* Custom styles for toggle checkboxes */
+  .toggle-checkbox:checked {
+    right: 0;
+    border-color: #3B82F6;
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    background-color: #3B82F6;
+  }
+  
+  /* Animation for the carousel */
+  .carousel-slide {
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    will-change: opacity, visibility;
+  }
+  
+  #hero-carousel {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Animations for blobs */
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(10px, -10px) scale(1.05); }
+    50% { transform: translate(0, 20px) scale(0.95); }
+    75% { transform: translate(-10px, -5px) scale(1.05); }
+  }
+  
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  
+  /* Slow pulse animation */
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.6; }
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  /* Animation for the discount badge */
+  @keyframes pulse-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  /* Apply the animation to discount badges */
+  .bg-gradient-to-l {
+    animation: pulse-scale 2s infinite;
+  }
+  
+  /* Make price inputs look good */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* Enhance focus states for better accessibility */
+  .focus\:ring-blue-500:focus {
+    --tw-ring-opacity: 0.5;
+    --tw-ring-color: rgba(59, 130, 246, var(--tw-ring-opacity));
+  }
+  
+  /* Z-pattern layout styling */
+  .z-pattern-start {
+    grid-column: 1;
+  }
+  
+  .z-pattern-end {
+    grid-column: -1;
+  }
+</style>

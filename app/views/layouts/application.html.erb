@@ -134,16 +134,20 @@
     }
   </style>
 </head>
-<body class="h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-200">
+<body class="">
   <!-- Flash Messages -->
   <%= render 'shared/flash_messages' %>
   
   <!-- Header -->
   <% unless controller_name == 'dashboard' %>
     <%= render 'shared/header' %>
-    <div class="h-20"></div> <!-- Spacer for fixed header -->
   <% end %>
   
   <%= yield %>
+  
+  <!-- Footer -->
+  <% unless controller_name == 'dashboard' %>
+    <%= render 'shared/footer' %>
+  <% end %>
 </body>
 </html>

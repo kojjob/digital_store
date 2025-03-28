@@ -1,0 +1,40 @@
+<!-- Featured Categories Section -->
+<section id="categories" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Shop By Category</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">Explore our curated collections of amazing products</p>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <% @featured_categories.each do |category| %>
+        <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+          <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
+            <img src="<%= category[:image_url] %>" class="w-full h-full object-center object-cover group-hover:scale-110 transition-transform duration-500" alt="<%= category[:name] %> Category">
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent">
+            <div class="absolute bottom-0 left-0 p-6">
+              <h3 class="text-xl font-semibold text-white mb-2"><%= category[:name] %></h3>
+              <p class="text-<%= category[:color] %>-200 mb-4"><%= category[:description] %></p>
+              <a href="#" class="inline-flex items-center text-white font-medium hover:underline">
+                Shop Now
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="text-center mt-10">
+      <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+        View All Categories
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section> 

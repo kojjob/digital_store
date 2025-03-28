@@ -1,0 +1,136 @@
+<div class="bg-white">
+  <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center text-sm font-medium mb-6">
+      <a href="<%= root_path %>" class="text-gray-500 hover:text-gray-700">Home</a>
+      <svg class="h-5 w-5 text-gray-300 mx-1" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+      </svg>
+      <a href="<%= products_path %>" class="text-gray-500 hover:text-gray-700">Products</a>
+      <svg class="h-5 w-5 text-gray-300 mx-1" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+      </svg>
+      <a href="<%= product_path(@product) %>" class="text-gray-500 hover:text-gray-700 truncate max-w-xs"><%= @product.name %></a>
+      <svg class="h-5 w-5 text-gray-300 mx-1" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+      </svg>
+      <span class="text-gray-900">Edit</span>
+    </nav>
+
+    <!-- Page header -->
+    <div class="md:flex md:items-center md:justify-between mb-8">
+      <div class="flex-1 min-w-0">
+        <h1 class="text-3xl font-bold leading-tight text-gray-900 sm:text-4xl sm:truncate">
+          Edit Product: <%= @product.name %>
+        </h1>
+        <p class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+          <span class="mt-2 flex items-center text-sm text-gray-500">
+            <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+            </svg>
+            Available in: <%= @product.available_in_ghana ? "Ghana" : "" %><%= @product.available_in_ghana && @product.available_in_nigeria ? " & " : "" %><%= @product.available_in_nigeria ? "Nigeria" : "" %>
+          </span>
+          <span class="mt-2 flex items-center text-sm text-gray-500">
+            <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+            </svg>
+            <%= @product.currency == "NGN" ? "₦" : "₵" %><%= number_with_precision(@product.price, precision: 2, delimiter: ',') %>
+          </span>
+          <span class="mt-2 flex items-center text-sm text-gray-500">
+            <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
+              <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
+            </svg>
+            Stock: <%= @product.stock_quantity %> units
+          </span>
+          <span class="mt-2 flex items-center text-sm">
+            <% if @product.published? %>
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                Published
+              </span>
+            <% else %>
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                Draft
+              </span>
+            <% end %>
+          </span>
+        </p>
+      </div>
+      <div class="mt-4 flex md:mt-0 md:ml-4">
+        <%= link_to "View Product", product_path(@product), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+        <button type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" data-bs-toggle="modal" data-bs-target="#deleteProductModal">
+          Delete Product
+        </button>
+      </div>
+    </div>
+
+    <!-- Product form -->
+    <%= render 'form', product: @product %>
+  </div>
+</div>
+
+<!-- Delete confirmation modal -->
+<div class="fixed z-10 inset-0 overflow-y-auto hidden" id="deleteProductModal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+              Delete Product
+            </h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500">
+                Are you sure you want to delete "<%= @product.name %>"? This action cannot be undone. This will permanently remove the product from your store and any active orders will be affected.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <%= button_to "Delete", product_path(@product), method: :delete, class: "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" %>
+        <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="document.getElementById('deleteProductModal').classList.add('hidden')">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for modal handling -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get the modal
+    const modal = document.getElementById('deleteProductModal');
+    
+    // Get the button that opens the modal
+    const deleteBtn = document.querySelector('[data-bs-target="#deleteProductModal"]');
+    
+    // Get the cancel button
+    const cancelBtn = modal.querySelector('.bg-white');
+    
+    // When the user clicks the button, open the modal
+    deleteBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    });
+    
+    // When the user clicks the cancel button, close the modal
+    cancelBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.classList.add('hidden');
+      }
+    });
+  });
+</script>

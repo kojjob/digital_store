@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Category One
+  description: Description for category one
+  slug: category-one
+  parent: 
+  position: 1
+  visible: true
+
+two:
+  name: Category Two
+  description: Description for category two
+  slug: category-two
+  parent:
+  position: 2
+  visible: true
+
+subcategory:
+  name: Subcategory
+  description: This is a subcategory for testing
+  slug: subcategory
+  parent: one
+  position: 3
+  visible: true

@@ -1,0 +1,110 @@
+<div class="bg-white">
+  <div class="max-w-7xl mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Checkout</h1>
+      <p class="mt-2 text-gray-500">Complete your purchase</p>
+      
+      <div class="mt-12">
+        <!-- Order Summary -->
+        <div class="bg-gray-50 rounded-lg p-6 mb-8">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
+          <div class="border-t border-gray-200 pt-4">
+            <% @cart.cart_items.each do |item| %>
+              <div class="flex justify-between py-2">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900"><%= item.product.name %></h3>
+                  <p class="text-sm text-gray-500">Qty: <%= item.quantity %></p>
+                </div>
+                <p class="text-sm font-medium text-gray-900">$<%= sprintf("%.2f", item.product.effective_price * item.quantity) %></p>
+              </div>
+            <% end %>
+            
+            <div class="border-t border-gray-200 pt-4 mt-4">
+              <div class="flex justify-between py-2">
+                <p class="text-sm text-gray-500">Subtotal</p>
+                <p class="text-sm font-medium text-gray-900">$<%= sprintf("%.2f", @cart.subtotal) %></p>
+              </div>
+              
+              <div class="flex justify-between py-2">
+                <p class="text-sm text-gray-500">Shipping</p>
+                <p class="text-sm font-medium text-gray-900">Calculated at next step</p>
+              </div>
+              
+              <div class="flex justify-between py-2">
+                <p class="text-sm text-gray-500">Tax</p>
+                <p class="text-sm font-medium text-gray-900">Calculated at next step</p>
+              </div>
+              
+              <div class="flex justify-between py-2 border-t border-gray-200 mt-2 pt-2">
+                <p class="text-base font-medium text-gray-900">Total</p>
+                <p class="text-base font-medium text-gray-900">$<%= sprintf("%.2f", @cart.total) %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Checkout Form -->
+        <%= form_with url: checkout_path, method: :post, class: "space-y-8" do |form| %>
+          <div>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Shipping Information</h2>
+            <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+              <div>
+                <%= form.label :first_name, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.text_field :first_name, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", value: current_user.first_name %>
+              </div>
+              
+              <div>
+                <%= form.label :last_name, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.text_field :last_name, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", value: current_user.last_name %>
+              </div>
+              
+              <div class="sm:col-span-2">
+                <%= form.label :address, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.text_field :address, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+              </div>
+              
+              <div>
+                <%= form.label :city, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.text_field :city, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+              </div>
+              
+              <div>
+                <%= form.label :postal_code, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.text_field :postal_code, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+              </div>
+              
+              <div class="sm:col-span-2">
+                <%= form.label :country, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.select :country, ["Ghana", "Nigeria", "United States", "Canada", "United Kingdom"], {}, class: "mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Payment Method</h2>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <%= form.radio_button :payment_method, "credit_card", class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300", checked: true %>
+                <%= form.label :payment_method_credit_card, "Credit Card", class: "ml-3 block text-sm font-medium text-gray-700" %>
+              </div>
+              
+              <div class="flex items-center">
+                <%= form.radio_button :payment_method, "paypal", class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" %>
+                <%= form.label :payment_method_paypal, "PayPal", class: "ml-3 block text-sm font-medium text-gray-700" %>
+              </div>
+              
+              <div class="flex items-center">
+                <%= form.radio_button :payment_method, "mobile_money", class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" %>
+                <%= form.label :payment_method_mobile_money, "Mobile Money", class: "ml-3 block text-sm font-medium text-gray-700" %>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <%= form.submit "Complete Order", class: "w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

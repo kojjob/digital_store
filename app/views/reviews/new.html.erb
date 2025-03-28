@@ -1,0 +1,82 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">Write a Review for <%= @product.name %></h1>
+
+  <%= form_with(model: [@product, @review], local: true, class: "space-y-6") do |form| %>
+    <% if @review.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <h2 class="font-bold"><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+        <ul class="list-disc list-inside">
+          <% @review.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= form.label :title, class: "block text-gray-700 font-bold mb-2" %>
+      <%= form.text_field :title, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :rating, class: "block text-gray-700 font-bold mb-2" %>
+      <div class="rating-input flex space-x-2">
+        <% (1..5).each do |i| %>
+          <div class="rating-star">
+            <%= form.radio_button :rating, i, class: "hidden" %>
+            <label for="review_rating_<%= i %>" class="cursor-pointer text-3xl" data-rating="<%= i %>">
+              ★
+            </label>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :content, class: "block text-gray-700 font-bold mb-2" %>
+      <%= form.text_area :content, rows: 5, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <%= form.submit "Submit Review", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+      <%= link_to "Cancel", product_path(@product), class: "text-blue-500 hover:text-blue-800" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const stars = document.querySelectorAll('.rating-star label');
+    
+    stars.forEach(star => {
+      star.addEventListener('click', function() {
+        const rating = this.getAttribute('data-rating');
+        
+        // Reset all stars
+        stars.forEach(s => s.classList.remove('text-yellow-500'));
+        
+        // Highlight stars up to the selected one
+        stars.forEach(s => {
+          if (parseInt(s.getAttribute('data-rating')) <= parseInt(rating)) {
+            s.classList.add('text-yellow-500');
+          }
+        });
+      });
+      
+      // Hover effects
+      star.addEventListener('mouseenter', function() {
+        const rating = this.getAttribute('data-rating');
+        
+        stars.forEach(s => {
+          if (parseInt(s.getAttribute('data-rating')) <= parseInt(rating)) {
+            s.classList.add('text-yellow-300');
+          }
+        });
+      });
+      
+      star.addEventListener('mouseleave', function() {
+        stars.forEach(s => s.classList.remove('text-yellow-300'));
+      });
+    });
+  });
+</script>

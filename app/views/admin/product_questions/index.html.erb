@@ -1,0 +1,107 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-900">Product Questions</h1>
+    
+    <div class="flex space-x-2">
+      <%= link_to "All Questions", admin_product_questions_path, class: "px-4 py-2 rounded-md #{params[:q].blank? ? 'bg-green-600 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'}" %>
+      <%= link_to "Unanswered", admin_product_questions_path(q: { answer_null: 1 }), class: "px-4 py-2 rounded-md #{params[:q]&.dig(:answer_null) == '1' ? 'bg-green-600 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'}" %>
+      <%= link_to "Answered", admin_product_questions_path(q: { answer_not_null: 1 }), class: "px-4 py-2 rounded-md #{params[:q]&.dig(:answer_not_null) == '1' ? 'bg-green-600 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'}" %>
+    </div>
+  </div>
+  
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+      <%= form_with url: admin_product_questions_path, method: :get, class: "flex items-center space-x-4" do |f| %>
+        <%= f.text_field :q, value: params[:q]&.dig(:question_or_answer_cont), name: "q[question_or_answer_cont]", placeholder: "Search questions or answers...", class: "shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+        <%= f.submit "Search", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+      <% end %>
+    </div>
+    
+    <% if @product_questions.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Question</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Asked By</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @product_questions.each do |question| %>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= link_to truncate(question.product.name, length: 30), product_path(question.product), class: "hover:text-green-600" %>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                  <%= truncate(question.question, length: 60) %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= question.asked_by %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                  <% if question.answered? %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Answered
+                    </span>
+                  <% else %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                      Awaiting Answer
+                    </span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= question.created_at.strftime("%b %d, %Y") %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <%= link_to "View", admin_product_question_path(question), class: "text-green-600 hover:text-green-900 mr-3" %>
+                  <% unless question.answered? %>
+                    <%= link_to "Answer", edit_admin_product_question_path(question), class: "text-indigo-600 hover:text-indigo-900 mr-3" %>
+                  <% else %>
+                    <%= link_to "Edit", edit_admin_product_question_path(question), class: "text-indigo-600 hover:text-indigo-900 mr-3" %>
+                  <% end %>
+                  <%= link_to "Delete", admin_product_question_path(question), method: :delete, data: { confirm: "Are you sure you want to delete this question?" }, class: "text-red-600 hover:text-red-900" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="px-6 py-4 border-t border-gray-200">
+        <nav class="flex justify-between items-center">
+          <div class="text-sm text-gray-700">
+            Showing <span class="font-medium"><%= @product_questions.offset_value + 1 %></span> to <span class="font-medium"><%= [@product_questions.offset_value + @product_questions.length, @product_questions.total_count].min %></span> of <span class="font-medium"><%= @product_questions.total_count %></span> results
+          </div>
+          
+          <div>
+            <%= paginate @product_questions, theme: 'tailwind' %>
+          </div>
+        </nav>
+      </div>
+    <% else %>
+      <div class="px-6 py-12 text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="mt-2 text-lg font-medium text-gray-900">No questions found</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          <%= 
+            if params[:q]&.dig(:answer_null) == '1'
+              "There are no unanswered questions matching your search criteria."
+            elsif params[:q]&.dig(:answer_not_null) == '1'
+              "There are no answered questions matching your search criteria."
+            elsif params[:q]&.dig(:question_or_answer_cont).present?
+              "No questions found matching '#{params[:q][:question_or_answer_cont]}'."
+            else
+              "There are no product questions yet."
+            end
+          %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

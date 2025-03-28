@@ -1,0 +1,51 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Digital Product One
+  description: This is a detailed description for the first digital product that has enough characters.
+  price: 19.99
+  discounted_price: 14.99
+  stock_quantity: 100
+  sku: SKU001
+  barcode: BARCODE001
+  weight: 0
+  dimensions: N/A
+  condition: New
+  brand: Digital Brand
+  featured: true
+  currency: USD
+  country_of_origin: Ghana
+  available_in_ghana: true
+  available_in_nigeria: true
+  shipping_time: Instant
+  category: one
+  seller: one
+  published: true
+  published_at: 2025-03-25 21:23:05
+  meta_title: Digital Product One - Premium Digital Item
+  meta_description: This is a premium digital product available for instant download.
+
+two:
+  name: Digital Product Two
+  description: This is a detailed description for the second digital product with sufficient length for testing.
+  price: 29.99
+  discounted_price: 24.99
+  stock_quantity: 50
+  sku: SKU002
+  barcode: BARCODE002
+  weight: 0
+  dimensions: N/A
+  condition: New
+  brand: Premium Digital
+  featured: false
+  currency: USD
+  country_of_origin: Nigeria
+  available_in_ghana: false
+  available_in_nigeria: true
+  shipping_time: Instant
+  category: two
+  seller: two
+  published: true
+  published_at: 2025-03-25 21:23:05
+  meta_title: Digital Product Two - Professional Digital Item
+  meta_description: This is a professional digital product available for instant download.

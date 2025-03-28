@@ -22,7 +22,7 @@
               <div>
                 <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1">
-                  <%= f.text_field :first_name, placeholder: "First name", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "firstName", action: "input->registration-validation#validateName" } %>
+                  <%= f.text_field :first_name, placeholder: "First name", class: "text-gray-700 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "firstName", action: "input->registration-validation#validateName" } %>
                 </div>
                 <p class="mt-1 hidden text-sm text-red-600" data-registration-validation-target="firstNameError"></p>
               </div>
@@ -30,7 +30,7 @@
               <div>
                 <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1">
-                  <%= f.text_field :last_name, placeholder: "Last name", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "lastName", action: "input->registration-validation#validateName" } %>
+                  <%= f.text_field :last_name, placeholder: "Last name", class: "text-gray-700 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "lastName", action: "input->registration-validation#validateName" } %>
                 </div>
                 <p class="mt-1 hidden text-sm text-red-600" data-registration-validation-target="lastNameError"></p>
               </div>
@@ -40,7 +40,7 @@
             <div>
               <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
               <div class="mt-1">
-                <%= f.email_field :email, autocomplete: "email", placeholder: "your.email@example.com", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "email", action: "input->registration-validation#validateEmail" } %>
+                <%= f.email_field :email, autocomplete: "email", placeholder: "your.email@example.com", class: "text-gray-700 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "email", action: "input->registration-validation#validateEmail" } %>
               </div>
               <p class="mt-1 hidden text-sm text-red-600" data-registration-validation-target="emailError"></p>
             </div>
@@ -49,7 +49,7 @@
             <div>
               <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
               <div class="mt-1 relative">
-                <%= f.password_field :password, autocomplete: "new-password", placeholder: "Create a password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "password", action: "input->registration-validation#validatePassword" } %>
+                <%= f.password_field :password, autocomplete: "new-password", placeholder: "Create a password", class: "text-gray-700 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { registration_validation_target: "password", action: "input->registration-validation#validatePassword" } %>
                 <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400" data-action="click->registration-validation#togglePasswordVisibility">
                   <svg class="h-5 w-5" fill="none" data-registration-validation-target="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />

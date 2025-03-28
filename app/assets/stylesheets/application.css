@@ -8,3 +8,9 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+ @import 'become_seller.css';
+ @import 'schedule.css';
+ @import 'dropdown.css';
+ @import 'product_show_page.scss';
+ /* @import 'product_index_page.scss'; */

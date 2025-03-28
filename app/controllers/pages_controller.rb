@@ -108,4 +108,55 @@ class PagesController < ApplicationController
     flash[:alert] = "Sorry, there was a problem sending your message. Please try again."
     redirect_to contact_path
   end
+
+  def about
+    # About page logic
+  end
+
+  def become_a_seller
+    @seller_benefits = [
+      {
+        title: "Global Reach",
+        description: "Sell your digital products to customers across Africa and worldwide with our platform's global payment options."
+      },
+      {
+        title: "Secure Payments",
+        description: "Receive secure payments via mobile money, credit cards, and bank transfers with our trusted payment processing."
+      },
+      {
+        title: "Powerful Analytics",
+        description: "Gain insights into your sales performance with detailed analytics and reporting tools."
+      },
+      {
+        title: "Zero Hosting Fees",
+        description: "Upload and store your digital products with no hosting fees or file size limits."
+      }
+    ]
+
+    @faq_items = [
+      {
+        question: "What can I sell on the platform?",
+        answer: "You can sell any digital products such as e-books, courses, templates, graphics, software, music, and more."
+      },
+      {
+        question: "How much does it cost to become a seller?",
+        answer: "Creating a seller account is completely free. We charge a small commission on each sale, typically 10-15% depending on your product category."
+      },
+      {
+        question: "How do I receive payments?",
+        answer: "We support various payment methods including mobile money (M-Pesa, MTN Mobile Money), bank transfers, and international payment options."
+      },
+      {
+        question: "How quickly will I receive my funds?",
+        answer: "Payments are processed and transferred to your account within 1-3 business days after a successful sale."
+      }
+    ]
+
+    # Set page meta data
+    @page_title = "Become a Seller - Start Selling Your Digital Products"
+    @page_description = "Create your seller account and start selling your digital products to customers across Africa and worldwide."
+
+    # Use custom layout for seller landing page
+    render layout: "seller_landing"
+  end
 end

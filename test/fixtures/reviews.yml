@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: valid_user
+  product: one
+  rating: 5
+  content: This is an excellent product. I'm very satisfied with the quality and features.
+
+two:
+  user: buyer
+  product: two
+  rating: 4
+  content: Good product overall. A few minor issues but worth the price.

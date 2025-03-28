@@ -1,0 +1,41 @@
+<%#
+  Chart card component for dashboard
+  
+  Required local variables:
+  - id: String - unique identifier for the chart
+  - title: String - chart title
+  - description: String (optional) - chart description
+  - height: String (optional) - chart height (default: 300px)
+  - show_periods: Boolean (optional) - whether to show period selection buttons
+%>
+
+<div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300">
+  <div class="p-5">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h3 class="text-lg font-medium text-gray-900"><%= title %></h3>
+        <% if defined?(description) && description.present? %>
+          <p class="text-sm text-gray-500"><%= description %></p>
+        <% end %>
+      </div>
+      
+      <% if defined?(show_periods) && show_periods %>
+        <div class="flex rounded-md shadow-sm" role="group">
+          <button type="button" data-chart-id="<%= id %>" data-chart-period="week" class="py-1 px-3 text-xs font-medium rounded-l-md bg-white text-gray-500 hover:bg-gray-100 border border-gray-300">
+            Week
+          </button>
+          <button type="button" data-chart-id="<%= id %>" data-chart-period="month" class="py-1 px-3 text-xs font-medium bg-indigo-600 text-white hover:bg-indigo-700 border border-indigo-600">
+            Month
+          </button>
+          <button type="button" data-chart-id="<%= id %>" data-chart-period="year" class="py-1 px-3 text-xs font-medium rounded-r-md bg-white text-gray-500 hover:bg-gray-100 border border-gray-300">
+            Year
+          </button>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="chart-container" style="height: <%= defined?(height) ? height : '300px' %>;">
+      <canvas id="<%= id %>" width="400" height="<%= defined?(height) ? height.to_i : 300 %>"></canvas>
+    </div>
+  </div>
+</div>

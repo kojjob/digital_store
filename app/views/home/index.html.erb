@@ -1,396 +1,891 @@
-<div class="bg-gradient-to-b from-gray-50 to-white">
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 z-0">
-      <svg class="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-        <defs>
-          <pattern id="hero-pattern" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path d="M0 0L20 10L40 0L60 10L80 0L100 10L100 20L80 30L100 40L80 50L100 60L80 70L100 80L80 90L100 100L80 100L60 90L40 100L20 90L0 100L0 90L20 80L0 70L20 60L0 50L20 40L0 30L20 20L0 10Z" fill="none" stroke="rgba(99, 102, 241, 0.05)" stroke-width="2"></path>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hero-pattern)"></rect>
-      </svg>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <!-- Hero Content -->
-        <div class="space-y-8 text-center lg:text-left">
-          <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100">
-            <span class="h-2 w-2 rounded-full bg-indigo-600"></span>
-            <span class="ml-2 text-sm font-medium text-indigo-800">Premium Digital Products</span>
-          </div>
-          
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">
-            Instant Digital Products. <span class="text-indigo-600">Seamless Payments.</span> Unmatched Simplicity.
-          </h1>
-          
-          <p class="text-xl text-gray-600 max-w-2xl">
-            Discover our curated collection of digital products and experience effortless transactions via direct mobile money integration and secure card payments.
-          </p>
-          
-          <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mt-8">
-            <a href="#products" class="inline-flex justify-center items-center px-6 py-3.5 border border-transparent text-lg font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-500/30 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-              </svg>
-              Browse Products
-            </a>
-            <a href="#how-it-works" class="inline-flex justify-center items-center px-6 py-3.5 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-              Get Started
-            </a>
-          </div>
+<!-- Hero Section with Animation -->
+<section class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 py-20 md:py-28">
+  <!-- Decorative elements -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-10 -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-72 h-72 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 translate-x-1/3"></div>
+  <div class="absolute top-1/4 right-0 w-40 h-40 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+  
+  <!-- Animated dots -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-white rounded-full opacity-30 animate-ping" style="animation-duration: 3s;"></div>
+    <div class="absolute top-1/3 right-1/3 w-2 h-2 bg-white rounded-full opacity-30 animate-ping" style="animation-duration: 4s; animation-delay: 1s;"></div>
+    <div class="absolute bottom-1/4 left-1/2 w-2 h-2 bg-white rounded-full opacity-30 animate-ping" style="animation-duration: 5s; animation-delay: 2s;"></div>
+  </div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+      <!-- Social Proof Pill -->
+      <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full py-2 px-4 mb-6">
+        <div class="flex -space-x-1 mr-2">
+          <div class="w-5 h-5 rounded-full bg-green-400 ring-2 ring-indigo-700"></div>
+          <div class="w-5 h-5 rounded-full bg-blue-400 ring-2 ring-indigo-700"></div>
+          <div class="w-5 h-5 rounded-full bg-amber-400 ring-2 ring-indigo-700"></div>
         </div>
-        
-        <!-- Hero Image -->
-        <div class="relative h-96 sm:h-[450px] lg:h-[550px] rounded-2xl overflow-hidden shadow-2xl transform -rotate-1 transition-all duration-300 hover:rotate-0">
-          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" alt="Digital workspace" class="absolute inset-0 w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-600/30"></div>
-
-          <!-- Floating Elements Animation -->
-          <div class="absolute top-1/4 left-1/4 w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl transform rotate-12 animate-float"></div>
-          <div class="absolute bottom-1/3 right-1/4 w-12 h-12 bg-indigo-500/20 backdrop-blur-xl rounded-full animate-float-delayed"></div>
-          <div class="absolute top-2/3 right-1/3 w-8 h-8 bg-purple-500/20 backdrop-blur-xl rounded-lg transform -rotate-12 animate-float-slow"></div>
-        </div>
-      </div>
-
-      <!-- Trusted By Section -->
-      <div class="mt-24 text-center">
-        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">Trusted by forward-thinking companies</p>
-        <div class="flex flex-wrap justify-center gap-x-12 gap-y-8">
-          <!-- Replace with actual logos or use placeholder logos -->
-          <div class="h-8 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-full" viewBox="0 0 168 48" fill="currentColor">
-              <path d="M28 24c0-2.2-1.8-4-4-4H4c-2.2 0-4 1.8-4 4s1.8 4 4 4h20c2.2 0 4-1.8 4-4z"/>
-              <path d="M28 40c0-2.2-1.8-4-4-4H4c-2.2 0-4 1.8-4 4s1.8 4 4 4h20c2.2 0 4-1.8 4-4z"/>
-              <path d="M48 8c0-2.2-1.8-4-4-4H4C1.8 4 0 5.8 0 8s1.8 4 4 4h40c2.2 0 4-1.8 4-4z"/>
-              <path d="M88 24c0-2.2-1.8-4-4-4H44c-2.2 0-4 1.8-4 4s1.8 4 4 4h40c2.2 0 4-1.8 4-4z"/>
-              <path d="M88 40c0-2.2-1.8-4-4-4H44c-2.2 0-4 1.8-4 4s1.8 4 4 4h40c2.2 0 4-1.8 4-4z"/>
-              <path d="M108 8c0-2.2-1.8-4-4-4H44c-2.2 0-4 1.8-4 4s1.8 4 4 4h60c2.2 0 4-1.8 4-4z"/>
-              <path d="M168 24c0-2.2-1.8-4-4-4h-60c-2.2 0-4 1.8-4 4s1.8 4 4 4h60c2.2 0 4-1.8 4-4z"/>
-              <path d="M148 40c0-2.2-1.8-4-4-4h-40c-2.2 0-4 1.8-4 4s1.8 4 4 4h40c2.2 0 4-1.8 4-4z"/>
-              <path d="M148 8c0-2.2-1.8-4-4-4h-20c-2.2 0-4 1.8-4 4s1.8 4 4 4h20c2.2 0 4-1.8 4-4z"/>
-            </svg>
-          </div>
-          <div class="h-8 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-full" viewBox="0 0 200 48" fill="currentColor">
-              <path d="M13.1 0C20.3 0 24.1 3.3 24.1 7.4c0 3.1-2.3 5.8-6 6.3v.2c4.2.4 7.2 3.4 7.2 6.8 0 4.9-4.3 8.6-11.7 8.6H0V0h13.1zm-.8 13c3.8 0 6.4-1.8 6.4-4.9 0-3-2.6-4.6-6.4-4.6H6.4V13h5.9zm1 12.7c4.3 0 7.1-1.9 7.1-5.2 0-3.2-2.8-5.2-7.3-5.2H6.4v10.4h6.9zM61.5 30c-4.3 5.2-10.8 8.1-17.8 8.1-12.8 0-22.6-9.5-22.6-22.6C21.1 4.7 31.1 0 41.3 0c5.4 0 11.3 2.3 15.9 5l-3.3 5.2c-3.4-2.2-8-3.8-12.7-3.8-7.5 0-14.3 5.1-14.3 13.3 0 9 7.3 14.7 15.8 14.7 3.7 0 7.1-1 9.7-2.7V22h-10.7v-5h16.9l-.1 13z"/>
-              <path d="M100.3 29.2c-4.8 6.3-11.9 9-19.4 9-13.8 0-23.6-9.2-23.6-22.9C57.3 2.8 67.2 0 77.6 0c7.5 0 14.9 2.7 19.9 8.1l-5.3 3.9c-3.6-3.8-9.2-5.8-14.6-5.8-7.5 0-14.4 4.7-14.4 13.2 0 9.3 7.8 14 15.4 14 5.3 0 10.8-2.2 14.3-5.8l7.4 1.6zM152.3 38.4L137 18.9l-11.7 12.1v7.3h-6.6V.7h6.6v22.9L148.7.7h8.2l-20.3 20.3 22.4 17.3-6.7.1zM196.1.7v37.7h-6.6v-37h-.1L172.1 11l-3.1-4.5L189.3 0h6.8v.7z"/>
-            </svg>
-          </div>
-          <div class="h-8 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-full" viewBox="0 0 240 48" fill="currentColor">
-              <path d="M46 48H2c-1.1 0-2-.9-2-2V2C0 .9.9 0 2 0h44c1.1 0 2 .9 2 2v44c0 1.1-.9 2-2 2zM24 8c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zm6.3 16c0 3.5-2.8 6.3-6.3 6.3s-6.3-2.8-6.3-6.3 2.8-6.3 6.3-6.3 6.3 2.8 6.3 6.3z"/>
-              <path d="M88 48H66c-1.1 0-2-.9-2-2V2c0-1.1.9-2 2-2h22c12.7 0 23 10.3 23 23v2c0 12.7-10.3 23-23 23zm1-36H76v24h13c6.6 0 12-5.4 12-12s-5.4-12-12-12z"/>
-              <path d="M142 48h-22c-1.1 0-2-.9-2-2V2c0-1.1.9-2 2-2h22c12.7 0 23 10.3 23 23v2c0 12.7-10.3 23-23 23zm1-36h-13v24h13c6.6 0 12-5.4 12-12s-5.4-12-12-12z"/>
-              <path d="M201 48h-23c-1.1 0-2-.9-2-2V2c0-1.1.9-2 2-2h22c12.7 0 23 10.3 23 23v2c0 12.7-10.3 23-22 23zm0-36h-13v24h13c6.6 0 12-5.4 12-12s-5.4-12-12-12z"/>
-            </svg>
-          </div>
-          <div class="h-8 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-full" viewBox="0 0 180 48" fill="currentColor">
-              <path d="M180 22.5c0 4-1 7.7-2.9 11-1.9 3.3-4.5 5.9-7.9 7.7-3.3 1.9-7.1 2.8-11.2 2.8-4.1 0-7.8-1-11.2-2.8-3.3-1.9-5.9-4.4-7.9-7.7-1.9-3.3-2.9-7-2.9-11s1-7.7 2.9-11 4.5-5.9 7.9-7.7c3.3-1.9 7.1-2.8 11.2-2.8 4.1 0 7.8 1 11.2 2.8 3.3 1.9 5.9 4.4 7.9 7.7 1.9 3.3 2.9 7 2.9 11zm-21.9 11.9c3.3 0 6.1-1.1 8.3-3.4 2.2-2.3 3.3-5.1 3.3-8.5s-1.1-6.2-3.3-8.5c-2.2-2.3-5-3.4-8.3-3.4-3.3 0-6.1 1.1-8.3 3.4-2.2 2.3-3.3 5.1-3.3 8.5s1.1 6.2 3.3 8.5c2.2 2.3 5 3.4 8.3 3.4z"/>
-              <path d="M136 44h-12V24.8c0-3.2-.6-5.6-1.8-7.1-1.2-1.5-3-2.3-5.5-2.3-3 0-5.3 1-7 2.9-1.7 1.9-2.5 4.8-2.5 8.6V44h-12V1h12v18.1c1.1-2.1 2.8-3.9 5-5.1 2.2-1.3 4.7-1.9 7.3-1.9 4.8 0 8.5 1.5 11.2 4.4 2.7 3 4.1 7.2 4.1 12.8V44h.2z"/>
-              <path d="M84 44H72V24.8c0-3.2-.6-5.6-1.8-7.1-1.2-1.5-3-2.3-5.5-2.3-3 0-5.3 1-7 2.9-1.7 1.9-2.5 4.8-2.5 8.6V44h-12V1h12v18.1c1.1-2.1 2.8-3.9 5-5.1 2.2-1.3 4.7-1.9 7.3-1.9 4.8 0 8.5 1.5 11.2 4.4 2.7 3 4.1 7.2 4.1 12.8V44h.2z"/>
-              <path d="M24 44C19.7 44 15.8 43 12.3 41.1c-3.5-1.9-6.3-4.5-8.3-7.8-2-3.3-3-7-3-11 0-4.1 1-7.8 3-11.1C6 7.9 8.8 5.3 12.3 3.4 15.8 1.5 19.7.5 24 .5c5.5 0 10.3 1.4 14.3 4.1 4 2.7 6.8 6.5 8.4 11.3h-13c-1.1-1.9-2.5-3.4-4.3-4.3-1.8-1-3.8-1.5-6-1.5-3.4 0-6.3 1.1-8.5 3.4-2.2 2.3-3.4 5.1-3.4 8.5 0 3.4 1.1 6.3 3.4 8.5 2.2 2.3 5.1 3.4 8.5 3.4 2.2 0 4.2-.5 6-1.5 1.8-1 3.2-2.4 4.3-4.3h13c-1.6 4.8-4.4 8.6-8.4 11.3-4 2.7-8.7 4.1-14.3 4.1z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Abstract Wave Divider -->
-    <div class="relative h-24 -mt-12">
-      <svg class="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#f9fafb" fill-opacity="1" d="M0,64L40,96C80,128,160,192,240,202.7C320,213,400,171,480,165.3C560,160,640,192,720,186.7C800,181,880,139,960,122.7C1040,107,1120,117,1200,133.3C1280,149,1360,171,1400,181.3L1440,192L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
-      </svg>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section id="features" class="bg-gradient-to-b from-gray-50 to-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="inline-block px-3 py-1 text-sm font-semibold text-indigo-800 bg-indigo-100 rounded-full mb-4">Core Features</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Everything you need for digital products</h2>
-        <p class="text-xl text-gray-600">Our platform offers a seamless experience from discovery to download, with features designed for your convenience.</p>
+        <span class="text-white text-sm font-medium">Join 10,000+ creators across Africa</span>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" data-controller="features">
-        <!-- Feature 1: Instant Delivery -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 transform transition-all duration-300 hover:-translate-y-2" data-features-target="feature">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-indigo-100 text-indigo-600 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-4">Instant Delivery</h3>
-          <p class="text-gray-600">Receive your digital product instantly after purchase, with no waiting time.</p>
-        </div>
-        
-        <!-- Feature 2: Mobile Payments -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 transform transition-all duration-300 hover:-translate-y-2" data-features-target="feature">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-indigo-100 text-indigo-600 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-4">Seamless Mobile Payments</h3>
-          <p class="text-gray-600">Direct integration with Ghana and Nigeria's mobile money systems for easy transactions.</p>
-        </div>
-        
-        <!-- Feature 3: Secure & Trusted -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 transform transition-all duration-300 hover:-translate-y-2" data-features-target="feature">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-indigo-100 text-indigo-600 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-4">Secure & Trusted</h3>
-          <p class="text-gray-600">Top-notch security for all transactions, powered by industry standards.</p>
-        </div>
-        
-        <!-- Feature 4: 24/7 Support -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 transform transition-all duration-300 hover:-translate-y-2" data-features-target="feature">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-indigo-100 text-indigo-600 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-4">24/7 Support</h3>
-          <p class="text-gray-600">We're here to help any time you need it, with responsive customer service.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Products Preview Section -->
-  <section id="products" class="py-20 bg-gradient-to-b from-white to-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="inline-block px-3 py-1 text-sm font-semibold text-indigo-800 bg-indigo-100 rounded-full mb-4">Featured Products</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Handpicked resources for you</h2>
-        <p class="text-xl text-gray-600">Browse our selection of premium digital products designed to elevate your projects.</p>
-      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+        Discover & Download <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-200">Premium Digital Products</span>
+      </h1>
       
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" data-controller="products">
-        <!-- Product cards will be rendered here using Hotwire -->
-        <div data-products-target="container">
-          <%= render partial: "product_card", collection: @featured_products, as: :product %>
-        </div>
-      </div>
+      <p class="text-xl text-white/90 mb-8">
+        Africa's leading marketplace for digital products created by talented designers, developers, and content creators.
+      </p>
       
-      <div class="mt-12 text-center">
-        <a href="/products" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          View all products
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+      <!-- Search Bar -->
+      <div class="w-full max-w-2xl mx-auto mb-12">
+        <form class="relative">
+          <input type="text" placeholder="Search for templates, ebooks, graphics, and more..." class="w-full px-5 py-4 pl-12 pr-36 rounded-full text-gray-800 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+          <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 px-6 py-2 bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 transition duration-200">
+            Search
+          </button>
+        </form>
+      </div>
+      
+      <!-- Popular Categories Pills -->
+      <div class="flex flex-wrap justify-center gap-2 mb-8">
+        <a href="#" class="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium transition duration-200">
+          Website Templates
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium transition duration-200">
+          E-books
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium transition duration-200">
+          Graphics & UI Kits
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium transition duration-200">
+          Online Courses
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium transition duration-200">
+          Stock Photos
         </a>
       </div>
+      
+      <!-- Statistics -->
+      <div class="flex flex-wrap justify-center gap-8 text-center">
+        <div>
+          <div class="text-3xl font-bold text-white">10K+</div>
+          <div class="text-indigo-200 text-sm">Digital Products</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-white">5K+</div>
+          <div class="text-indigo-200 text-sm">Creators</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-white">50K+</div>
+          <div class="text-indigo-200 text-sm">Customers</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-white">97%</div>
+          <div class="text-indigo-200 text-sm">Satisfaction</div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+  
+  <!-- Wave Shape -->
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" class="w-full">
+      <path fill="#ffffff" fill-opacity="1" d="M0,0L60,5.3C120,11,240,21,360,21.3C480,21,600,11,720,16C840,21,960,43,1080,48C1200,53,1320,43,1380,37.3L1440,32L1440,60L1380,60C1320,60,1200,60,1080,60C960,60,840,60,720,60C600,60,480,60,360,60C240,60,120,60,60,60L0,60Z"></path>
+    </svg>
+  </div>
+</section>
 
-  <!-- How It Works Section -->
-  <section id="how-it-works" class="py-20 bg-gradient-to-b from-gray-50 to-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-20">
-        <span class="inline-block px-3 py-1 text-sm font-semibold text-indigo-800 bg-indigo-100 rounded-full mb-4">Simple Process</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-        <p class="text-xl text-gray-600">Get started with our digital products in four simple steps.</p>
+<!-- Featured Products Section - ENHANCED -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center mb-10">
+      <div>
+        <div class="inline-flex items-center bg-indigo-50 px-3 py-1 rounded-full">
+          <span class="bg-indigo-600 h-2 w-2 rounded-full mr-2"></span>
+          <span class="text-indigo-700 text-xs font-semibold uppercase tracking-wider">Handpicked for you</span>
+        </div>
+        <h2 class="text-3xl font-bold text-gray-900 mt-2">Featured Products</h2>
+        <p class="text-gray-600 mt-1">Premium digital products curated by our team</p>
+      </div>
+      <a href="#" class="group inline-flex items-center text-indigo-600 font-medium hover:text-indigo-700 transition-colors">
+        <span>View all products</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+    
+    <!-- Featured Products Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <% product_data = [
+        {
+          category: "UI Templates",
+          title: "Premium Dashboard UI Kit",
+          description: "Complete package with all the components you need to build a professional admin dashboard.",
+          price: 49.99,
+          rating: 4.9,
+          seller_initials: "KM",
+          seller_country: "Ghana",
+          image_class: "from-indigo-100 to-indigo-200",
+          badge: "Bestseller"
+        },
+        {
+          category: "E-books",
+          title: "Business Growth Blueprint",
+          description: "Step-by-step guide to scaling your business in the African market with proven strategies.",
+          price: 24.99,
+          rating: 4.8,
+          seller_initials: "JD",
+          seller_country: "Nigeria",
+          image_class: "from-amber-100 to-amber-200",
+          badge: "New"
+        },
+        {
+          category: "Graphics Pack",
+          title: "Social Media Bundle 2023",
+          description: "Over 200 templates for Instagram, Facebook, and Twitter to boost your social media presence.",
+          price: 34.99,
+          rating: 4.7,
+          seller_initials: "TN",
+          seller_country: "Kenya",
+          image_class: "from-purple-100 to-purple-200",
+          badge: "Trending"
+        },
+        {
+          category: "Courses",
+          title: "Complete Web Development",
+          description: "From beginner to professional: master HTML, CSS, JavaScript, React and more in this comprehensive course.",
+          price: 59.99,
+          rating: 4.9,
+          seller_initials: "RL",
+          seller_country: "South Africa",
+          image_class: "from-green-100 to-green-200",
+          badge: "Bestseller"
+        }
+      ] %>
+      
+      <% if @featured_products&.any? %>
+        <% @featured_products.limit(4).each_with_index do |product, index| %>
+          <!-- Dynamic Product Card -->
+          <div class="group bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+            <div class="relative overflow-hidden h-48">
+              <% if product.respond_to?(:images) && product.images.attached? && product.images.first.present? %>
+                <%= image_tag product.images.first, class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" %>
+              <% elsif product.respond_to?(:image_url) && product.image_url.present? %>
+                <img src="<%= product.image_url %>" alt="<%= product.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <% else %>
+                <div class="w-full h-full bg-gradient-to-br <%= product_data[index % 4][:image_class] %> flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              <% end %>
+              
+              <!-- Badge -->
+              <div class="absolute top-3 left-3">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  <% if product.respond_to?(:flag) && product.flag.present? %>
+                    <%= product.flag %>
+                  <% else %>
+                    <%= ["Bestseller", "New", "Trending", "Featured"].sample %>
+                  <% end %>
+                </span>
+              </div>
+              
+              <!-- Overlay with action buttons -->
+              <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                <button class="bg-white rounded-full p-2.5 shadow-lg hover:bg-gray-100 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+                <button class="bg-indigo-600 rounded-full p-2.5 shadow-lg hover:bg-indigo-700 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="p-5 flex flex-col flex-grow">
+              <div class="flex items-center mb-3">
+                <span class="text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">
+                  <% if product.respond_to?(:category) && product.category.present? %>
+                    <%= product.category %>
+                  <% else %>
+                    <%= product_data[index % 4][:category] %>
+                  <% end %>
+                </span>
+                <div class="ml-auto flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <span class="ml-1 text-xs text-gray-600 font-medium">
+                    <% if product.respond_to?(:rating) && product.rating.present? %>
+                      <%= product.rating %>
+                    <% else %>
+                      <%= product_data[index % 4][:rating] %>
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+              
+              <h3 class="font-bold text-gray-900 mb-2 text-lg leading-tight group-hover:text-indigo-600 transition-colors duration-200">
+                <% if product.respond_to?(:name) && product.name.present? %>
+                  <%= product.name %>
+                <% else %>
+                  <%= product_data[index % 4][:title] %>
+                <% end %>
+              </h3>
+              
+              <p class="text-sm text-gray-600 mb-4 line-clamp-2 flex-grow">
+                <% if product.respond_to?(:description) && product.description.present? %>
+                  <%= product.description %>
+                <% else %>
+                  <%= product_data[index % 4][:description] %>
+                <% end %>
+              </p>
+              
+              <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-800 mr-2">
+                    <% if product.respond_to?(:seller) && product.seller.respond_to?(:initials) && product.seller.initials.present? %>
+                      <%= product.seller.initials %>
+                    <% else %>
+                      <%= product_data[index % 4][:seller_initials] %>
+                    <% end %>
+                  </div>
+                  <span class="text-sm text-gray-600">
+                    <% if product.respond_to?(:seller) && product.seller.respond_to?(:country) && product.seller.country.present? %>
+                      <%= product.seller.country %>
+                    <% else %>
+                      <%= product_data[index % 4][:seller_country] %>
+                    <% end %>
+                  </span>
+                </div>
+                <div class="font-bold text-lg text-indigo-700">
+                  <% if product.respond_to?(:price) && product.price.present? %>
+                    $<%= sprintf('%.2f', product.price) %>
+                  <% else %>
+                    $<%= sprintf('%.2f', product_data[index % 4][:price]) %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <% product_data.each_with_index do |product, index| %>
+          <!-- Fallback Product Card -->
+          <div class="group bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+            <div class="relative overflow-hidden h-48">
+              <div class="w-full h-full bg-gradient-to-br <%= product[:image_class] %> flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              
+              <!-- Badge -->
+              <div class="absolute top-3 left-3">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  <%= product[:badge] %>
+                </span>
+              </div>
+              
+              <!-- Overlay with action buttons -->
+              <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                <button class="bg-white rounded-full p-2.5 shadow-lg hover:bg-gray-100 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+                <button class="bg-indigo-600 rounded-full p-2.5 shadow-lg hover:bg-indigo-700 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="p-5 flex flex-col flex-grow">
+              <div class="flex items-center mb-3">
+                <span class="text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">
+                  <%= product[:category] %>
+                </span>
+                <div class="ml-auto flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <span class="ml-1 text-xs text-gray-600 font-medium"><%= product[:rating] %></span>
+                </div>
+              </div>
+              
+              <h3 class="font-bold text-gray-900 mb-2 text-lg leading-tight group-hover:text-indigo-600 transition-colors duration-200">
+                <%= product[:title] %>
+              </h3>
+              
+              <p class="text-sm text-gray-600 mb-4 line-clamp-2 flex-grow">
+                <%= product[:description] %>
+              </p>
+              
+              <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-800 mr-2">
+                    <%= product[:seller_initials] %>
+                  </div>
+                  <span class="text-sm text-gray-600"><%= product[:seller_country] %></span>
+                </div>
+                <div class="font-bold text-lg text-indigo-700">$<%= sprintf('%.2f', product[:price]) %></div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Categories Section - ENHANCED -->
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center bg-indigo-50 px-3 py-1 rounded-full mb-3">
+        <span class="bg-indigo-600 h-2 w-2 rounded-full mr-2"></span>
+        <span class="text-indigo-700 text-xs font-semibold uppercase tracking-wider">Find what you need</span>
+      </div>
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">Explore Categories</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Discover thousands of digital products created by talented African designers, developers, and content creators</p>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      <!-- Category 1 -->
+      <a href="#" class="group" data-aos="fade-up" data-aos-delay="0">
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full">
+          <div class="p-6 text-center">
+            <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition-colors duration-300 transform group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 group-hover:text-purple-600 transition-colors duration-300">Web Templates</h3>
+            <p class="text-gray-500 text-sm mt-1">2,142 products</p>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Category 2 -->
+      <a href="#" class="group" data-aos="fade-up" data-aos-delay="100">
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full">
+          <div class="p-6 text-center">
+            <div class="w-16 h-16 bg-amber-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-200 transition-colors duration-300 transform group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 group-hover:text-amber-600 transition-colors duration-300">E-books</h3>
+            <p class="text-gray-500 text-sm mt-1">1,874 products</p>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Category 3 -->
+      <a href="#" class="group" data-aos="fade-up" data-aos-delay="200">
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full">
+          <div class="p-6 text-center">
+            <div class="w-16 h-16 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-200 transition-colors duration-300 transform group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 group-hover:text-emerald-600 transition-colors duration-300">Courses</h3>
+            <p class="text-gray-500 text-sm mt-1">943 products</p>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Category 4 -->
+      <a href="#" class="group" data-aos="fade-up" data-aos-delay="300">
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full">
+          <div class="p-6 text-center">
+            <div class="w-16 h-16 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-indigo-200 transition-colors duration-300 transform group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-300">UI Kits</h3>
+            <p class="text-gray-500 text-sm mt-1">1,326 products</p>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Category 5 -->
+      <a href="#" class="group" data-aos="fade-up" data-aos-delay="400">
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full">
+          <div class="p-6 text-center">
+            <div class="w-16 h-16 bg-rose-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors duration-300 transform group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 group-hover:text-rose-600 transition-colors duration-300">Graphics</h3>
+            <p class="text-gray-500 text-sm mt-1">2,587 products</p>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Category 6 -->
+      <a href="#" class="group" data-aos="fade-up" data-aos-delay="500">
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full">
+          <div class="p-6 text-center">
+            <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors duration-300 transform group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">Audio</h3>
+            <p class="text-gray-500 text-sm mt-1">752 products</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Hot This Week Section - ENHANCED -->
+<section class="py-16 bg-white relative overflow-hidden">
+  <!-- Background Elements -->
+  <div class="absolute inset-0 bg-gradient-to-b from-white to-indigo-50/50 h-full"></div>
+  <div class="absolute top-1/2 -right-24 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply opacity-50 blur-3xl"></div>
+  <div class="absolute top-1/3 -left-24 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply opacity-50 blur-3xl"></div>
+  
+  <div class="container mx-auto px-4 relative">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-14">
+      <div>
+        <div class="inline-flex items-center bg-amber-50 px-3 py-1 rounded-full mb-3">
+          <span class="inline-block w-2 h-2 bg-amber-500 rounded-full animate-pulse mr-2"></span>
+          <span class="text-amber-700 text-xs font-semibold uppercase tracking-wider">Popular right now</span>
+        </div>
+        <h2 class="text-3xl font-bold text-gray-900 mt-1">Hot This Week</h2>
+        <p class="text-gray-600 mt-1 mb-3">The most popular digital products this week</p>
+      </div>
+      <a href="#" class="group inline-flex items-center py-2 text-indigo-600 font-medium hover:text-indigo-700 transition-colors whitespace-nowrap">
+        <span>View all trending products</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+    
+    <!-- Trending Products Showcase -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <% trending_data = [
+        {
+          category: "UI Templates",
+          title: "Ultimate Dashboard UI Kit",
+          description: "Complete admin dashboard with 300+ components, charts, and ready-to-use pages",
+          price: 69.99,
+          sales: 253,
+          color: "from-indigo-500 to-blue-500",
+          change: "+28%"
+        },
+        {
+          category: "E-books",
+          title: "Digital Marketing Mastery",
+          description: "Step-by-step guide to master digital marketing in the African market",
+          price: 29.99,
+          sales: 187,
+          color: "from-amber-500 to-orange-500",
+          change: "+42%"
+        },
+        {
+          category: "Graphics Pack",
+          title: "Social Media Bundle 2023",
+          description: "Over 200 templates for Instagram, Facebook, and Twitter designed for African businesses",
+          price: 39.99,
+          sales: 215,
+          color: "from-purple-500 to-pink-500",
+          change: "+15%"
+        }
+      ] %>
+      
+      <% trending_data.each_with_index do |item, index| %>
+        <div class="relative group" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+          <!-- Trending Rank -->
+          <div class="absolute top-0 left-0 w-12 h-12 bg-white rounded-full shadow-lg z-10 -mt-2 -ml-2 flex items-center justify-center font-bold text-2xl text-indigo-600 border-2 border-indigo-100">
+            #<%= index + 1 %>
+          </div>
+          
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+            <!-- Card Header with Gradient -->
+            <div class="h-32 bg-gradient-to-r <%= item[:color] %> p-6 flex items-end">
+              <div class="text-white">
+                <span class="text-xs font-semibold px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full">
+                  <%= item[:category] %>
+                </span>
+                <h3 class="font-bold text-2xl mt-2"><%= item[:title] %></h3>
+              </div>
+            </div>
+            
+            <!-- Card Body -->
+            <div class="p-6 flex-grow flex flex-col">
+              <p class="text-gray-600 text-sm mb-4 flex-grow"><%= item[:description] %></p>
+              
+              <!-- Statistics -->
+              <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div>
+                  <div class="flex items-center">
+                    <div class="text-2xl font-bold text-gray-900">$<%= sprintf('%.2f', item[:price]) %></div>
+                    <div class="ml-3 px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-medium inline-flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                      </svg>
+                      <%= item[:change] %>
+                    </div>
+                  </div>
+                  <div class="text-sm text-gray-500 mt-1"><%= item[:sales] %> sales this week</div>
+                </div>
+                
+                <button class="bg-indigo-600 text-white rounded-lg p-3 hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Sell Products CTA -->
+<section class="py-24 bg-gradient-to-br from-indigo-600 to-purple-700 text-white relative overflow-hidden">
+  <!-- Decorative elements -->
+  <div class="absolute top-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full translate-x-1/2 translate-y-1/2"></div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="lg:pr-12" data-aos="fade-right">
+        <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full py-2 px-4 mb-6">
+          <div class="flex -space-x-1 mr-2">
+            <div class="w-5 h-5 rounded-full bg-green-400 ring-2 ring-indigo-700"></div>
+            <div class="w-5 h-5 rounded-full bg-blue-400 ring-2 ring-indigo-700"></div>
+            <div class="w-5 h-5 rounded-full bg-amber-400 ring-2 ring-indigo-700"></div>
+          </div>
+          <span class="text-white text-sm font-medium">5,000+ creators already selling</span>
+        </div>
+        
+        <h2 class="text-3xl lg:text-4xl font-bold mb-6">Create Once, Earn Forever</h2>
+        <p class="text-xl lg:text-2xl text-indigo-100 font-light mb-8">Turn your digital skills into a steady income stream by selling your products on our marketplace.</p>
+        
+        <div class="space-y-6 mb-8">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mt-1">
+              <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-lg text-white font-medium">Reach thousands of customers across Africa</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mt-1">
+              <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-lg text-white font-medium">Get paid directly through mobile money or bank account</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mt-1">
+              <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-lg text-white font-medium">Keep up to 90% of your earnings</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-lg py-2 px-4 mb-6 border border-white/20">
+          <span class="text-white text-sm flex items-center">
+            <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+            <span>Limited time: First 3 months commission-free</span>
+          </span>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4">
+          <%= link_to become_seller_path, class: "inline-flex items-center justify-center px-6 py-4 border border-transparent rounded-lg shadow-lg text-base font-bold text-indigo-700 bg-white hover:bg-indigo-50 transition duration-300" do %>
+            Become a Seller
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+          
+          <a href="#" class="inline-flex items-center justify-center px-6 py-4 border border-white rounded-lg text-base font-bold text-white hover:bg-white/10 transition duration-300">
+            Learn More
+          </a>
+        </div>
       </div>
       
-      <div class="relative">
-        <!-- Connection Line (Desktop) -->
-        <div class="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-indigo-100 -translate-y-1/2"></div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
-          <!-- Step 1 -->
-          <div class="relative flex flex-col items-center">
-            <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white text-indigo-600 border-2 border-indigo-100 shadow-xl mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+      <div class="lg:pl-12" data-aos="fade-left">
+        <div class="bg-white p-8 rounded-xl shadow-2xl relative">
+          <div class="w-full h-2 bg-gradient-to-r from-indigo-600 to-purple-600 absolute top-0 left-0 right-0 rounded-t-xl"></div>
+          
+          <div class="mb-6 pb-6 border-b border-gray-100">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs text-gray-500 uppercase font-medium">Average Monthly Earnings</div>
+                <div class="text-2xl font-bold text-gray-800">$1,250 - $3,500</div>
+              </div>
             </div>
-            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">1</div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Browse & Select</h3>
-            <p class="text-gray-600 text-center">Explore our collection and choose your digital product.</p>
+            
+            <div class="flex items-center justify-between text-sm text-gray-500">
+              <span>Based on active sellers in 2023</span>
+              <span class="font-medium text-indigo-600">+34% year-over-year</span>
+            </div>
           </div>
           
-          <!-- Step 2 -->
-          <div class="relative flex flex-col items-center">
-            <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white text-indigo-600 border-2 border-indigo-100 shadow-xl mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Seller" class="w-10 h-10 rounded-full object-cover mr-3">
+              <div>
+                <div class="text-gray-800 font-medium">Fatima Osei</div>
+                <div class="text-gray-500 text-xs">Digital Designer • Ghana</div>
+              </div>
+              <div class="ml-auto">
+                <div class="text-gray-800 font-bold">$4,200</div>
+                <div class="text-gray-500 text-xs">Last month</div>
+              </div>
             </div>
-            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">2</div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Add to Cart</h3>
-            <p class="text-gray-600 text-center">Easily add items to your cart for a streamlined checkout.</p>
+            
+            <div class="flex items-center">
+              <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Seller" class="w-10 h-10 rounded-full object-cover mr-3">
+              <div>
+                <div class="text-gray-800 font-medium">John Adewale</div>
+                <div class="text-gray-500 text-xs">E-book Creator • Nigeria</div>
+              </div>
+              <div class="ml-auto">
+                <div class="text-gray-800 font-bold">$2,856</div>
+                <div class="text-gray-500 text-xs">Last month</div>
+              </div>
+            </div>
+            
+            <div class="flex items-center">
+              <img src="https://randomuser.me/api/portraits/women/64.jpg" alt="Seller" class="w-10 h-10 rounded-full object-cover mr-3">
+              <div>
+                <div class="text-gray-800 font-medium">Sarah Kimani</div>
+                <div class="text-gray-500 text-xs">Course Creator • Kenya</div>
+              </div>
+              <div class="ml-auto">
+                <div class="text-gray-800 font-bold">$3,725</div>
+                <div class="text-gray-500 text-xs">Last month</div>
+              </div>
+            </div>
           </div>
           
-          <!-- Step 3 -->
-          <div class="relative flex flex-col items-center">
-            <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white text-indigo-600 border-2 border-indigo-100 shadow-xl mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+          <div class="mt-6 pt-6 border-t border-gray-100">
+            <div class="flex items-center justify-between">
+              <div class="text-gray-500 text-sm">Need help getting started?</div>
+              <a href="#" class="text-indigo-600 font-medium text-sm hover:text-indigo-700">
+                Get a free consultation
+              </a>
             </div>
-            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">3</div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Choose Payment</h3>
-            <p class="text-gray-600 text-center">Pay effortlessly using mobile money or card options.</p>
-          </div>
-          
-          <!-- Step 4 -->
-          <div class="relative flex flex-col items-center">
-            <div class="w-20 h-20 flex items-center justify-center rounded-full bg-white text-indigo-600 border-2 border-indigo-100 shadow-xl mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
-              </svg>
-            </div>
-            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold absolute top-6 -right-3">4</div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">Instant Access</h3>
-            <p class="text-gray-600 text-center">Get immediate access to your product upon successful payment.</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Testimonials Section -->
-  <section class="py-20 bg-gradient-to-b from-white to-indigo-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="inline-block px-3 py-1 text-sm font-semibold text-indigo-800 bg-indigo-100 rounded-full mb-4">Testimonials</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
-        <p class="text-xl text-gray-600">Trusted by developers and designers worldwide.</p>
+<!-- Testimonials Section -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center bg-indigo-50 px-3 py-1 rounded-full mb-3">
+        <span class="bg-indigo-600 h-2 w-2 rounded-full mr-2"></span>
+        <span class="text-indigo-700 text-xs font-semibold uppercase tracking-wider">Customer experiences</span>
+      </div>
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">What Our Customers Say</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Real stories from people who have found success with our digital products</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300" data-aos="fade-up" data-aos-delay="0">
+        <div class="flex text-yellow-400 mb-4">
+          <% 5.times do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          <% end %>
+        </div>
+        
+        <blockquote class="text-gray-600 mb-6 italic">
+          "The templates I purchased saved me weeks of work. The quality is outstanding and the customer support is top-notch. I'll definitely buy more products here."
+        </blockquote>
+        
+        <div class="flex items-center">
+          <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-white shadow">
+          <div>
+            <div class="text-gray-900 font-bold">Michael Johnson</div>
+            <div class="text-gray-500 text-sm">Web Developer, South Africa</div>
+          </div>
+        </div>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-controller="testimonials">
-        <!-- Testimonial 1 -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative transform transition-all duration-300 hover:-translate-y-2">
-          <div class="absolute -top-4 -left-4 w-12 h-12 flex items-center justify-center bg-indigo-600 rounded-xl text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+      <!-- Testimonial 2 -->
+      <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex text-yellow-400 mb-4">
+          <% 5.times do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-          </div>
-          <div class="flex items-center mb-6 pt-4">
-            <div class="mr-4">
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="Customer" class="h-16 w-16 rounded-full object-cover border-4 border-white shadow-lg" />
-            </div>
-            <div>
-              <h4 class="text-lg font-bold text-gray-900">Sarah Johnson</h4>
-              <p class="text-indigo-600">Web Developer</p>
-            </div>
-          </div>
-          <p class="text-gray-700">"The design templates I purchased have saved me countless hours. The quality is outstanding and the support team is incredibly responsive."</p>
-          
-          <div class="mt-6 flex items-center">
-            <div class="flex -mx-1">
-              <% 5.times do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-1 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              <% end %>
-            </div>
-          </div>
+          <% end %>
         </div>
         
-        <!-- Testimonial 2 -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative transform transition-all duration-300 hover:-translate-y-2">
-          <div class="absolute -top-4 -left-4 w-12 h-12 flex items-center justify-center bg-indigo-600 rounded-xl text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-            </svg>
-          </div>
-          <div class="flex items-center mb-6 pt-4">
-            <div class="mr-4">
-              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d" alt="Customer" class="h-16 w-16 rounded-full object-cover border-4 border-white shadow-lg" />
-            </div>
-            <div>
-              <h4 class="text-lg font-bold text-gray-900">Michael Chen</h4>
-              <p class="text-indigo-600">UI Designer</p>
-            </div>
-          </div>
-          <p class="text-gray-700">"I've been using their icon sets for all my projects. The attention to detail and consistency across the library is impressive. Highly recommended!"</p>
-          
-          <div class="mt-6 flex items-center">
-            <div class="flex -mx-1">
-              <% 5.times do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-1 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              <% end %>
-            </div>
+        <blockquote class="text-gray-600 mb-6 italic">
+          "As an entrepreneur, I appreciate the mobile money payment options. The e-book I purchased was full of actionable insights that helped grow my business."
+        </blockquote>
+        
+        <div class="flex items-center">
+          <img src="https://randomuser.me/api/portraits/women/54.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-white shadow">
+          <div>
+            <div class="text-gray-900 font-bold">Grace Afolabi</div>
+            <div class="text-gray-500 text-sm">Business Owner, Nigeria</div>
           </div>
         </div>
+      </div>
+      
+      <!-- Testimonial 3 -->
+      <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+        <div class="flex text-yellow-400 mb-4">
+          <% 5.times do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          <% end %>
+        </div>
         
-        <!-- Testimonial 3 -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative transform transition-all duration-300 hover:-translate-y-2">
-          <div class="absolute -top-4 -left-4 w-12 h-12 flex items-center justify-center bg-indigo-600 rounded-xl text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+        <blockquote class="text-gray-600 mb-6 italic">
+          "The graphic templates I purchased for my social media are exceptional. They've helped me establish a consistent brand identity and saved me hours of design time."
+        </blockquote>
+        
+        <div class="flex items-center">
+          <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-white shadow">
+          <div>
+            <div class="text-gray-900 font-bold">Robert Kenyatta</div>
+            <div class="text-gray-500 text-sm">Social Media Manager, Kenya</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="p-8 md:p-12">
+          <div class="inline-flex items-center bg-indigo-50 px-3 py-1 rounded-full mb-4">
+            <span class="bg-indigo-600 h-2 w-2 rounded-full mr-2"></span>
+            <span class="text-indigo-700 text-xs font-semibold uppercase tracking-wider">Newsletter</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Stay in the Loop</h2>
+          <p class="text-gray-600 mb-6">Subscribe to our newsletter to get notified about new products, special offers, and digital marketplace tips.</p>
+          
+          <form class="space-y-4">
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+              <input type="email" id="email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div class="flex items-start">
+              <input id="terms" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded mt-1">
+              <label for="terms" class="ml-2 block text-sm text-gray-500">
+                I agree to receive emails about product updates and promotions
+              </label>
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 shadow">
+              Subscribe
+            </button>
+          </form>
+        </div>
+        <div class="hidden md:block relative bg-gradient-to-br from-indigo-500 to-purple-600 p-12">
+          <div class="absolute inset-0 opacity-20">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid)" />
             </svg>
           </div>
-          <div class="flex items-center mb-6 pt-4">
-            <div class="mr-4">
-              <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e" alt="Customer" class="h-16 w-16 rounded-full object-cover border-4 border-white shadow-lg" />
-            </div>
-            <div>
-              <h4 class="text-lg font-bold text-gray-900">Emily Rodriguez</h4>
-              <p class="text-indigo-600">Freelance Developer</p>
-            </div>
-          </div>
-          <p class="text-gray-700">"The code snippets and templates have streamlined my workflow. They're well-documented and easy to customize to fit my clients' needs."</p>
-          
-          <div class="mt-6 flex items-center">
-            <div class="flex -mx-1">
-              <% 5.times do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-1 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              <% end %>
+          <div class="relative z-10 h-full flex flex-col justify-center">
+            <div class="text-white text-lg font-light mb-4">Join <span class="font-bold">5,000+</span> subscribers</div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+              <div class="flex items-center mb-4">
+                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Subscriber" class="w-10 h-10 rounded-full object-cover mr-3">
+                <div>
+                  <div class="text-white font-medium">Aisha M.</div>
+                  <div class="text-white/70 text-sm">Just subscribed</div>
+                </div>
+              </div>
+              <p class="text-white/90 text-sm">"The weekly newsletter helps me discover new digital products I wouldn't have found otherwise!"</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CTA Section -->
-  <section class="py-20 bg-gradient-to-b from-indigo-50 to-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden bg-indigo-700 rounded-3xl shadow-2xl">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="cta-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M0 0L20 10L40 0L60 10L80 0L100 10L100 20L80 30L100 40L80 50L100 60L80 70L100 80L80 90L100 100L80 100L60 90L40 100L20 90L0 100L0 90L20 80L0 70L20 60L0 50L20 40L0 30L20 20L0 10Z" fill="none" stroke="white" stroke-width="1"></path>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#cta-pattern)"></rect>
-          </svg>
-        </div>
-
-        <div class="relative px-6 py-16 md:py-20 md:px-12 flex flex-col md:flex-row items-center justify-between">
-          <div class="text-center md:text-left mb-10 md:mb-0">
-            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to explore the future of digital products?</h2>
-            <p class="text-xl text-indigo-100">Join thousands of satisfied customers today.</p>
-          </div>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="/products" class="inline-flex justify-center items-center px-8 py-4 border-2 border-white text-lg font-bold rounded-lg text-indigo-700 bg-white hover:bg-indigo-50 shadow-lg transform transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white">
-              Shop Now
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-            <a href="/contact" class="inline-flex justify-center items-center px-8 py-4 border-2 border-white text-lg font-bold rounded-lg text-white hover:bg-white hover:text-indigo-700 transform transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white">
-              Contact Us
-            </a>
-          </div>
-        </div>
+<!-- Bottom CTA Banner -->
+<section class="bg-gradient-to-r from-indigo-600 to-indigo-700 py-10">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center justify-between">
+      <div class="mb-6 md:mb-0">
+        <h3 class="text-xl font-bold text-white mb-2">Ready to find the perfect digital product?</h3>
+        <p class="text-indigo-100">Browse our marketplace or create an account to save your favorites.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <%= link_to products_path, class: "inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-lg shadow-lg text-base font-medium text-indigo-700 bg-white hover:bg-indigo-50 transition duration-300" do %>
+          Browse Products
+        <% end %>
+        
+        <%= link_to new_user_registration_path, class: "inline-flex items-center justify-center px-6 py-3 border border-white rounded-lg text-base font-medium text-white hover:bg-white/10 transition duration-300" do %>
+          Create Account
+        <% end %>
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>
+
+<!-- Initialize AOS animations -->
+<% content_for :page_scripts do %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof AOS !== 'undefined') {
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+      });
+    }
+  });
+</script>
+<% end %>

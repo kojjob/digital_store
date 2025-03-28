@@ -1,0 +1,61 @@
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-6">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+      
+      <div data-controller="accordion">
+        <% [
+          {
+            question: "How do I become a seller?",
+            answer: "To become a seller, create an account, complete your business profile, and submit verification documents. Once verified, you can start listing products and receiving orders."
+          },
+          {
+            question: "What payment methods are accepted?",
+            answer: "We accept various payment methods including credit/debit cards, bank transfers, and mobile money services like MTN Mobile Money and Airtel Money in Ghana, and Flutterwave and Paystack in Nigeria."
+          },
+          {
+            question: "How is shipping handled?",
+            answer: "Shipping is handled by our vetted logistics partners. Sellers can define shipping options and costs for their products. For cross-border shipping between Ghana and Nigeria, we offer specialized shipping methods."
+          },
+          {
+            question: "What is your return policy?",
+            answer: "Our platform supports a 7-day return policy for most products. Specific terms may vary by seller and product category. All return requests must be initiated through our platform for buyer protection."
+          },
+          {
+            question: "How do sellers receive payments?",
+            answer: "Sellers receive payments directly to their registered bank accounts or mobile money accounts. Funds are released 3 days after delivery confirmation for local orders and 7 days for international orders."
+          }
+        ].each_with_index do |item, index| %>
+          <div class="border-b border-gray-200 py-4"
+               data-accordion-target="item"
+               data-index="<%= index %>">
+            <button class="flex w-full justify-between items-center text-left font-medium text-gray-900 focus:outline-none"
+                    data-action="accordion#toggle">
+              <span><%= item[:question] %></span>
+              <svg xmlns="http://www.w3.org/2000/svg" 
+                   class="h-5 w-5 text-gray-500 transition-transform duration-300" 
+                   data-accordion-target="icon"
+                   viewBox="0 0 20 20" 
+                   fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="overflow-hidden max-h-0 transition-all duration-300"
+                 data-accordion-target="content">
+              <div class="py-4 text-gray-600">
+                <%= item[:answer] %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="mt-12 text-center">
+        <p class="text-gray-600 mb-4">Still have questions?</p>
+        <a href="/contact" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+          Contact Support
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,68 +1,102 @@
 import { Controller } from "@hotwired/stimulus"
 
+/**
+ * Mobile Menu Controller
+ *
+ * Manages the mobile menu functionality for the dashboard.
+ * This follows the principles of separation of concerns by isolating
+ * the menu toggle behavior in its own controller.
+ */
 export default class extends Controller {
-  static targets = ["menu", "openIcon", "closeIcon"]
-  
+  static targets = ["menu"]
+
+  /**
+   * Connect lifecycle method
+   * Called when the controller is connected to the DOM
+   */
   connect() {
-    // Close menu when clicking on a link in mobile menu
-    this.menuTarget.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => this.hide())
-    })
+    // Listen for escape key to close menu
+    document.addEventListener("keydown", this.handleKeyDown.bind(this))
     
-    // Close menu when escape key is pressed
-    document.addEventListener('keydown', this.handleKeydown.bind(this))
+    // Listen for resize events to handle responsive behavior
+    window.addEventListener("resize", this.handleResize.bind(this))
+    
+    console.log("Mobile menu controller connected")
   }
-  
+
+  /**
+   * Disconnect lifecycle method
+   * Called when the controller is disconnected from the DOM
+   */
   disconnect() {
-    document.removeEventListener('keydown', this.handleKeydown.bind(this))
+    document.removeEventListener("keydown", this.handleKeyDown.bind(this))
+    window.removeEventListener("resize", this.handleResize.bind(this))
   }
-  
-  handleKeydown(event) {
-    if (event.key === 'Escape') {
-      this.hide()
-    }
-  }
-  
+
+  /**
+   * Toggle the mobile menu visibility
+   */
   toggle() {
-    if (this.menuTarget.classList.contains('max-h-0')) {
-      this.show()
+    if (this.isOpen()) {
+      this.close()
     } else {
-      this.hide()
+      this.open()
     }
   }
-  
-  show() {
-    this.openIconTarget.classList.add('hidden')
-    this.closeIconTarget.classList.remove('hidden')
+
+  /**
+   * Open the mobile menu
+   */
+  open() {
+    this.menuTarget.style.display = "flex"
     
-    // Measure the height of the menu content to animate it properly
-    this.menuTarget.classList.replace('max-h-0', 'max-h-screen')
-    const height = this.menuTarget.scrollHeight
-    this.menuTarget.style.maxHeight = '0px'
+    // Add a class to the body to prevent scrolling
+    document.body.classList.add("overflow-hidden")
     
-    // Trigger animation
-    setTimeout(() => {
-      this.menuTarget.style.maxHeight = `${height}px`
-    }, 10)
-    
-    // Add body scroll lock
-    document.body.classList.add('overflow-hidden', 'md:overflow-auto')
+    // Set ARIA attributes
+    this.menuTarget.setAttribute("aria-expanded", "true")
   }
-  
-  hide() {
-    this.closeIconTarget.classList.add('hidden')
-    this.openIconTarget.classList.remove('hidden')
+
+  /**
+   * Close the mobile menu
+   */
+  close() {
+    this.menuTarget.style.display = "none"
     
-    // Animate closing
-    this.menuTarget.style.maxHeight = '0px'
+    // Remove the class from the body to allow scrolling
+    document.body.classList.remove("overflow-hidden")
     
-    // Reset class after animation completes
-    setTimeout(() => {
-      this.menuTarget.classList.replace('max-h-screen', 'max-h-0')
-      this.menuTarget.style.maxHeight = ''
-    }, 300)
-    
-    // Remove body scroll lock
-    document.body.classList.remove('overflow-hidden')
+    // Set ARIA attributes
+    this.menuTarget.setAttribute("aria-expanded", "false")
+  }
+
+  /**
+   * Check if the menu is currently open
+   * @returns {boolean} True if the menu is open
+   */
+  isOpen() {
+    return this.menuTarget.style.display === "flex"
+  }
+
+  /**
+   * Handle keydown events
+   * Close the menu when the escape key is pressed
+   * @param {Event} event - The keydown event
+   */
+  handleKeyDown(event) {
+    if (event.key === "Escape" && this.isOpen()) {
+      this.close()
+    }
+  }
+
+  /**
+   * Handle window resize events
+   * Close the mobile menu when the window is resized to desktop dimensions
+   */
+  handleResize() {
+    if (window.innerWidth >= 768 && this.isOpen()) {
+      // 768px is the md breakpoint in Tailwind
+      this.close()
+    }
   }
 }

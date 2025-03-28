@@ -1,0 +1,69 @@
+<section class="py-20 bg-white" data-controller="scroll-reveal">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-6">Our Top Sellers</h2>
+    <p class="text-gray-600 text-center max-w-3xl mx-auto mb-16">
+      These verified sellers consistently deliver exceptional products and customer service.
+    </p>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @top_sellers&.each_with_index do |seller, index| %>
+        <div class="bg-white rounded-lg shadow p-6 border border-gray-100 hover:shadow-md transition-shadow"
+             data-scroll-reveal-target="element"
+             data-scroll-reveal-delay="<%= index * 150 %>">
+          <div class="flex items-center mb-6">
+            <div class="w-16 h-16 rounded-full bg-gray-200 overflow-hidden mr-4">
+              <% if seller.user.respond_to?(:profile_picture) && seller.user.profile_picture.respond_to?(:attached?) && seller.user.profile_picture.attached? %>
+                <%= image_tag url_for(seller.user.profile_picture), class: "w-full h-full object-cover" %>
+              <% else %>
+                <div class="w-full h-full flex items-center justify-center bg-indigo-100 text-indigo-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              <% end %>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg"><%= seller.business_name %></h3>
+              <p class="text-gray-600 text-sm">
+                <% if seller.verified %>
+                  <span class="inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    Verified Seller
+                  </span>
+                <% end %>
+                <span class="ml-2"><%= seller.country %></span>
+              </p>
+            </div>
+          </div>
+          
+          <div class="mb-4 flex items-center">
+            <div class="flex-1">
+              <div class="flex">
+                <% 5.times do |i| %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 <%= i < seller.acceptance_rate.to_i / 20 ? 'text-yellow-400' : 'text-gray-300' %>" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+              <p class="text-sm text-gray-600 mt-1"><%= seller.acceptance_rate %>% acceptance rate</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm text-gray-600">Response time</p>
+              <p class="font-medium"><%= seller.average_response_time %> hours</p>
+            </div>
+          </div>
+          
+          <p class="text-gray-600 mb-4 line-clamp-2"><%= seller.description %></p>
+          
+          <div class="mt-6">
+            <a href="/sellers/<%= seller.id %>" class="text-indigo-600 font-medium hover:text-indigo-800">
+              View Shop
+            </a>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

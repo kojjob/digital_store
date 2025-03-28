@@ -1,0 +1,109 @@
+<%#
+  Quick actions component for the dashboard
+%>
+
+<div class="mt-8">
+  <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
+  
+  <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <% if current_user.seller? %>
+      <!-- Seller quick actions -->
+      <a href="<%= new_sellers_product_path %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-indigo-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "plus", size: "md", color: "indigo" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">Add Product</h3>
+            <p class="text-xs text-gray-500">Create a new product listing</p>
+          </div>
+        </div>
+      </a>
+      
+      <a href="<%= edit_seller_path(current_user.seller) %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-green-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "settings", size: "md", color: "green" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">Edit Store</h3>
+            <p class="text-xs text-gray-500">Update your store settings</p>
+          </div>
+        </div>
+      </a>
+      
+      <a href="<%= orders_path %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-blue-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "cart", size: "md", color: "blue" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">View Orders</h3>
+            <p class="text-xs text-gray-500">See your recent orders</p>
+          </div>
+        </div>
+      </a>
+      
+      <a href="<%= sellers_dashboard_path %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-purple-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "chart", size: "md", color: "purple" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">Sales Report</h3>
+            <p class="text-xs text-gray-500">View detailed analytics</p>
+          </div>
+        </div>
+      </a>
+    <% else %>
+      <!-- Buyer quick actions -->
+      <a href="<%= products_path %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-amber-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "star", size: "md", color: "amber" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">Browse Products</h3>
+            <p class="text-xs text-gray-500">Explore our product catalog</p>
+          </div>
+        </div>
+      </a>
+      
+      <a href="<%= defined?(wishlist_path) ? wishlist_path : "#" %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-red-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "heart", size: "md", color: "red" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">Wishlist</h3>
+            <p class="text-xs text-gray-500">View your saved items</p>
+          </div>
+        </div>
+      </a>
+      
+      <a href="<%= orders_path %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-blue-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "cart", size: "md", color: "blue" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">My Orders</h3>
+            <p class="text-xs text-gray-500">Track your orders</p>
+          </div>
+        </div>
+      </a>
+      
+      <a href="<%= edit_user_registration_path %>" class="bg-white overflow-hidden shadow-md rounded-lg px-4 py-5 border-l-4 border-green-500 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <%= render 'shared/icon', name: "user", size: "md", color: "green" %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">Profile</h3>
+            <p class="text-xs text-gray-500">Update your account</p>
+          </div>
+        </div>
+      </a>
+    <% end %>
+  </div>
+</div>

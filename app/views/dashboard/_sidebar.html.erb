@@ -1,0 +1,143 @@
+<%#
+  Dashboard sidebar component
+%>
+
+<div class="hidden md:flex md:flex-shrink-0">
+  <div class="flex flex-col w-64">
+    <!-- Sidebar component -->
+    <div class="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto bg-indigo-700">
+      <div class="flex items-center flex-shrink-0 px-4">
+        <div class="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center mr-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+        </div>
+        <span class="text-xl font-bold text-white">DigitalStore</span>
+      </div>
+      <div class="mt-6 flex-grow flex flex-col">
+        <nav class="flex-1 px-2 space-y-1" aria-label="Sidebar">
+          <!-- Dashboard -->
+          <a href="<%= root_path %>" class="bg-indigo-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" aria-current="page">
+            <div class="mr-3">
+              <%= render 'shared/icon', name: "template", size: "sm", color: "blue" %>
+            </div>
+            Dashboard
+          </a>
+
+          <!-- Schedule -->
+          <a href="<%= dashboard_schedule_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <div class="mr-3">
+              <%= render 'shared/icon', name: "calendar", size: "sm", color: "purple" %>
+            </div>
+            Schedule
+          </a>
+
+          <% if current_user.seller? %>
+            <!-- Seller-specific navigation -->
+            <a href="<%= sellers_dashboard_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              <div class="mr-3">
+                <%= render 'shared/icon', name: "chart", size: "sm", color: "green" %>
+              </div>
+              Seller Dashboard
+            </a>
+
+            <a href="<%= sellers_products_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              <div class="mr-3">
+                <%= render 'shared/icon', name: "star", size: "sm", color: "amber" %>
+              </div>
+              My Products
+            </a>
+
+            <a href="<%= new_sellers_product_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              <div class="mr-3">
+                <%= render 'shared/icon', name: "plus", size: "sm", color: "green" %>
+              </div>
+              Add New Product
+            </a>
+
+            <a href="<%= edit_seller_path(current_user.seller) %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              <div class="mr-3">
+                <%= render 'shared/icon', name: "settings", size: "sm", color: "blue" %>
+              </div>
+              Seller Settings
+            </a>
+          <% else %>
+            <!-- Buyer-specific navigation -->
+            <a href="<%= products_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              <div class="mr-3">
+                <%= render 'shared/icon', name: "star", size: "sm", color: "amber" %>
+              </div>
+              Browse Products
+            </a>
+
+            <% if defined?(orders_path) %>
+              <a href="<%= orders_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "cart", size: "sm", color: "green" %>
+                </div>
+                My Orders
+              </a>
+            <% end %>
+
+            <% if defined?(wishlist_path) %>
+              <a href="<%= wishlist_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <div class="mr-3">
+                  <%= render 'shared/icon', name: "lightning", size: "sm", color: "peach" %>
+                </div>
+                Wishlist
+              </a>
+            <% end %>
+
+            <a href="<%= become_seller_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              <div class="mr-3">
+                <%= render 'shared/icon', name: "store", size: "sm", color: "purple" %>
+              </div>
+              Become a Seller
+            </a>
+          <% end %>
+
+          <!-- Common navigation items -->
+          <a href="<%= edit_user_registration_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <div class="mr-3">
+              <%= render 'shared/icon', name: "user", size: "sm", color: "blue" %>
+            </div>
+            Account Settings
+          </a>
+
+          <a href="<%= help_path %>" class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <div class="mr-3">
+              <%= render 'shared/icon', name: "search", size: "sm", color: "amber" %>
+            </div>
+            Help Center
+          </a>
+        </nav>
+      </div>
+      <!-- User Profile Section -->
+      <div class="flex-shrink-0 flex border-t border-indigo-800 p-4">
+        <div class="flex items-center">
+          <div>
+            <% if current_user.respond_to?(:profile_picture) && current_user.profile_picture.respond_to?(:attached?) && current_user.profile_picture.attached? %>
+              <%= image_tag current_user.profile_picture, class: "h-10 w-10 rounded-full", alt: "#{current_user.full_name}'s profile picture" %>
+            <% else %>
+              <div class="h-10 w-10 rounded-full bg-indigo-200 flex items-center justify-center">
+                <span class="text-indigo-800 font-medium">
+                  <% if current_user.respond_to?(:first_name) && current_user.respond_to?(:last_name) %>
+                    <%= current_user.first_name.first.upcase %><%= current_user.last_name.first.upcase %>
+                  <% else %>
+                    <%= current_user.email.first.upcase %>
+                  <% end %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-white"><%= current_user&.full_name || current_user.email %></p>
+            <div class="flex items-center text-xs font-medium text-indigo-200 group">
+              <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "group-hover:text-white" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

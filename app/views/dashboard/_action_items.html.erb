@@ -1,0 +1,42 @@
+<%#
+  Action items component
+%>
+
+<div class="mt-8">
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Action Items</h3>
+    <div class="text-sm">
+      <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+    </div>
+  </div>
+  <div class="mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-6">
+      <div class="space-y-5">
+        <% @action_items.each do |item| %>
+          <div class="relative flex items-start">
+            <div class="flex items-center h-5">
+              <input id="action_<%= item[:title].parameterize %>" name="action_<%= item[:title].parameterize %>" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+            </div>
+            <div class="ml-3 flex justify-between flex-1">
+              <div>
+                <label for="action_<%= item[:title].parameterize %>" class="text-sm font-medium text-gray-700"><%= item[:title] %></label>
+                <p class="text-sm text-gray-500"><%= item[:description] %></p>
+              </div>
+              <span class="text-xs font-medium text-<%= item[:priority] == 'high' ? 'amber' : (item[:priority] == 'medium' ? 'blue' : 'green') %>-500">
+                <%= item[:priority].titleize %> Priority
+              </span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-6">
+        <button type="button" class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Add new action
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

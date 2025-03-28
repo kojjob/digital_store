@@ -1,4 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_action :configure_account_update_params, only: [ :update ]
+
   # Override the update method to allow profile picture updates without password
   def update
     # Check if we're only updating permitted parameters that don't require password
@@ -20,7 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  private
+  protected
 
   # Parameters that don't require password verification
   def no_password_attributes
@@ -46,5 +48,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
       params[:user].delete(:password_confirmation)
       params[:user].delete(:current_password)
     end
+  end
+
+  # Configure permitted parameters for account updates
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :first_name, :last_name, :profile_picture, :remove_profile_picture ])
   end
 end

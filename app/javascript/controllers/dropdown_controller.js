@@ -1,55 +1,41 @@
-import { Controller } from "@hotwired/stimulus"
+import BaseDropdownController from "./base_dropdown_controller"
 
-export default class extends Controller {
-  static targets = ["menu"]
+export default class extends BaseDropdownController {
+  // Properly inherit targets from the base controller while adding our own
+  static targets = ["menu", "label", "selected"]
   
   connect() {
-    // Close dropdown when clicking elsewhere
-    document.addEventListener('click', this.handleDocumentClick.bind(this))
-    document.addEventListener('keydown', this.handleKeydown.bind(this))
+    super.connect()
   }
   
   disconnect() {
-    document.removeEventListener('click', this.handleDocumentClick.bind(this))
-    document.removeEventListener('keydown', this.handleKeydown.bind(this))
+    super.disconnect()
   }
-  
-  handleDocumentClick(event) {
-    if (!this.element.contains(event.target)) {
-      this.hide()
-    }
-  }
-  
-  handleKeydown(event) {
-    if (event.key === 'Escape') {
-      this.hide()
-    }
-  }
-  
+
   toggle(event) {
-    event.stopPropagation()
-    
-    if (this.menuTarget.classList.contains('hidden')) {
-      this.show()
-    } else {
-      this.hide()
+    // Ensure we prevent default action and stop propagation
+    if (event) {
+      event.preventDefault()
+      event.stopPropagation()
     }
+    super.toggle(event)
   }
-  
-  show() {
-    this.menuTarget.classList.remove('hidden', 'opacity-0', 'scale-95')
-    this.menuTarget.classList.add('opacity-100', 'scale-100')
-  }
-  
-  hide() {
-    this.menuTarget.classList.remove('opacity-100', 'scale-100')
-    this.menuTarget.classList.add('opacity-0', 'scale-95')
+
+  select(event) {
+    if (event) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
     
-    // Hide after animation
-    setTimeout(() => {
-      if (this.menuTarget) { // Check if target still exists
-        this.menuTarget.classList.add('hidden')
-      }
-    }, 200)
+    const value = event.currentTarget.dataset.value || event.currentTarget.textContent.trim()
+    
+    if (this.hasSelectedTarget) {
+      this.selectedTarget.textContent = value
+    } else if (this.hasLabelTarget) {
+      this.labelTarget.textContent = value
+    }
+    
+    // Hide the dropdown after selection
+    this.hide()
   }
 }

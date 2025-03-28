@@ -1,0 +1,39 @@
+<div class="fixed bottom-6 right-6 z-50" data-controller="dropdown">
+  <button class="bg-white shadow-lg rounded-full p-4 flex items-center space-x-2 border border-gray-200"
+          data-action="dropdown#toggle">
+    <span class="text-sm font-medium">
+      <% if session[:country] == "nigeria" %>
+        🇳🇬 Nigeria
+      <% else %>
+        🇬🇭 Ghana
+      <% end %>
+    </span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  
+  <div class="absolute right-0 bottom-16 bg-white shadow-xl rounded-lg py-2 w-48 hidden opacity-0 translate-y-1 transition-all duration-200"
+       data-dropdown-target="menu">
+    <%= turbo_frame_tag "country_selection" do %>
+      <a href="/set_country?country=ghana" class="flex items-center px-4 py-2 hover:bg-gray-100" data-turbo-method="post">
+        <span class="mr-2">🇬🇭</span>
+        <span class="flex-1">Ghana</span>
+        <% if session[:country] == "ghana" || session[:country].nil? %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        <% end %>
+      </a>
+      <a href="/set_country?country=nigeria" class="flex items-center px-4 py-2 hover:bg-gray-100" data-turbo-method="post">
+        <span class="mr-2">🇳🇬</span>
+        <span class="flex-1">Nigeria</span>
+        <% if session[:country] == "nigeria" %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        <% end %>
+      </a>
+    <% end %>
+  </div>
+</div>

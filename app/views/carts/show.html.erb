@@ -1,0 +1,214 @@
+<% content_for :title, "Your Cart" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Page Header -->
+  <div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 mb-8 shadow-md">
+    <div class="absolute inset-0 opacity-20">
+      <svg class="h-full w-full" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 891C126.667 853.667 253.333 835 380 835C633.333 835 760 939.5 1013 939.5C1139.67 939.5 1266.33 911.333 1393 855L1393 1080H0V891Z" fill="white" fill-opacity="0.3" />
+        <path d="M0 986C126.667 928 253.333 899 380 899C633.333 899 760 1010.5 1013 1010.5C1139.67 1010.5 1266.33 950.333 1393 830V1080H0V986Z" fill="white" fill-opacity="0.3" />
+      </svg>
+    </div>
+    <div class="relative py-8 px-8 sm:px-12">
+      <div class="text-white">
+        <h1 class="text-3xl font-bold mb-2">Your Shopping Cart</h1>
+        <p class="text-indigo-50 max-w-lg">Review and update your items before checkout</p>
+      </div>
+    </div>
+  </div>
+
+  <% if notice.present? %>
+    <div class="mb-6">
+      <div class="rounded-md bg-green-50 p-4 border border-green-200">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-green-800" id="notice"><%= notice %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
+  <% if @cart.cart_items.any? %>
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Product
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Price
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Quantity
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Total
+              </th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @cart.cart_items.includes(:product).each do |item| %>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 h-16 w-16 border border-gray-200 rounded overflow-hidden">
+                      <% if item.product.images.attached? %>
+                        <%= image_tag item.product.images.first, class: "w-full h-full object-cover" %>
+                      <% elsif item.product.respond_to?(:product_images) && item.product.product_images.any? && item.product.product_images.first.has_image? %>
+                        <%= image_tag item.product.product_images.first.image, class: "w-full h-full object-cover" %>
+                      <% else %>
+                        <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">
+                        <%= link_to item.product.name, product_path(item.product), class: "hover:text-indigo-600" %>
+                      </div>
+                      <div class="text-xs text-gray-500">
+                        <%= item.product.category&.name %>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">
+                    <%= number_to_currency(item.price) %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <%= form_with url: update_quantity_cart_path, method: :patch, class: "flex items-center space-x-2" do |f| %>
+                    <%= f.hidden_field :product_id, value: item.product_id %>
+                    <button type="button" class="quantity-decrement text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                      </svg>
+                    </button>
+                    
+                    <%= f.number_field :quantity, value: item.quantity, min: 1, max: 99, class: "quantity-input block w-16 text-center rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm shadow-sm" %>
+                    
+                    <button type="button" class="quantity-increment text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                      </svg>
+                    </button>
+                    
+                    <button type="submit" class="ml-2 text-indigo-600 hover:text-indigo-800 text-sm">
+                      Update
+                    </button>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= number_to_currency(item.total_price) %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <%= link_to remove_item_cart_path(product_id: item.product_id), method: :delete, class: "text-red-600 hover:text-red-900", data: { confirm: "Are you sure you want to remove this item?" } do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Cart Summary -->
+      <div class="bg-gray-50 p-6 border-t border-gray-200">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
+          <div>
+            <%= link_to clear_cart_path, method: :delete, class: "text-sm text-gray-600 hover:text-gray-900 flex items-center", data: { confirm: "Are you sure you want to empty your cart?" } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Empty Cart
+            <% end %>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 max-w-md ml-auto">
+            <div class="text-gray-700 text-sm mb-2">Cart Summary</div>
+            <div class="flex justify-between pb-2 mb-2 border-b border-gray-200">
+              <span class="text-gray-600">Subtotal:</span>
+              <span class="font-semibold"><%= number_to_currency(@cart.total) %></span>
+            </div>
+            <div class="flex justify-between pb-2 mb-2 border-b border-gray-200">
+              <span class="text-gray-600">Shipping:</span>
+              <span class="font-semibold">Calculated at checkout</span>
+            </div>
+            <div class="flex justify-between pb-2 mb-4">
+              <span class="text-gray-600">Tax:</span>
+              <span class="font-semibold">Calculated at checkout</span>
+            </div>
+            <div class="mt-4 space-y-2">
+              <%= link_to "/checkout", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+                Proceed to Checkout
+              <% end %>
+              <%= link_to "/products", class: "w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+                Continue Shopping
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <!-- Empty Cart State -->
+    <div class="text-center py-16 px-4 sm:px-6 lg:px-8 bg-white rounded-lg shadow-sm border border-gray-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+      <h3 class="mt-4 text-lg font-medium text-gray-900">Your cart is empty</h3>
+      <p class="mt-2 text-gray-500 max-w-md mx-auto">Looks like you haven't added any products to your cart yet.</p>
+      <div class="mt-6">
+        <%= link_to "/products", class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          Browse Products
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Quantity adjustment buttons
+    document.querySelectorAll('.quantity-decrement').forEach(button => {
+      button.addEventListener('click', function() {
+        const input = this.parentNode.querySelector('.quantity-input');
+        const currentValue = parseInt(input.value);
+        if (currentValue > 1) {
+          input.value = currentValue - 1;
+        }
+      });
+    });
+    
+    document.querySelectorAll('.quantity-increment').forEach(button => {
+      button.addEventListener('click', function() {
+        const input = this.parentNode.querySelector('.quantity-input');
+        const currentValue = parseInt(input.value);
+        if (currentValue < 99) {
+          input.value = currentValue + 1;
+        }
+      });
+    });
+  });
+</script>
