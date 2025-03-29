@@ -126,6 +126,8 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    groupdate (6.5.1)
+      activesupport (>= 7)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -414,6 +416,7 @@ DEPENDENCIES
   capybara
   debug
   devise
+  groupdate
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

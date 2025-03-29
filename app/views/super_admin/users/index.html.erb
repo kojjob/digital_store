@@ -69,7 +69,22 @@
               <% @users.each do |user| %>
                 <tr>
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                    <%= user.email %>
+                    <div class="flex items-center">
+                      <div class="h-10 w-10 flex-shrink-0">
+                        <% if user.profile_picture.attached? %>
+                          <%= image_tag user.profile_picture.variant(resize_to_fill: [40, 40]), class: "h-10 w-10 rounded-full" %>
+                        <% else %>
+                          <span class="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                          </span>
+                        <% end %>
+                      </div>
+                      <div class="ml-4">
+                        <%= user.email %>
+                      </div>
+                    </div>
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <%= user.full_name %>
@@ -100,13 +115,16 @@
                   </td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                     <div class="flex space-x-2 justify-end">
-                      <a href="<%= super_admin_user_path(user) %>" class="text-red-600 hover:text-red-900">
+                      <a href="<%= super_admin_user_path(user) %>" class="text-blue-600 hover:text-blue-900">
                         View<span class="sr-only">, <%= user.email %></span>
                       </a>
                       <% unless user == current_user || user.super_admin? %>
                         <a href="<%= edit_super_admin_user_path(user) %>" class="text-indigo-600 hover:text-indigo-900">
                           Edit<span class="sr-only">, <%= user.email %></span>
                         </a>
+                        <%= button_to super_admin_user_path(user), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to delete this user? This action cannot be undone." } }, class: "text-red-600 hover:text-red-900 bg-transparent border-none p-0 cursor-pointer" do %>
+                          Delete<span class="sr-only">, <%= user.email %></span>
+                        <% end %>
                       <% end %>
                     </div>
                   </td>

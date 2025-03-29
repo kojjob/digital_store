@@ -28,7 +28,7 @@
         </div>
         <div class="row mb-3">
           <div class="col-md-5 font-weight-bold">Payment Method:</div>
-          <div class="col-md-7"><%= @order.payment_processor.titleize %></div>
+          <div class="col-md-7"><%= @order.payment_processor.present? ? @order.payment_processor.titleize : 'Not specified' %></div>
         </div>
         <div class="row mb-3">
           <div class="col-md-5 font-weight-bold">Transaction ID:</div>
@@ -139,7 +139,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-4">
-            <% if @order.product.primary_image.attached? %>
+            <% if @order.product.primary_image.present? && @order.product.primary_image.attached? %>
               <%= image_tag @order.product.primary_image.variant(resize_to_limit: [150, 150]), class: "img-fluid" %>
             <% else %>
               <div class="bg-light text-center py-4 px-2" style="width: 150px; height: 150px;">

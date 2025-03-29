@@ -30,6 +30,7 @@
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
                 <%= link_to "Dashboard", super_admin_dashboard_path, class: "#{current_page?(super_admin_dashboard_path) ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
+                <%= link_to "Financial", super_admin_finance_path, class: "#{current_page?(super_admin_finance_path) ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
                 <%= link_to "Users", super_admin_users_path, class: "#{controller_name == 'users' ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
                 <%= link_to "System", super_admin_system_path, class: "#{controller_name == 'system' ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
                 <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-white hover:bg-red-600 hover:bg-opacity-75 rounded-md px-3 py-2 text-sm font-medium" %>
@@ -94,6 +95,7 @@
       <div class="md:hidden" id="mobile-menu">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
           <%= link_to "Dashboard", super_admin_dashboard_path, class: "#{current_page?(super_admin_dashboard_path) ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
+          <%= link_to "Financial", super_admin_finance_path, class: "#{current_page?(super_admin_finance_path) ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
           <%= link_to "Users", super_admin_users_path, class: "#{controller_name == 'users' ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
           <%= link_to "System", super_admin_system_path, class: "#{controller_name == 'system' ? 'bg-red-800 text-white' : 'text-white hover:bg-red-600 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
           <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-white hover:bg-red-600 hover:bg-opacity-75 block rounded-md px-3 py-2 text-base font-medium" %>
@@ -113,7 +115,7 @@
               <% end %>
             </div>
             <div class="ml-3">
-              <div class="text-base font-medium text-white"><%= current_user.name %></div>
+              <div class="text-base font-medium text-white"><%= current_user.full_name %></div>
               <div class="text-sm font-medium text-red-300"><%= current_user.email %></div>
             </div>
           </div>

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :load_global_data
   before_action :check_impersonation
+  before_action :check_active_user
 
   # Define helper methods for Devise authentication
   def user_signed_in?
@@ -36,6 +37,14 @@ class ApplicationController < ActionController::Base
   def check_impersonation
     if user_signed_in? && session[:admin_id].present?
       @impersonating = true
+    end
+  end
+
+  # Check if current user is active
+  def check_active_user
+    if user_signed_in? && !current_user.active? && !impersonating?
+      sign_out(current_user)
+      redirect_to root_path, alert: "Your account has been deactivated. Please contact support for assistance."
     end
   end
 
