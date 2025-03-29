@@ -36,17 +36,17 @@ module WebhookHandling
   def allowed_webhook_ips(provider)
     # Get the list from configuration, with a different list per environment
     config_ips = Rails.application.config_for(:webhooks).dig(provider.to_sym, :allowed_ips)
-    
+
     # Convert to an array if a string was provided
-    return config_ips.split(',').map(&:strip) if config_ips.is_a?(String)
-    
+    return config_ips.split(",").map(&:strip) if config_ips.is_a?(String)
+
     # Return as is if it's already an array
     return config_ips if config_ips.is_a?(Array)
-    
+
     # Fall back to environment variables if config is missing
     env_ips = ENV.fetch("#{provider.upcase}_WEBHOOK_ALLOWED_IPS", nil)
-    return env_ips.split(',').map(&:strip) if env_ips.present?
-    
+    return env_ips.split(",").map(&:strip) if env_ips.present?
+
     # Return an empty array if no configuration is found
     []
   end
@@ -62,10 +62,10 @@ module WebhookHandling
     begin
       # Extract transaction reference from payload if not provided
       transaction_ref ||= extract_transaction_ref_from_payload(payload, provider)
-      
+
       # Find the order associated with this transaction if not provided
       order ||= find_order_for_transaction(transaction_ref, provider)
-      
+
       if order
         PaymentAuditLog.create(
           user_id: order.user_id,
@@ -96,7 +96,7 @@ module WebhookHandling
   def extract_transaction_ref_from_payload(payload, provider)
     begin
       data = JSON.parse(payload)
-      
+
       case provider
       when "momo"
         data["transaction_reference"]
@@ -113,14 +113,14 @@ module WebhookHandling
   # Find order associated with transaction reference
   def find_order_for_transaction(transaction_ref, provider)
     return nil if transaction_ref.blank?
-    
+
     Order.find_by(payment_id: transaction_ref, payment_processor: provider)
   end
 
   # Sanitize headers to remove sensitive information
   def sanitize_headers(headers)
     safe_headers = {}
-    
+
     # Only include specific headers we care about
     %w[
       HTTP_USER_AGENT
@@ -131,11 +131,11 @@ module WebhookHandling
     ].each do |key|
       safe_headers[key] = headers[key] if headers[key].present?
     end
-    
+
     # Include provider-specific signature headers
     provider_header = webhook_signature_header
     safe_headers[provider_header] = headers[provider_header] if headers[provider_header].present?
-    
+
     safe_headers
   end
 

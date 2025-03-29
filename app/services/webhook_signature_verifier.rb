@@ -16,11 +16,11 @@ class WebhookSignatureVerifier
     return false if @signature.blank? || @payload.blank?
 
     case @provider
-    when 'mtn', 'airtel', 'vodafone'
+    when "mtn", "airtel", "vodafone"
       verify_momo_signature
-    when 'stripe'
+    when "stripe"
       verify_stripe_signature
-    when 'paypal'
+    when "paypal"
       verify_paypal_signature
     else
       Rails.logger.error("Unsupported webhook provider: #{@provider}")
@@ -43,8 +43,8 @@ class WebhookSignatureVerifier
 
     begin
       # Calculate expected signature
-      expected_signature = OpenSSL::HMAC.hexdigest('SHA256', secret_key, @payload)
-      
+      expected_signature = OpenSSL::HMAC.hexdigest("SHA256", secret_key, @payload)
+
       # Use constant-time comparison to prevent timing attacks
       ActiveSupport::SecurityUtils.secure_compare(expected_signature, @signature)
     rescue => e
@@ -64,13 +64,13 @@ class WebhookSignatureVerifier
     begin
       # Reconstruct the signed payload string
       signed_payload = "#{@timestamp}.#{@payload}"
-      
+
       # Generate the expected signature
-      expected_signature = OpenSSL::HMAC.hexdigest('SHA256', secret_key, signed_payload)
-      
+      expected_signature = OpenSSL::HMAC.hexdigest("SHA256", secret_key, signed_payload)
+
       # Extract the signature from the Stripe-Signature header
       stripe_signatures = parse_stripe_signature(@signature)
-      
+
       # Look for a matching signature
       stripe_signatures.any? do |sig|
         ActiveSupport::SecurityUtils.secure_compare(expected_signature, sig)
@@ -83,7 +83,7 @@ class WebhookSignatureVerifier
 
   # Verify PayPal signature (using PayPal's algorithm)
   def verify_paypal_signature
-    return false if @signature.blank? || @headers['paypal-auth-algo'].blank?
+    return false if @signature.blank? || @headers["paypal-auth-algo"].blank?
 
     # Get PayPal webhook secret from centralized configuration
     secret_key = PaymentConfig.get_secret("paypal", "webhook_secret", "PAYPAL_WEBHOOK_SECRET")
@@ -103,9 +103,9 @@ class WebhookSignatureVerifier
   # Parse Stripe signature header into individual signatures
   def parse_stripe_signature(signature_header)
     signatures = []
-    signature_header.split(',').each do |entry|
-      entry_parts = entry.split('=')
-      if entry_parts.length == 2 && entry_parts[0].strip == 'v1'
+    signature_header.split(",").each do |entry|
+      entry_parts = entry.split("=")
+      if entry_parts.length == 2 && entry_parts[0].strip == "v1"
         signatures << entry_parts[1].strip
       end
     end

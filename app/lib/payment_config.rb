@@ -49,17 +49,17 @@ module PaymentConfig
     # Get allowed webhook IPs for a specific provider
     def self.allowed_ips(provider)
       config_ips = Rails.application.config_for(:webhooks).dig(provider.to_sym, :allowed_ips)
-      
+
       # Convert to an array if a string was provided
-      return config_ips.split(',').map(&:strip) if config_ips.is_a?(String)
-      
+      return config_ips.split(",").map(&:strip) if config_ips.is_a?(String)
+
       # Return as is if it's already an array
       return config_ips if config_ips.is_a?(Array)
-      
+
       # Fall back to environment variables if config is missing
       env_ips = ENV.fetch("#{provider.upcase}_WEBHOOK_ALLOWED_IPS", nil)
-      return env_ips.split(',').map(&:strip) if env_ips.present?
-      
+      return env_ips.split(",").map(&:strip) if env_ips.present?
+
       # Return an empty array if no configuration is found
       []
     end
@@ -85,13 +85,13 @@ module PaymentConfig
     # Get allowed webhook IPs
     def self.allowed_ips
       config_ips = Rails.application.config_for(:webhooks).dig(:stripe, :allowed_ips)
-      
+
       # Convert to an array if a string was provided
-      return config_ips.split(',').map(&:strip) if config_ips.is_a?(String)
-      
+      return config_ips.split(",").map(&:strip) if config_ips.is_a?(String)
+
       # Return as is if it's already an array
       return config_ips if config_ips.is_a?(Array)
-      
+
       # Return Stripe's documented webhook IPs
       [
         "54.187.174.169",
@@ -107,7 +107,7 @@ module PaymentConfig
   def self.get_secret(service, key, env_var = nil)
     # Try to get from credentials first (more secure)
     secret = Rails.application.credentials.dig(service.to_sym, key.to_sym)
-    
+
     # Fall back to environment variable if not found in credentials
     secret || (env_var.present? ? ENV.fetch(env_var, nil) : nil)
   end

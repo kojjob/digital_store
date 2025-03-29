@@ -17,10 +17,10 @@ class PhoneNumberValidator
   # Validate a phone number for a specific provider
   def valid?(phone_number, provider)
     return false unless PROVIDERS.key?(provider.to_sym)
-    
+
     # Strip spaces and any other characters
     cleaned_number = phone_number.to_s.gsub(/\D/, "")
-    
+
     # Validate based on country and provider
     case @country
     when :ghana
@@ -48,10 +48,10 @@ class PhoneNumberValidator
   # Format a phone number to international format
   def format_international(phone_number)
     cleaned = phone_number.to_s.gsub(/\D/, "")
-    
+
     # Remove leading zeros
     cleaned = cleaned.gsub(/^0+/, "")
-    
+
     # Add country code
     "#{country_code}#{cleaned}"
   end
