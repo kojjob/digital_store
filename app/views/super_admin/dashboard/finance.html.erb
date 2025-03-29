@@ -1,0 +1,358 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="sm:flex sm:items-center mb-8">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">Financial Dashboard</h1>
+      <p class="mt-2 text-sm text-gray-700">Comprehensive view of platform revenue, sales, and user spending.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <a href="<%= super_admin_dashboard_path %>" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto">
+        Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- Platform Overview -->
+  <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-3">
+    <div class="overflow-hidden rounded-lg bg-white shadow">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="truncate text-sm font-medium text-gray-500">Total Platform Revenue</dt>
+              <dd class="text-2xl font-medium text-gray-900">$<%= number_with_precision(@total_platform_revenue, precision: 2) %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-lg bg-white shadow">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="truncate text-sm font-medium text-gray-500">Total Platform Commission</dt>
+              <dd class="text-2xl font-medium text-gray-900">$<%= number_with_precision(@total_commission, precision: 2) %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-lg bg-white shadow">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="truncate text-sm font-medium text-gray-500">Total Net to Sellers</dt>
+              <dd class="text-2xl font-medium text-gray-900">$<%= number_with_precision(@total_net_revenue_to_sellers, precision: 2) %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revenue by Month Chart -->
+  <div class="mt-8 bg-white p-6 shadow rounded-lg">
+    <h2 class="text-xl font-semibold text-gray-900 mb-4">Monthly Revenue</h2>
+    <div class="h-80">
+      <canvas id="revenueChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Sellers Table -->
+  <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Top Sellers by Revenue</h2>
+  <div class="mt-2 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Seller</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Total Sales</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Gross Revenue</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Commission</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Net Revenue</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">View</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <% @seller_stats.each do |stats| %>
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                    <div class="flex items-center">
+                      <div class="h-10 w-10 flex-shrink-0">
+                        <% if stats[:user].profile_picture.attached? %>
+                          <%= image_tag stats[:user].profile_picture.variant(resize_to_fill: [40, 40]), class: "h-10 w-10 rounded-full" %>
+                        <% else %>
+                          <span class="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                          </span>
+                        <% end %>
+                      </div>
+                      <div class="ml-4">
+                        <div class="font-medium text-gray-900"><%= stats[:user].full_name %></div>
+                        <div class="text-gray-500"><%= stats[:user].email %></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    <%= stats[:total_sales] %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    $<%= number_with_precision(stats[:total_revenue], precision: 2) %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    $<%= number_with_precision(stats[:commission], precision: 2) %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    $<%= number_with_precision(stats[:net_revenue], precision: 2) %>
+                  </td>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                    <a href="<%= super_admin_user_path(stats[:user]) %>" class="text-indigo-600 hover:text-indigo-900">View</a>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buyers Table -->
+  <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Top Buyers by Spending</h2>
+  <div class="mt-2 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Buyer</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Total Purchases</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Total Spent</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Digital</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Physical</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">View</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <% @buyer_stats.each do |stats| %>
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                    <div class="flex items-center">
+                      <div class="h-10 w-10 flex-shrink-0">
+                        <% if stats[:user].profile_picture.attached? %>
+                          <%= image_tag stats[:user].profile_picture.variant(resize_to_fill: [40, 40]), class: "h-10 w-10 rounded-full" %>
+                        <% else %>
+                          <span class="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                          </span>
+                        <% end %>
+                      </div>
+                      <div class="ml-4">
+                        <div class="font-medium text-gray-900"><%= stats[:user].full_name %></div>
+                        <div class="text-gray-500"><%= stats[:user].email %></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    <%= stats[:total_purchases] %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    $<%= number_with_precision(stats[:total_spent], precision: 2) %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    <%= stats[:digital_purchases] %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    <%= stats[:physical_purchases] %>
+                  </td>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                    <a href="<%= super_admin_user_path(stats[:user]) %>" class="text-indigo-600 hover:text-indigo-900">View</a>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Products -->
+  <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Top Products by Revenue</h2>
+  <div class="mt-2 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Product</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Orders</th>
+                <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Revenue</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <% @top_products.each do |product| %>
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                    <%= product.name %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    <%= product.orders_count %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                    $<%= number_with_precision(product.revenue, precision: 2) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Status Chart -->
+  <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <div class="bg-white p-6 shadow rounded-lg">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Order Status Distribution</h2>
+      <div class="h-64">
+        <canvas id="orderStatusChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="bg-white p-6 shadow rounded-lg">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Monthly Orders</h2>
+      <div class="h-64">
+        <canvas id="ordersChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for Charts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Monthly Revenue Chart
+      const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+      const revenueChart = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+          labels: <%= raw @monthly_revenue.keys.to_json %>,
+          datasets: [{
+            label: 'Monthly Revenue',
+            data: <%= raw @monthly_revenue.values.to_json %>,
+            backgroundColor: 'rgba(79, 70, 229, 0.2)',
+            borderColor: 'rgba(79, 70, 229, 1)',
+            borderWidth: 2,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '$' + value.toFixed(2);
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Order Status Chart
+      const statusCtx = document.getElementById('orderStatusChart').getContext('2d');
+      const statusChart = new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+          labels: <%= raw @order_status_counts.keys.map(&:capitalize).to_json %>,
+          datasets: [{
+            data: <%= raw @order_status_counts.values.to_json %>,
+            backgroundColor: [
+              'rgba(52, 211, 153, 0.8)',
+              'rgba(251, 191, 36, 0.8)',
+              'rgba(239, 68, 68, 0.8)',
+              'rgba(107, 114, 128, 0.8)'
+            ],
+            borderColor: [
+              'rgba(52, 211, 153, 1)',
+              'rgba(251, 191, 36, 1)',
+              'rgba(239, 68, 68, 1)',
+              'rgba(107, 114, 128, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+            }
+          }
+        }
+      });
+
+      // Monthly Orders Chart
+      const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+      const ordersChart = new Chart(ordersCtx, {
+        type: 'bar',
+        data: {
+          labels: <%= raw @monthly_orders.keys.to_json %>,
+          datasets: [{
+            label: 'Monthly Orders',
+            data: <%= raw @monthly_orders.values.to_json %>,
+            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+            borderColor: 'rgba(59, 130, 246, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+</div>

@@ -13,7 +13,7 @@
 
   <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
     <div class="px-4 py-5 sm:p-6">
-      <%= form_with model: [:super_admin, @user], local: true do |f| %>
+      <%= form_with model: [:super_admin, @user], local: true, html: { multipart: true } do |f| %>
         <div class="space-y-6">
           <div>
             <h3 class="text-lg font-medium leading-6 text-gray-900">User Information</h3>
@@ -21,6 +21,34 @@
           </div>
 
           <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            <div class="sm:col-span-6">
+              <div class="mt-1 flex items-center">
+                <span class="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                  <% if @user.profile_picture.attached? %>
+                    <%= image_tag @user.profile_picture.variant(resize_to_fill: [48, 48]), class: "h-full w-full" %>
+                  <% else %>
+                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  <% end %>
+                </span>
+                <div class="ml-5">
+                  <%= f.file_field :profile_picture, class: "block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100" %>
+                </div>
+              </div>
+              <% if @user.profile_picture.attached? %>
+                <div class="mt-2">
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <%= f.check_box :remove_profile_picture, class: "focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded" %>
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <%= f.label :remove_profile_picture, "Remove current profile picture", class: "font-medium text-gray-700" %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
             <div class="sm:col-span-3">
               <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
               <div class="mt-1">

@@ -80,6 +80,8 @@ Rails.application.routes.draw do
   # Admin routes
   namespace :admin do
     resources :product_questions, except: [ :new, :create ]
+    resources :products
+    resources :users
     resources :downloads do
       member do
         post :regenerate
@@ -97,10 +99,10 @@ Rails.application.routes.draw do
         get :export_audit_log
       end
     end
-    
+
     # Payment Security Dashboard
     namespace :security do
-      resources :payment_dashboard, only: [:index] do
+      resources :payment_dashboard, only: [ :index ] do
         collection do
           get :recent_events
         end
@@ -120,6 +122,10 @@ Rails.application.routes.draw do
 
     # Dashboard
     get "/", to: "dashboard#index", as: :dashboard
+    get "/finance", to: "dashboard#finance", as: :finance
+
+    # Product management
+    resources :products
 
     # User management
     resources :users do

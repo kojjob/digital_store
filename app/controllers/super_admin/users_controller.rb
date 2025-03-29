@@ -2,7 +2,7 @@
 
 module SuperAdmin
   class UsersController < SuperAdminController
-    before_action :set_user, only: [ :show, :edit, :update, :impersonate, :toggle_admin ]
+    before_action :set_user, only: [ :show, :edit, :update, :destroy, :impersonate, :toggle_admin ]
 
     def index
       @users = User.all.order(created_at: :desc).page(params[:page]).per(20)
@@ -52,6 +52,18 @@ module SuperAdmin
       end
     end
 
+    def destroy
+      # Prevent deleting yourself or another super admin
+      if @user == current_user
+        redirect_to super_admin_users_path, alert: "You cannot delete your own account."
+      elsif @user.super_admin?
+        redirect_to super_admin_users_path, alert: "Super admin accounts cannot be deleted."
+      else
+        @user.destroy
+        redirect_to super_admin_users_path, notice: "User was successfully deleted."
+      end
+    end
+
     def impersonate
       # Store the super admin's ID to be able to revert
       session[:admin_id] = current_user.id
@@ -96,7 +108,7 @@ module SuperAdmin
     end
 
     def user_params
-      params.require(:user).permit(:email, :first_name, :last_name, :admin, :active)
+      params.require(:user).permit(:email, :first_name, :last_name, :admin, :active, :profile_picture, :remove_profile_picture)
     end
   end
 end

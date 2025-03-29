@@ -1,5 +1,5 @@
 <%# 
-  Reusable statistics card component
+  Reusable statistics card component (modernized version)
   
   Required local variables:
   - icon: String - name of the icon to display
@@ -7,37 +7,59 @@
   - title: String - card title
   - value: String/Number - main statistic to display
   - change_percentage: Float (optional) - percentage change to display
+  - change_note: String (optional) - note about what the change percentage refers to
   - link_text: String (optional) - text for the "View details" link
   - link_path: String/Path (optional) - path for the link
 %>
 
-<div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+<div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1" data-controller="stat-card">
   <div class="p-5">
     <div class="flex items-center">
       <div class="flex-shrink-0">
-        <%= render 'shared/icon', name: icon, size: "md", color: color %>
+        <div class="h-12 w-12 bg-<%= color %>-100 rounded-lg flex items-center justify-center">
+          <%= render 'shared/icon', name: icon, size: "md", color: color %>
+        </div>
       </div>
       <div class="ml-5 w-0 flex-1">
-        <dl>
-          <dt class="text-sm font-medium text-gray-500 truncate"><%= title %></dt>
-          <dd>
-            <div class="text-lg font-medium text-gray-900">
-              <%= value %>
-              <% if defined?(change_percentage) && change_percentage != 0 %>
-                <span class="ml-2 text-sm <%= change_percentage > 0 ? 'text-green-500' : 'text-red-500' %>">
-                  <%= change_percentage > 0 ? '+' : '' %><%= number_to_percentage(change_percentage, precision: 1) %>
-                </span>
+        <dt class="text-sm font-medium text-gray-500 truncate"><%= title %></dt>
+        <dd>
+          <div class="text-2xl font-semibold text-gray-900">
+            <%= value %>
+          </div>
+          <% if defined?(change_percentage) && change_percentage.present? %>
+            <div class="mt-1 flex items-center text-sm">
+              <span class="<%= change_percentage.to_f > 0 ? 'text-green-600' : 'text-red-600' %> font-medium flex items-center">
+                <% if change_percentage.to_f > 0 %>
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  </svg>
+                <% else %>
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                <% end %>
+                <%= change_percentage.to_f > 0 ? '+' : '' %><%= number_to_percentage(change_percentage.to_f, precision: 1) %>
+              </span>
+              <% if defined?(change_note) && change_note.present? %>
+                <span class="text-gray-500 ml-2"><%= change_note %></span>
               <% end %>
             </div>
-          </dd>
-        </dl>
+          <% elsif defined?(change_note) && change_note.present? %>
+            <div class="mt-1 text-sm text-gray-500"><%= change_note %></div>
+          <% end %>
+        </dd>
       </div>
     </div>
   </div>
   <% if defined?(link_text) && defined?(link_path) %>
     <div class="bg-gray-50 px-5 py-3">
       <div class="text-sm">
-        <a href="<%= link_path %>" class="font-medium text-indigo-600 hover:text-indigo-900"><%= link_text %></a>
+        <a href="<%= link_path %>" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center">
+          <%= link_text %>
+          <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
       </div>
     </div>
   <% end %>

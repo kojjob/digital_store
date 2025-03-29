@@ -92,6 +92,16 @@ class User < ApplicationRecord
     !seller?
   end
 
+  # Check if user is active
+  def active?
+    # Use the active database column if present, otherwise fall back to the login-based check
+    if has_attribute?(:active)
+      active == true
+    else
+      last_sign_in_at.present? || created_at > 30.days.ago
+    end
+  end
+
   # Create a seller profile for this user
   def become_seller(seller_params)
     create_seller(seller_params)
@@ -120,6 +130,12 @@ class User < ApplicationRecord
   # Get or create a cart for this user
   def ensure_cart
     cart || create_cart
+  end
+
+  # Return phone number (placeholder method)
+  # This method is added to prevent NoMethodError in views
+  def phone_number
+    nil
   end
 
   private

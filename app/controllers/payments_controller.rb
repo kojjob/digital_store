@@ -2,8 +2,8 @@
 
 class PaymentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_cart, only: [:create, :momo_initiate]
-  before_action :validate_order, only: [:create]
+  before_action :ensure_cart, only: [ :create, :momo_initiate ]
+  before_action :validate_order, only: [ :create ]
 
   def create
     payment_method = params[:payment_method]
@@ -166,7 +166,7 @@ class PaymentsController < ApplicationController
 
   def validate_order
     order_id = params[:order_id]
-    
+
     # Find the order if order_id is provided
     if order_id.present?
       @order = current_user.orders.find_by(id: order_id)
@@ -175,7 +175,7 @@ class PaymentsController < ApplicationController
         return false
       end
     end
-    
+
     true
   end
 

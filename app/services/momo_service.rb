@@ -170,7 +170,7 @@ class MomoService
       elsif transaction_status == "failed"
         order.update(status: "failed", payment_status: "failed")
         Rails.logger.info("Order ##{order.id} payment failed via MoMo webhook")
-        
+
         # Add an audit trail
         create_payment_audit_log(order, "payment_failed", provider, data)
       end
@@ -216,10 +216,10 @@ class MomoService
     loop do
       # Create a reference with timestamp and random component for uniqueness
       reference = "MOMO#{Time.current.to_i}#{SecureRandom.hex(6).upcase}"
-      
+
       # Check if the reference is unique
       return reference unless Order.exists?(payment_id: reference)
-      
+
       # If not unique, try again with a new reference
     end
   end

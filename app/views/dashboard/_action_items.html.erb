@@ -1,42 +1,109 @@
-<%#
-  Action items component
+<%# 
+  Action Items Component
+  
+  Displays a list of actionable items for the user to complete.
+  This component is dynamically updated based on user activity.
 %>
 
-<div class="mt-8">
-  <div class="flex items-center justify-between">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">Action Items</h3>
-    <div class="text-sm">
-      <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900">View all</a>
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+  <div class="bg-indigo-700 px-4 py-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-medium text-white">Your To-Do List</h3>
+      <% if @action_items.present? && @action_items.any? %>
+        <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-white text-indigo-700 text-sm font-semibold">
+          <%= @action_items.size %>
+        </span>
+      <% end %>
     </div>
   </div>
-  <div class="mt-4 bg-white shadow-md rounded-lg overflow-hidden">
-    <div class="p-6">
-      <div class="space-y-5">
-        <% @action_items.each do |item| %>
-          <div class="relative flex items-start">
-            <div class="flex items-center h-5">
-              <input id="action_<%= item[:title].parameterize %>" name="action_<%= item[:title].parameterize %>" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-            </div>
-            <div class="ml-3 flex justify-between flex-1">
-              <div>
-                <label for="action_<%= item[:title].parameterize %>" class="text-sm font-medium text-gray-700"><%= item[:title] %></label>
-                <p class="text-sm text-gray-500"><%= item[:description] %></p>
+
+  <% if @action_items.present? && @action_items.any? %>
+    <ul class="divide-y divide-gray-200" data-action-items-target="list">
+      <% @action_items.each do |item| %>
+        <li class="action-item p-4 hover:bg-gray-50 flex items-start space-x-3" data-action-item-id="<%= item.respond_to?(:id) ? item.id : item[:id] %>" data-controller="action-item">
+          <div class="flex-shrink-0">
+            <% case (item.respond_to?(:category) ? item.category : item[:category]) 
+               when 'profile' %>
+              <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                <svg class="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                </svg>
               </div>
-              <span class="text-xs font-medium text-<%= item[:priority] == 'high' ? 'amber' : (item[:priority] == 'medium' ? 'blue' : 'green') %>-500">
-                <%= item[:priority].titleize %> Priority
-              </span>
-            </div>
+            <% when 'orders' %>
+              <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
+                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                </svg>
+              </div>
+            <% when 'product' %>
+              <div class="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center">
+                <svg class="h-5 w-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            <% when 'payment' %>
+              <div class="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center">
+                <svg class="h-5 w-5 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                  <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            <% when 'review' %>
+              <div class="h-8 w-8 rounded-full bg-yellow-100 flex items-center justify-center">
+                <svg class="h-5 w-5 text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+            <% else %>
+              <div class="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <svg class="h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            <% end %>
           </div>
-        <% end %>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900">
+              <%= item.respond_to?(:title) ? item.title : item[:title] %>
+            </p>
+            <p class="text-sm text-gray-500 mt-1">
+              <%= item.respond_to?(:description) ? item.description : item[:description] %>
+            </p>
+            <% if (item.respond_to?(:due_date) ? item.due_date : item[:due_date]).present? %>
+              <div class="mt-2 flex items-center text-sm text-gray-500">
+                <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                </svg>
+                <% if (item.respond_to?(:due_date) ? item.due_date : item[:due_date]) < Date.today %>
+                  <span class="text-red-600">Due <%= time_ago_in_words(item.respond_to?(:due_date) ? item.due_date : item[:due_date]) %> ago</span>
+                <% else %>
+                  <span>Due <%= (item.respond_to?(:due_date) ? item.due_date : item[:due_date]) == Date.today ? 'today' : "in #{time_ago_in_words(item.respond_to?(:due_date) ? item.due_date : item[:due_date])}" %></span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <div class="flex-shrink-0">
+            <% if (item.respond_to?(:action_url) ? item.action_url : item[:action_url]).present? %>
+              <%= link_to (item.respond_to?(:action_text) ? item.action_text : item[:action_text]).presence || "Complete", (item.respond_to?(:action_url) ? item.action_url : item[:action_url]), class: "inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+            <% end %>
+            <button type="button" data-action="action-item#dismiss" class="mt-2 inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Dismiss
+            </button>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="py-6 text-center">
+      <div class="mx-auto h-12 w-12 text-gray-400">
+        <svg class="h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </div>
-      <div class="mt-6">
-        <button type="button" class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-          </svg>
-          Add new action
-        </button>
-      </div>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">All caught up!</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        You've completed all your tasks.
+      </p>
     </div>
-  </div>
+  <% end %>
 </div>

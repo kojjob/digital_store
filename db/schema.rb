@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_29_000001) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_29_134500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -206,6 +206,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_000001) do
     t.text "meta_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_digital", default: false
     t.index ["available_in_ghana"], name: "index_products_on_available_in_ghana"
     t.index ["available_in_nigeria"], name: "index_products_on_available_in_nigeria"
     t.index ["barcode"], name: "index_products_on_barcode", unique: true, where: "(barcode IS NOT NULL)"
@@ -219,6 +220,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_000001) do
     t.index ["dimensions"], name: "index_products_on_dimensions"
     t.index ["discounted_price"], name: "index_products_on_discounted_price"
     t.index ["featured"], name: "index_products_on_featured"
+    t.index ["is_digital"], name: "index_products_on_is_digital"
     t.index ["meta_description"], name: "index_products_on_meta_description"
     t.index ["meta_title"], name: "index_products_on_meta_title"
     t.index ["name"], name: "index_products_on_name"
@@ -299,6 +301,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_000001) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.boolean "super_admin", default: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.boolean "active", default: true
+    t.index ["active"], name: "index_users_on_active"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

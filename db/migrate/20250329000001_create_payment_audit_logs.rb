@@ -12,11 +12,11 @@ class CreatePaymentAuditLogs < ActiveRecord::Migration[7.0]
       t.text :metadata
       t.inet :ip_address
       t.string :user_agent
-      
+
       t.timestamps
 
       # Add index for faster lookup by event type and payment processor
-      t.index [:event_type, :payment_processor]
+      t.index [ :event_type, :payment_processor ]
     end
   end
 end

@@ -1,0 +1,43 @@
+<%#
+  User Profile Component
+  
+  Displays the user's profile image or initials in a visually appealing way.
+  Can be used in dashboard headers and sidebars.
+%>
+
+<div class="user-profile-container flex items-center">
+  <div class="relative">
+    <% if current_user.respond_to?(:profile_picture) && current_user.profile_picture.respond_to?(:attached?) && current_user.profile_picture.attached? %>
+      <%= image_tag current_user.profile_picture, class: "h-10 w-10 rounded-full object-cover border-2 border-white shadow-md", alt: "#{current_user.full_name}'s profile picture" %>
+    <% else %>
+      <div class="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-medium border-2 border-white shadow-md">
+        <% if current_user.respond_to?(:first_name) && current_user.respond_to?(:last_name) %>
+          <%= current_user.first_name.first.upcase %><%= current_user.last_name.first.upcase %>
+        <% else %>
+          <%= current_user.email.first.upcase %>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <% if current_user.seller? %>
+      <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 border-2 border-white" aria-hidden="true"></span>
+    <% end %>
+  </div>
+  
+  <div class="ml-3 flex flex-col">
+    <span class="text-sm font-medium text-gray-900">
+      <% if current_user.respond_to?(:full_name) && current_user.full_name.present? %>
+        <%= current_user.full_name %>
+      <% else %>
+        <%= current_user.email.split('@').first.titleize %>
+      <% end %>
+    </span>
+    <span class="text-xs text-gray-500">
+      <% if current_user.seller? %>
+        Seller Account
+      <% else %>
+        Customer Account
+      <% end %>
+    </span>
+  </div>
+</div>
