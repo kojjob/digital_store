@@ -88,9 +88,7 @@ class DashboardPresenter
   def recent_orders(limit: 5)
     return [] unless seller?
 
-    seller_orders.includes(:user, :product)
-                .order(created_at: :desc)
-                .limit(limit)
+    seller_orders.includes(:user, :product).order(created_at: :desc).limit(limit)
   end
 
   # Get recent purchases for a buyer
@@ -100,9 +98,7 @@ class DashboardPresenter
   def recent_purchases(limit: 5)
     return [] if seller?
 
-    user.orders.includes(:product)
-        .order(created_at: :desc)
-        .limit(limit)
+    user.orders.includes(:product).order(created_at: :desc).limit(limit)
   end
 
   # Get wishlist items for a buyer
@@ -149,10 +145,7 @@ class DashboardPresenter
 
       # In a real app, this would use a recommendation engine
       # For now, just get the latest products
-      Product.active
-             .includes(:product_images)
-             .order(created_at: :desc)
-             .limit(limit)
+      Product.active.includes(:product_images).order(created_at: :desc).limit(limit)
     rescue => e
       # Log error and return empty array for any failure
       Rails.logger.error("Error getting recommended products: #{e.message}")
@@ -177,19 +170,13 @@ class DashboardPresenter
         return [] unless defined?(Review) && defined?(Product)
 
         # Get reviews for the seller's products
-        Review.joins(product: :seller)
-              .where(products: { seller_id: user.seller.id })
-              .includes(:user, :product)
-              .order(created_at: :desc)
-              .limit(limit)
+        Review.joins(product: :seller).where(products: { seller_id: user.seller.id }).includes(:user, :product).order(created_at: :desc).limit(limit)
       else
         # Make sure the user has reviews association
         return [] unless user.respond_to?(:reviews)
 
         # Get the user's reviews as a buyer
-        user.reviews.includes(:product)
-            .order(created_at: :desc)
-            .limit(limit)
+        user.reviews.includes(:product).order(created_at: :desc).limit(limit)
       end
     rescue => e
       # Log error and return empty array for any failure
@@ -266,8 +253,7 @@ class DashboardPresenter
   def seller_orders
     return [] unless seller?
 
-    Order.joins(product: :seller)
-         .where(products: { seller_id: user.seller.id })
+    Order.joins(product: :seller).where(products: { seller_id: user.seller.id })
   end
 
   # Calculate total seller revenue

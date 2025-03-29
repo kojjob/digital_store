@@ -132,6 +132,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_104301) do
     t.string "payment_processor"
     t.string "payment_id"
     t.string "payment_status", default: "pending"
+    t.text "payment_details"
+    t.text "notes"
+    t.index ["payment_id"], name: "index_orders_on_payment_id"
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -278,9 +281,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_104301) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.boolean "super_admin", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["super_admin"], name: "index_users_on_super_admin"
   end
 
   create_table "wishlist_items", force: :cascade do |t|

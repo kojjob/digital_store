@@ -1,19 +1,79 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  product: one
+# Valid download link with remaining downloads
+valid:
   user: one
-  token: MyString
-  expires_at: 2025-03-28 10:43:01
-  download_count: 1
-  download_limit: 1
-  active: false
+  product: digital
+  order: one
+  token: valid_token_123
+  expires_at: <%= 7.days.from_now %>
+  download_limit: 5
+  download_count: 2
+  active: true
+  file_name: test_file.pdf
+  file_size: 1024
+  content_type: application/pdf
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
 
-two:
-  product: two
-  user: two
-  token: MyString
-  expires_at: 2025-03-28 10:43:01
-  download_count: 1
-  download_limit: 1
+# Expired download link
+expired:
+  user: one
+  product: digital
+  order: one
+  token: expired_token_123
+  expires_at: <%= 2.days.ago %>
+  download_limit: 5
+  download_count: 0
+  active: true
+  file_name: test_file.pdf
+  file_size: 1024
+  content_type: application/pdf
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+# Download link that reached its download limit
+limit_reached:
+  user: one
+  product: digital
+  order: one
+  token: limit_reached_token_123
+  expires_at: <%= 7.days.from_now %>
+  download_limit: 3
+  download_count: 3
+  active: true
+  file_name: test_file.pdf
+  file_size: 1024
+  content_type: application/pdf
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+# Inactive download link
+inactive:
+  user: one
+  product: digital
+  order: one
+  token: inactive_token_123
+  expires_at: <%= 7.days.from_now %>
+  download_limit: 5
+  download_count: 0
   active: false
+  file_name: test_file.pdf
+  file_size: 1024
+  content_type: application/pdf
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+# Download link for a different user
+other_user:
+  user: two
+  product: digital
+  order: two
+  token: other_user_token_123
+  expires_at: <%= 7.days.from_now %>
+  download_limit: 5
+  download_count: 0
+  active: true
+  file_name: test_file.pdf
+  file_size: 1024
+  content_type: application/pdf
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

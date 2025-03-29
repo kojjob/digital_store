@@ -7,7 +7,7 @@ class PaymentsController < ApplicationController
     @cart = current_user.ensure_cart
     payment_method = params[:payment_method]
     order_id = params[:order_id]
-    
+
     # Find the order if order_id is provided
     if order_id.present?
       @order = current_user.orders.find_by(id: order_id)
@@ -45,7 +45,7 @@ class PaymentsController < ApplicationController
         if checkout_session.payment_status == "paid"
           # Update the existing pending order
           order.update(status: "paid", payment_status: "paid")
-          
+
           # Create a download link if this is a digital product with a file
           if order.product.digital_file.attached?
             download_link = DownloadLink.create!(
@@ -58,7 +58,7 @@ class PaymentsController < ApplicationController
               file_size: order.product.digital_file.byte_size,
               content_type: order.product.digital_file.content_type
             )
-            
+
             # Send the payment confirmation and download ready emails
             OrderMailer.payment_confirmation(order).deliver_later
             OrderMailer.download_ready(download_link).deliver_later

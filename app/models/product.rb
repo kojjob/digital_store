@@ -36,6 +36,11 @@ class Product < ApplicationRecord
 
   # Instance methods
 
+  # Check if product is a digital product
+  def is_digital?
+    digital_file.attached?
+  end
+
   # Calculate average rating from reviews
   def average_rating
     reviews.average(:rating).to_f.round(1)
@@ -89,6 +94,17 @@ class Product < ApplicationRecord
       product_images.first
     elsif images.attached?
       images.first
+    else
+      nil
+    end
+  end
+
+  # Get URL for primary image
+  def primary_image_url
+    if product_images.exists? && product_images.first.respond_to?(:url)
+      product_images.first.url
+    elsif images.attached?
+      nil # Return nil since we can't directly get URL from ActiveStorage in this context
     else
       nil
     end

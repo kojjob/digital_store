@@ -18,53 +18,53 @@ class DownloadLink < ApplicationRecord
 
   # Scopes
   scope :active, -> { where(active: true) }
-  scope :not_expired, -> { where('expires_at > ?', Time.current) }
-  scope :available, -> { active.not_expired.where('download_count < download_limit OR download_limit = 0') }
-  
+  scope :not_expired, -> { where("expires_at > ?", Time.current) }
+  scope :available, -> { active.not_expired.where("download_count < download_limit OR download_limit = 0") }
+
   # Instance methods
-  
+
   # Check if the download link is valid and can be used
   def valid_for_download?
     active? && !expired? && !download_limit_reached?
   end
-  
+
   # Check if the download link has expired
   def expired?
     expires_at.present? && expires_at < Time.current
   end
-  
+
   # Check if the download count has reached the limit
   def download_limit_reached?
     download_limit.positive? && download_count >= download_limit
   end
-  
+
   # Increment the download count
   def increment_download_count!
     increment!(:download_count)
   end
-  
+
   # Deactivate the download link
   def deactivate!
     update(active: false)
   end
-  
+
   # Generate a new token and reset the download link
   def regenerate!(new_expiry = nil)
     new_expiry ||= 7.days.from_now
-    
+
     self.token = generate_unique_token
     self.expires_at = new_expiry
     self.download_count = 0
     self.active = true
-    
+
     save!
   end
-  
+
   # Return expiration in a human-readable format
   def expiration_in_words
     if expires_at.present?
       if expired?
-        'Expired'
+        "Expired"
       else
         time_diff = ((expires_at - Time.current) / 1.hour).round
         if time_diff < 24
@@ -74,12 +74,12 @@ class DownloadLink < ApplicationRecord
         end
       end
     else
-      'No expiration'
+      "No expiration"
     end
   end
-  
+
   private
-  
+
   # Set default values
   def set_defaults
     self.download_count ||= 0
@@ -87,12 +87,12 @@ class DownloadLink < ApplicationRecord
     self.active = true if active.nil?
     self.expires_at ||= 7.days.from_now
   end
-  
+
   # Generate a unique token
   def generate_token
     self.token ||= generate_unique_token
   end
-  
+
   # Generate a unique token
   def generate_unique_token
     loop do

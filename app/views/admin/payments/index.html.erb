@@ -1,0 +1,159 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">Payment Management</h1>
+      <p class="mt-2 text-sm text-gray-700">A list of all orders with payment information including status, method, and amount.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <a href="<%= admin_dashboard_path %>" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+        Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- Payment Statistics -->
+  <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <dt class="text-sm font-medium text-gray-500 truncate">Total Revenue</dt>
+        <dd class="mt-1 text-3xl font-semibold text-gray-900">$<%= number_with_precision(@total_revenue, precision: 2) %></dd>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <dt class="text-sm font-medium text-gray-500 truncate">Successful Payments</dt>
+        <dd class="mt-1 text-3xl font-semibold text-green-600"><%= @successful_count %></dd>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <dt class="text-sm font-medium text-gray-500 truncate">Pending Payments</dt>
+        <dd class="mt-1 text-3xl font-semibold text-yellow-600"><%= @pending_count %></dd>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <dt class="text-sm font-medium text-gray-500 truncate">Cancelled Payments</dt>
+        <dd class="mt-1 text-3xl font-semibold text-red-600"><%= @cancelled_count %></dd>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="mt-8 bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <%= form_with url: admin_payments_path, method: :get, data: { turbo_frame: "_top" } do |f| %>
+          <div class="sm:col-span-2">
+            <label for="payment_processor" class="block text-sm font-medium text-gray-700">Payment Method</label>
+            <div class="mt-1">
+              <select id="payment_processor" name="payment_processor" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                <option value="">All Methods</option>
+                <option value="stripe" <%= 'selected' if @payment_processor == 'stripe' %>>Stripe</option>
+                <option value="momo" <%= 'selected' if @payment_processor == 'momo' %>>Mobile Money</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="sm:col-span-2">
+            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+            <div class="mt-1">
+              <select id="status" name="status" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                <option value="">All Statuses</option>
+                <option value="paid" <%= 'selected' if @status == 'paid' %>>Paid</option>
+                <option value="pending" <%= 'selected' if @status == 'pending' %>>Pending</option>
+                <option value="cancelled" <%= 'selected' if @status == 'cancelled' %>>Cancelled</option>
+                <option value="failed" <%= 'selected' if @status == 'failed' %>>Failed</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
+            <div class="mt-1">
+              <input type="text" name="search" id="search" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Email, product name, or payment ID" value="<%= @search %>">
+            </div>
+          </div>
+          
+          <div class="sm:col-span-1 flex items-end">
+            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Apply
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="mt-8 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Order ID</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">User</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Amount</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Payment Method</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <% @orders.each do |order| %>
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                    #<%= order.id %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <%= order.user.email %>
+                  </td>
+                  <td class="px-3 py-4 text-sm text-gray-500">
+                    <%= order.product.name %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    $<%= number_with_precision(order.total_amount, precision: 2) %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <%= order.payment_processor&.capitalize || 'Unknown' %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm">
+                    <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5 
+                      <%= order.status == 'paid' ? 'bg-green-100 text-green-800' : 
+                        order.status == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                        order.status == 'failed' ? 'bg-red-100 text-red-800' : 
+                        'bg-gray-100 text-gray-800' %>">
+                      <%= order.status&.capitalize || 'Unknown' %>
+                    </span>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <%= order.created_at.strftime("%b %d, %Y") %>
+                  </td>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                    <a href="<%= admin_payment_path(order) %>" class="text-indigo-600 hover:text-indigo-900">
+                      View<span class="sr-only">, Order #<%= order.id %></span>
+                    </a>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="mt-6">
+    <%= paginate @orders, theme: 'tailwind' %>
+  </div>
+</div>

@@ -4,17 +4,17 @@
 class MomoService
   # Available providers
   PROVIDERS = {
-    mtn: 'MTN',
-    airtel: 'Airtel',
-    vodafone: 'Vodafone'
+    mtn: "MTN",
+    airtel: "Airtel",
+    vodafone: "Vodafone"
   }.freeze
 
   # Transaction status values
   STATUS = {
-    pending: 'pending',
-    processing: 'processing',
-    success: 'success',
-    failed: 'failed'
+    pending: "pending",
+    processing: "processing",
+    success: "success",
+    failed: "failed"
   }.freeze
 
   def initialize(user)
@@ -25,12 +25,12 @@ class MomoService
   def initiate_payment(cart, phone_number, provider)
     # Validate the provider
     unless PROVIDERS.key?(provider.to_sym)
-      return { success: false, error: 'Invalid mobile money provider' }
+      return { success: false, error: "Invalid mobile money provider" }
     end
 
     # Validate the phone number format (basic validation)
     unless valid_phone_number?(phone_number, provider)
-      return { success: false, error: 'Invalid phone number format' }
+      return { success: false, error: "Invalid phone number format" }
     end
 
     # Generate a unique transaction reference
@@ -43,10 +43,10 @@ class MomoService
     order = Order.create!(
       user: @user,
       total_amount: cart.total,
-      payment_processor: 'momo',
+      payment_processor: "momo",
       payment_id: transaction_ref,
-      payment_status: 'pending',
-      status: 'pending'
+      payment_status: "pending",
+      status: "pending"
     )
 
     # Save the phone number with the order for future reference
@@ -69,37 +69,37 @@ class MomoService
   # Verify payment status
   def verify_payment(transaction_ref)
     # Find the order by transaction reference
-    order = Order.find_by(payment_id: transaction_ref, payment_processor: 'momo')
-    
+    order = Order.find_by(payment_id: transaction_ref, payment_processor: "momo")
+
     if order.nil?
-      return { success: false, error: 'Invalid transaction reference' }
+      return { success: false, error: "Invalid transaction reference" }
     end
 
     # In a real implementation, we would call the provider's API to check the status
     # For now, we'll simulate the API call with a success response
-    
+
     # Simulate a successful payment (80% chance of success)
     # In a real scenario, you would verify with the mobile money provider's API
     payment_successful = rand(10) < 8
-    
+
     if payment_successful
-      order.update(status: 'paid', payment_status: 'paid')
-      
+      order.update(status: "paid", payment_status: "paid")
+
       # Clear the user's cart
       @user.ensure_cart.clear
-      
-      { 
-        success: true, 
-        status: 'paid',
+
+      {
+        success: true,
+        status: "paid",
         order_id: order.id,
-        message: 'Payment completed successfully'
+        message: "Payment completed successfully"
       }
     else
-      { 
-        success: false, 
-        status: 'pending',
+      {
+        success: false,
+        status: "pending",
         order_id: order.id,
-        message: 'Payment is still processing. Please try again later.'
+        message: "Payment is still processing. Please try again later."
       }
     end
   end
@@ -109,29 +109,29 @@ class MomoService
     # Validate the webhook signature
     unless valid_webhook_signature?(provider, payload, signature)
       Rails.logger.error("SECURITY WARNING: Invalid MoMo webhook signature for provider #{provider}")
-      return { status: 403, error: 'Invalid signature' }
+      return { status: 403, error: "Invalid signature" }
     end
 
     begin
       # Parse the payload
       data = JSON.parse(payload)
-      
+
       # Extract transaction reference
-      transaction_ref = data['transaction_reference']
-      transaction_status = data['status']
-      
+      transaction_ref = data["transaction_reference"]
+      transaction_status = data["status"]
+
       # Find the corresponding order
-      order = Order.find_by(payment_id: transaction_ref, payment_processor: 'momo')
-      
+      order = Order.find_by(payment_id: transaction_ref, payment_processor: "momo")
+
       if order.nil?
         Rails.logger.error("MoMo webhook: No order found for transaction: #{transaction_ref}")
-        return { status: 404, error: 'Order not found' }
+        return { status: 404, error: "Order not found" }
       end
-      
+
       # Update the order status based on the webhook data
-      if transaction_status == 'successful'
-        order.update(status: 'paid', payment_status: 'paid')
-        
+      if transaction_status == "successful"
+        order.update(status: "paid", payment_status: "paid")
+
         # Create a download link if this is a digital product with a file
         if order.product.digital_file.attached?
           download_link = DownloadLink.create!(
@@ -144,7 +144,7 @@ class MomoService
             file_size: order.product.digital_file.byte_size,
             content_type: order.product.digital_file.content_type
           )
-          
+
           # Send the payment confirmation and download ready emails
           OrderMailer.payment_confirmation(order).deliver_later
           OrderMailer.download_ready(download_link).deliver_later
@@ -152,23 +152,23 @@ class MomoService
           # Send only the payment confirmation email
           OrderMailer.payment_confirmation(order).deliver_later
         end
-        
+
         Rails.logger.info("Order ##{order.id} marked as paid via MoMo webhook")
-        
+
         # Here you would trigger any post-payment processes
         # e.g., sending confirmation emails, generating download links, etc.
-      elsif transaction_status == 'failed'
-        order.update(status: 'failed', payment_status: 'failed')
+      elsif transaction_status == "failed"
+        order.update(status: "failed", payment_status: "failed")
         Rails.logger.info("Order ##{order.id} payment failed via MoMo webhook")
       end
-      
+
       { status: 200 }
     rescue JSON::ParserError => e
       Rails.logger.error("MoMo webhook error - Invalid payload: #{e.message}")
-      { status: 400, error: 'Invalid payload' }
+      { status: 400, error: "Invalid payload" }
     rescue => e
       Rails.logger.error("Error processing MoMo webhook: #{e.class.name} - #{e.message}")
-      { status: 500, error: 'Internal error' }
+      { status: 500, error: "Internal error" }
     end
   end
 
@@ -182,8 +182,8 @@ class MomoService
   # Validate phone number format based on provider
   def valid_phone_number?(phone_number, provider)
     # Strip spaces and any other characters
-    cleaned_number = phone_number.to_s.gsub(/\D/, '')
-    
+    cleaned_number = phone_number.to_s.gsub(/\D/, "")
+
     case provider.to_sym
     when :mtn
       # MTN Ghana numbers start with 024, 054, 055, or 059
@@ -206,22 +206,22 @@ class MomoService
     # In a real implementation, this would verify the signature from the provider
     # For now, we'll simulate the verification
     return false if signature.blank?
-    
+
     # Get the provider's webhook secret from environment variables
     webhook_secret = case provider.to_sym
-                     when :mtn
-                       ENV.fetch('MOMO_MTN_WEBHOOK_SECRET', nil)
-                     when :airtel
-                       ENV.fetch('MOMO_AIRTEL_WEBHOOK_SECRET', nil)
-                     when :vodafone
-                       ENV.fetch('MOMO_VODAFONE_WEBHOOK_SECRET', nil)
-                     else
+    when :mtn
+                       ENV.fetch("MOMO_MTN_WEBHOOK_SECRET", nil)
+    when :airtel
+                       ENV.fetch("MOMO_AIRTEL_WEBHOOK_SECRET", nil)
+    when :vodafone
+                       ENV.fetch("MOMO_VODAFONE_WEBHOOK_SECRET", nil)
+    else
                        nil
-                     end
-    
+    end
+
     # Return false if the webhook secret is not configured
     return false if webhook_secret.blank?
-    
+
     # In a real implementation, you would verify the signature here
     # For now, we'll just return true if signature is present
     true

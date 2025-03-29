@@ -7,34 +7,16 @@
   
   <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
     <!-- Revenue Chart -->
-    <%= render 'dashboard/chart_card', 
-      id: 'revenue-chart', 
-      title: 'Revenue', 
-      description: 'Your revenue over time', 
-      show_periods: true 
-    %>
+    <%= render 'dashboard/chart_card', id: 'revenue-chart', title: 'Revenue', description: 'Your revenue over time', show_periods: true %>
     
     <!-- Orders Chart -->
-    <%= render 'dashboard/chart_card', 
-      id: 'orders-chart', 
-      title: 'Orders', 
-      description: 'Your order volume over time', 
-      show_periods: true 
-    %>
+    <%= render 'dashboard/chart_card', id: 'orders-chart', title: 'Orders', description: 'Your order volume over time', show_periods: true %>
     
     <!-- Product Performance Chart -->
-    <%= render 'dashboard/chart_card', 
-      id: 'product-performance-chart', 
-      title: 'Product Performance', 
-      description: 'Your top-performing products' 
-    %>
+    <%= render 'dashboard/chart_card', id: 'product-performance-chart', title: 'Product Performance', description: 'Your top-performing products' %>
     
     <!-- Customer Acquisition Chart -->
-    <%= render 'dashboard/chart_card', 
-      id: 'customer-acquisition-chart', 
-      title: 'New Customers', 
-      description: 'Customer acquisition over time' 
-    %>
+    <%= render 'dashboard/chart_card', id: 'customer-acquisition-chart', title: 'New Customers', description: 'Customer acquisition over time'  %>
   </div>
 </div>
 
