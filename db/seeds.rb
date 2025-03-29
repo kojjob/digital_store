@@ -18,6 +18,15 @@ end
 # Create users with different roles
 puts "Creating users..."
 
+# Super Admin user
+super_admin = User.find_or_create_by(email: 'super@example.com') do |u|
+  u.password = 'password123'
+  u.first_name = 'Super'
+  u.last_name = 'Admin'
+  u.admin = true
+  u.super_admin = true
+end
+
 # Admin user
 admin = User.find_or_create_by(email: 'admin@example.com') do |u|
   u.password = 'password123'

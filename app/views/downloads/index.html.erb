@@ -1,0 +1,109 @@
+<% content_for :title, "My Downloads" %>
+
+<div class="py-10 bg-gradient-to-b from-indigo-50 to-white min-h-screen">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">My Downloads</h1>
+      
+      <% if @download_links.any? %>
+        <div class="bg-white shadow overflow-hidden rounded-lg">
+          <div class="divide-y divide-gray-200">
+            <% @download_links.each do |download_link| %>
+              <div class="p-6 flex flex-col md:flex-row gap-6">
+                <!-- Product Info -->
+                <div class="flex-grow">
+                  <h2 class="text-lg font-medium text-gray-900 mb-2">
+                    <%= download_link.product.name %>
+                  </h2>
+                  <div class="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                    <span>
+                      File: <%= download_link.file_name %>
+                    </span>
+                    <span>
+                      Size: <%= number_to_human_size(download_link.file_size) %>
+                    </span>
+                  </div>
+                  
+                  <!-- Download Status -->
+                  <div class="flex flex-wrap gap-y-2 gap-x-4">
+                    <div class="flex items-center">
+                      <% if download_link.expired? %>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                          Expired
+                        </span>
+                      <% elsif download_link.valid_for_download? %>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          Valid
+                        </span>
+                      <% else %>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                          Invalid
+                        </span>
+                      <% end %>
+                    </div>
+                    
+                    <div class="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span class="text-sm text-gray-500">
+                        <%= download_link.expiration_in_words %>
+                      </span>
+                    </div>
+                    
+                    <div class="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
+                      </svg>
+                      <span class="text-sm text-gray-500">
+                        <%= download_link.download_count %> of <%= download_link.download_limit %> downloads used
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Download Button -->
+                <div class="flex items-center">
+                  <% if download_link.valid_for_download? %>
+                    <%= link_to download_path(download_link.token), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download
+                    <% end %>
+                  <% else %>
+                    <button disabled class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 cursor-not-allowed">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download
+                    </button>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="mt-6">
+          <%= paginate @download_links %>
+        </div>
+      <% else %>
+        <!-- Empty State -->
+        <div class="bg-white rounded-lg shadow p-12 text-center">
+          <div class="mx-auto h-24 w-24 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          </div>
+          <h3 class="mt-2 text-lg font-medium text-gray-900">No downloads available</h3>
+          <p class="mt-1 text-gray-500">You haven't purchased any digital products yet.</p>
+          <div class="mt-6">
+            <%= link_to "Browse Products", products_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

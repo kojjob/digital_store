@@ -44,7 +44,8 @@ Rails.application.routes.draw do
     get "account", to: "users/registrations#edit", as: :account
   end
   get "account/orders", to: "orders#index", as: :account_orders
-  get "account/downloads", to: "downloads#index", as: :account_downloads
+  get "account/downloads", to: "downloads#index", as: :downloads
+  get "account/downloads/:token", to: "downloads#show", as: :download
   get "account/wishlist", to: "wishlist_items#index", as: :account_wishlist
   post "account/wishlist/add", to: "wishlist_items#create", as: :add_to_wishlist
 
@@ -59,6 +60,19 @@ Rails.application.routes.draw do
   get "checkout", to: "checkouts#new", as: :checkout
   post "checkout", to: "checkouts#create"
 
+  # Payment routes
+  post "payments", to: "payments#create", as: :create_payment
+
+  # Stripe routes
+  get "payments/stripe/success", to: "payments#stripe_success", as: :stripe_success
+  get "payments/stripe/cancel", to: "payments#stripe_cancel", as: :stripe_cancel
+  post "stripe/webhooks", to: "stripe_webhooks#create"
+
+  # Mobile Money routes
+  post "payments/momo", to: "payments#momo_initiate", as: :momo_payment
+  get "payments/momo/verify/:transaction_ref", to: "payments#momo_verify", as: :momo_verify
+  post "momo/webhooks/:provider", to: "momo_webhooks#create", as: :momo_webhook
+
   # Dashboard
   get "dashboard", to: "dashboard#index", as: :dashboard
   get "dashboard/schedule", to: "dashboard#schedule", as: :dashboard_schedule
@@ -66,6 +80,42 @@ Rails.application.routes.draw do
   # Admin routes
   namespace :admin do
     resources :product_questions, except: [ :new, :create ]
+    resources :downloads do
+      member do
+        post :regenerate
+      end
+    end
+    resources :payments, only: [ :index, :show, :update ]
+
+    # Admin dashboard
+    get "/", to: "dashboard#index", as: :dashboard
+    get "/analytics", to: "dashboard#analytics", as: :analytics
+  end
+
+  # Super Admin routes
+  namespace :super_admin do
+    # Login for super admin
+    get "/login", to: "sessions#new", as: :login_form
+    post "/login", to: "sessions#create", as: :login
+
+    # Dashboard
+    get "/", to: "dashboard#index", as: :dashboard
+
+    # User management
+    resources :users do
+      member do
+        post :impersonate
+        post :toggle_admin
+      end
+      collection do
+        post :stop_impersonation
+      end
+    end
+
+    # System monitoring
+    get "/system", to: "system#index", as: :system
+    get "/system/logs", to: "system#logs", as: :logs
+    post "/system/clear_cache", to: "system#clear_cache", as: :clear_cache
   end
 
   # Static/Content pages

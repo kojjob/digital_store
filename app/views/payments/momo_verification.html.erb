@@ -1,0 +1,76 @@
+<% content_for :title, "Verify Mobile Money Payment" %>
+
+<div class="bg-white">
+  <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class="lg:col-span-2">
+      <div class="max-w-md mx-auto text-center">
+        <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mb-8">Verify Your Payment</h1>
+        
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-yellow-700">
+                We've sent a payment request to your phone. Please check your device and complete the payment.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Transaction Details -->
+        <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Transaction Details</h2>
+          <dl class="divide-y divide-gray-200">
+            <div class="py-3 flex justify-between">
+              <dt class="text-sm font-medium text-gray-500">Transaction ID</dt>
+              <dd class="text-sm font-medium text-gray-900"><%= @transaction_ref %></dd>
+            </div>
+            <div class="py-3 flex justify-between">
+              <dt class="text-sm font-medium text-gray-500">Status</dt>
+              <dd class="text-sm px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium inline-flex">Pending</dd>
+            </div>
+          </dl>
+        </div>
+        
+        <!-- Payment Instructions -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8 text-left">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Payment Instructions</h2>
+          <ol class="list-decimal list-inside space-y-3 text-sm text-gray-700">
+            <li>Check your mobile phone for a payment prompt.</li>
+            <li>Enter your PIN to authorize the payment.</li>
+            <li>Once payment is completed, click the "Verify Payment" button below.</li>
+          </ol>
+        </div>
+        
+        <!-- Verification Button -->
+        <div class="mb-8">
+          <%= button_to "Verify Payment", momo_verify_path(@transaction_ref), method: :get, class: "w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+        
+        <!-- Having Trouble? -->
+        <div class="text-left">
+          <h3 class="text-base font-medium text-gray-900 mb-2">Having trouble?</h3>
+          <p class="text-sm text-gray-500 mb-4">If you're experiencing issues with your payment:</p>
+          <ul class="list-disc list-inside space-y-2 text-sm text-gray-500 mb-4">
+            <li>Make sure you have sufficient balance in your mobile money account.</li>
+            <li>Ensure you've entered the correct phone number.</li>
+            <li>Check if your mobile money account is active.</li>
+          </ul>
+          <p class="text-sm text-gray-500">
+            For further assistance, please contact our support team at
+            <a href="mailto:support@digitalstore.com" class="text-indigo-600 hover:text-indigo-500">support@digitalstore.com</a>.
+          </p>
+        </div>
+        
+        <!-- Back to Cart -->
+        <div class="mt-6 text-center">
+          <%= link_to "Back to Cart", cart_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">Application Logs</h1>
+      <p class="mt-2 text-sm text-gray-700">Recent application logs for debugging and monitoring.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none space-x-2">
+      <a href="<%= super_admin_system_path %>" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto">
+        Back to System
+      </a>
+      <button id="refresh-logs" class="inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto">
+        Refresh Logs
+      </button>
+    </div>
+  </div>
+
+  <!-- Log Filter Controls -->
+  <div class="mt-8 bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <div class="sm:col-span-2">
+          <label for="log-filter" class="block text-sm font-medium text-gray-700">Filter Logs</label>
+          <div class="mt-1">
+            <select id="log-filter" class="shadow-sm focus:ring-red-500 focus:border-red-500 block w-full sm:text-sm border-gray-300 rounded-md">
+              <option value="">All Logs</option>
+              <option value="INFO">Info</option>
+              <option value="WARN">Warnings</option>
+              <option value="ERROR">Errors</option>
+              <option value="FATAL">Fatal</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="sm:col-span-3">
+          <label for="log-search" class="block text-sm font-medium text-gray-700">Search Logs</label>
+          <div class="mt-1">
+            <input type="text" id="log-search" class="shadow-sm focus:ring-red-500 focus:border-red-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Search term">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Log Display -->
+  <div class="mt-8 bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="overflow-y-auto" style="max-height: 60vh;">
+        <pre id="log-content" class="text-xs font-mono bg-gray-800 text-white p-4 rounded overflow-auto"><%= h(@log_data) %></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const logContent = document.getElementById('log-content');
+    const logFilter = document.getElementById('log-filter');
+    const logSearch = document.getElementById('log-search');
+    const refreshButton = document.getElementById('refresh-logs');
+    
+    // Store the original log content
+    const originalLogContent = logContent.textContent;
+    
+    // Filter and search logs
+    function filterLogs() {
+      const filterValue = logFilter.value;
+      const searchValue = logSearch.value.toLowerCase();
+      
+      // Split logs by line
+      const lines = originalLogContent.split('\n');
+      
+      // Filter lines
+      const filteredLines = lines.filter(line => {
+        const matchesFilter = filterValue === '' || line.includes(filterValue);
+        const matchesSearch = searchValue === '' || line.toLowerCase().includes(searchValue);
+        return matchesFilter && matchesSearch;
+      });
+      
+      // Update the display
+      logContent.textContent = filteredLines.join('\n');
+      
+      // Highlight search terms if any
+      if (searchValue !== '') {
+        highlightSearchTerm(searchValue);
+      }
+    }
+    
+    // Highlight search terms
+    function highlightSearchTerm(term) {
+      const content = logContent.innerHTML;
+      const highlightedContent = content.replace(
+        new RegExp(term, 'gi'),
+        match => `<span class="bg-yellow-200 text-black">${match}</span>`
+      );
+      logContent.innerHTML = highlightedContent;
+    }
+    
+    // Add event listeners
+    logFilter.addEventListener('change', filterLogs);
+    logSearch.addEventListener('input', filterLogs);
+    refreshButton.addEventListener('click', function() {
+      window.location.reload();
+    });
+    
+    // Highlight lines with errors in red
+    function highlightErrorLines() {
+      const content = logContent.innerHTML;
+      const lines = content.split('\n');
+      
+      const highlightedLines = lines.map(line => {
+        if (line.includes('ERROR') || line.includes('FATAL')) {
+          return `<span class="text-red-400">${line}</span>`;
+        } else if (line.includes('WARN')) {
+          return `<span class="text-yellow-400">${line}</span>`;
+        } else {
+          return line;
+        }
+      });
+      
+      logContent.innerHTML = highlightedLines.join('\n');
+    }
+    
+    // Initial highlighting
+    highlightErrorLines();
+  });
+</script>

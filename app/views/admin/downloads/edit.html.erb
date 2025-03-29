@@ -1,0 +1,59 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">Edit Download Link</h1>
+      <p class="mt-2 text-sm text-gray-700">Update the settings for this download link.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <a href="<%= admin_download_path(@download_link) %>" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+        Cancel
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <%= form_with model: [:admin, @download_link], local: true do |f| %>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Link Settings</h3>
+            <p class="mt-1 text-sm text-gray-500">Update the download link's expiration and limits.</p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            <div class="sm:col-span-3">
+              <%= f.label :expires_at, class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1">
+                <%= f.datetime_field :expires_at, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+              </div>
+            </div>
+
+            <div class="sm:col-span-3">
+              <%= f.label :download_limit, class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1">
+                <%= f.number_field :download_limit, min: 0, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                <p class="mt-2 text-sm text-gray-500">Use 0 for unlimited downloads</p>
+              </div>
+            </div>
+
+            <div class="sm:col-span-6">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= f.check_box :active, class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" %>
+                </div>
+                <div class="ml-3 text-sm">
+                  <%= f.label :active, class: "font-medium text-gray-700" %>
+                  <p class="text-gray-500">If unchecked, the download link will be disabled regardless of expiration or download limit.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-end">
+          <%= f.submit "Update Download Link", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,173 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">System Monitoring</h1>
+      <p class="mt-2 text-sm text-gray-700">Detailed information about system health, storage, and performance.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none space-x-2">
+      <a href="<%= super_admin_dashboard_path %>" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto">
+        Back to Dashboard
+      </a>
+      <a href="<%= super_admin_logs_path %>" class="inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto">
+        View Logs
+      </a>
+    </div>
+  </div>
+
+  <!-- System Information -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">System Information</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Details about the application environment.</p>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+      <dl class="sm:divide-y sm:divide-gray-200">
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Rails Version</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @rails_version %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Ruby Version</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @ruby_version %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Environment</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5 
+                <%= @environment == 'production' ? 'bg-green-100 text-green-800' : 
+                  @environment == 'staging' ? 'bg-yellow-100 text-yellow-800' : 
+                  'bg-blue-100 text-blue-800' %>">
+                <%= @environment.capitalize %>
+            </span>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Database</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @database_adapter %> <%= @database_version %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Application Uptime</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= distance_of_time_in_words(Time.now - @uptime) %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Last Deployment</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @last_deployment.strftime("%B %d, %Y at %I:%M %p") %>
+            (<%= time_ago_in_words(@last_deployment) %> ago)
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Database Information -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Database Information</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Size and table statistics.</p>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5">
+      <p class="mb-4"><strong>Total Database Size:</strong> <%= @database_size %></p>
+      
+      <h4 class="text-md font-medium text-gray-700 mb-3">Table Row Counts</h4>
+      <div class="flex flex-col">
+        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Table Name</th>
+                    <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Row Count</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                  <% @tables.each do |table| %>
+                    <tr>
+                      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                        <%= table[:name] %>
+                      </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-gray-500">
+                        <%= number_with_delimiter(table[:rows]) %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Storage Information -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Storage Information</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Active Storage statistics and usage.</p>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="bg-white overflow-hidden rounded-lg border border-gray-200">
+          <div class="px-4 py-5 sm:p-6">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Total Files</dt>
+              <dd class="mt-1 text-3xl font-semibold text-gray-900"><%= @storage_stats[:total_blobs] %></dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="bg-white overflow-hidden rounded-lg border border-gray-200">
+          <div class="px-4 py-5 sm:p-6">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Total Size</dt>
+              <dd class="mt-1 text-3xl font-semibold text-gray-900"><%= number_to_human_size(@storage_stats[:total_size]) %></dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="bg-white overflow-hidden rounded-lg border border-gray-200">
+          <div class="px-4 py-5 sm:p-6">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Images</dt>
+              <dd class="mt-1 text-3xl font-semibold text-gray-900"><%= @storage_stats[:image_count] %></dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="bg-white overflow-hidden rounded-lg border border-gray-200">
+          <div class="px-4 py-5 sm:p-6">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Documents</dt>
+              <dd class="mt-1 text-3xl font-semibold text-gray-900"><%= @storage_stats[:document_count] %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Actions -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg font-medium leading-6 text-red-900">System Actions</h3>
+      <div class="mt-2 max-w-xl text-sm text-gray-500">
+        <p>Perform system maintenance tasks. Use these with caution.</p>
+      </div>
+      <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <%= button_to "Clear Cache", super_admin_clear_cache_path, method: :post, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" %>
+        
+        <!-- Additional buttons could go here as needed -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,259 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="sm:flex sm:items-center mb-8">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">Analytics Dashboard</h1>
+      <p class="mt-2 text-sm text-gray-700">Detailed analytics for sales, downloads, and user behavior.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <a href="<%= admin_dashboard_path %>" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+        Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- Date Range Filter -->
+  <div class="bg-white rounded-lg shadow overflow-hidden mb-8">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Filter by Date Range</h3>
+      <div class="mt-4">
+        <%= form_tag admin_analytics_path, method: :get, class: "sm:flex sm:items-center" do %>
+          <div class="w-full sm:max-w-xs">
+            <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
+            <div class="mt-1">
+              <input type="date" name="start_date" id="start_date" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" value="<%= @start_date.strftime('%Y-%m-%d') %>">
+            </div>
+          </div>
+          <div class="w-full sm:max-w-xs mt-4 sm:mt-0 sm:ml-4">
+            <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
+            <div class="mt-1">
+              <input type="date" name="end_date" id="end_date" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" value="<%= @end_date.strftime('%Y-%m-%d') %>">
+            </div>
+          </div>
+          <div class="mt-5 sm:mt-0 sm:ml-6 sm:flex-shrink-0 sm:flex sm:items-end">
+            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Apply Filter
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+    <!-- Sales Over Time Chart -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Daily Sales</h3>
+        <div class="mt-2">
+          <p class="text-sm text-gray-500">
+            Revenue over time from <%= @start_date.strftime('%b %d, %Y') %> to <%= @end_date.strftime('%b %d, %Y') %>
+          </p>
+        </div>
+        <div class="mt-4 h-80">
+          <canvas id="salesChart" class="w-full h-full"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Downloads Over Time Chart -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Daily Downloads</h3>
+        <div class="mt-2">
+          <p class="text-sm text-gray-500">
+            Number of downloads over time from <%= @start_date.strftime('%b %d, %Y') %> to <%= @end_date.strftime('%b %d, %Y') %>
+          </p>
+        </div>
+        <div class="mt-4 h-80">
+          <canvas id="downloadsChart" class="w-full h-full"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Category Analysis -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Sales by Category</h3>
+        <div class="mt-4 h-80">
+          <canvas id="categorySalesChart" class="w-full h-full"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Method Analysis -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Payment Methods</h3>
+        <div class="mt-4 h-80">
+          <canvas id="paymentMethodChart" class="w-full h-full"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <% if defined?(@country_sales) && @country_sales.present? %>
+      <!-- Geographic Sales Analysis -->
+      <div class="bg-white rounded-lg shadow overflow-hidden lg:col-span-2">
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Sales by Country</h3>
+          <div class="mt-4 h-96">
+            <canvas id="countrySalesChart" class="w-full h-full"></canvas>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Add Chart.js for visualizations -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Daily Sales Chart
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesCtx, {
+      type: 'line',
+      data: {
+        labels: <%= raw @daily_sales.keys.map { |date| Date.parse(date.to_s).strftime('%b %d') }.to_json %>,
+        datasets: [{
+          label: 'Daily Revenue ($)',
+          data: <%= raw @daily_sales.values.to_json %>,
+          backgroundColor: 'rgba(79, 70, 229, 0.2)',
+          borderColor: 'rgba(79, 70, 229, 1)',
+          borderWidth: 2,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return '$' + value;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Daily Downloads Chart
+    const downloadsCtx = document.getElementById('downloadsChart').getContext('2d');
+    new Chart(downloadsCtx, {
+      type: 'line',
+      data: {
+        labels: <%= raw @daily_downloads.keys.map { |date| Date.parse(date.to_s).strftime('%b %d') }.to_json %>,
+        datasets: [{
+          label: 'Downloads',
+          data: <%= raw @daily_downloads.values.to_json %>,
+          backgroundColor: 'rgba(16, 185, 129, 0.2)',
+          borderColor: 'rgba(16, 185, 129, 1)',
+          borderWidth: 2,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0
+            }
+          }
+        }
+      }
+    });
+
+    // Category Sales Chart
+    const categoryCtx = document.getElementById('categorySalesChart').getContext('2d');
+    new Chart(categoryCtx, {
+      type: 'pie',
+      data: {
+        labels: <%= raw @category_sales.keys.to_json %>,
+        datasets: [{
+          data: <%= raw @category_sales.values.to_json %>,
+          backgroundColor: [
+            'rgba(79, 70, 229, 0.7)',
+            'rgba(16, 185, 129, 0.7)',
+            'rgba(245, 158, 11, 0.7)',
+            'rgba(239, 68, 68, 0.7)',
+            'rgba(59, 130, 246, 0.7)',
+            'rgba(136, 19, 55, 0.7)',
+            'rgba(107, 114, 128, 0.7)'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                let value = context.raw || 0;
+                return label + ': $' + value.toFixed(2);
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Payment Method Chart
+    const paymentMethodCtx = document.getElementById('paymentMethodChart').getContext('2d');
+    new Chart(paymentMethodCtx, {
+      type: 'doughnut',
+      data: {
+        labels: <%= raw @payment_method_breakdown.keys.map(&:capitalize).to_json %>,
+        datasets: [{
+          data: <%= raw @payment_method_breakdown.values.to_json %>,
+          backgroundColor: [
+            'rgba(79, 70, 229, 0.7)',
+            'rgba(16, 185, 129, 0.7)',
+            'rgba(245, 158, 11, 0.7)'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+
+    <% if defined?(@country_sales) && @country_sales.present? %>
+      // Country Sales Chart
+      const countryCtx = document.getElementById('countrySalesChart').getContext('2d');
+      new Chart(countryCtx, {
+        type: 'bar',
+        data: {
+          labels: <%= raw @country_sales.keys.to_json %>,
+          datasets: [{
+            label: 'Sales by Country ($)',
+            data: <%= raw @country_sales.values.to_json %>,
+            backgroundColor: 'rgba(79, 70, 229, 0.7)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '$' + value;
+                }
+              }
+            }
+          }
+        }
+      });
+    <% end %>
+  });
+</script>

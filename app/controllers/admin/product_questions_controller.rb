@@ -4,11 +4,29 @@ class Admin::ProductQuestionsController < ApplicationController
   before_action :set_product_question, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @q = ProductQuestion.ransack(params[:q])
-    @product_questions = @q.result.includes(:product, :user)
-                          .order(created_at: :desc)
-                          .page(params[:page])
-                          .per(20)
+    # Base query
+    query = ProductQuestion.includes(:product, :user).order(created_at: :desc)
+
+    # Filter by answer status
+    if params[:q].present?
+      if params[:q][:answer_null] == "1"
+        query = query.where(answer: nil)
+      elsif params[:q][:answer_not_null] == "1"
+        query = query.where.not(answer: nil)
+      end
+
+      # Search in question or answer
+      if params[:q][:question_or_answer_cont].present?
+        search_term = params[:q][:question_or_answer_cont]
+        query = query.where("question ILIKE :term OR answer ILIKE :term", term: "%#{search_term}%")
+      end
+    end
+
+    # Paginate results
+    @product_questions = query.page(params[:page]).per(20)
+
+    # For the view to keep working with existing params structure
+    @q = params[:q] || {}
   end
 
   def show

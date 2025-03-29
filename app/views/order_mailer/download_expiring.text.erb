@@ -1,0 +1,26 @@
+Your Download Link is Expiring Soon!
+
+Hello <%= @user.first_name || @user.email %>,
+
+WARNING: This is a reminder that your download link for <%= @product.name %> will expire in <%= @days_left %> days!
+
+DOWNLOAD DETAILS
+Product: <%= @product.name %>
+File: <%= @download_link.file_name %> (<%= number_to_human_size(@download_link.file_size.to_i) %>)
+Download Limit: <%= @download_link.download_count %> of <%= @download_link.download_limit %> downloads used
+Expires On: <%= @download_link.expires_at.strftime("%B %d, %Y") %>
+
+Download Link: <%= @download_url %>
+
+If you haven't downloaded your purchase yet, or need to download it again, please use the link above before your link expires.
+
+You can also access all your downloads from your account dashboard:
+<%= downloads_url %>
+
+If you're having any issues with your download, please contact our support team immediately.
+
+Thank you for shopping with Digital Store!
+
+---
+© <%= Date.today.year %> Digital Store. All rights reserved.
+If you have any questions, please contact our support team at support@digitalstore.com.

@@ -1,0 +1,29 @@
+<h2>Your Download Link is Expiring Soon!</h2>
+
+<p>Hello <%= @user.first_name || @user.email %>,</p>
+
+<p class="expiry-warning">This is a reminder that your download link for <strong><%= @product.name %></strong> will expire in <%= @days_left %> days!</p>
+
+<div class="download-info">
+  <h3>Download Details</h3>
+  <p><strong>Product:</strong> <%= @product.name %></p>
+  <p><strong>File:</strong> <%= @download_link.file_name %> (<%= number_to_human_size(@download_link.file_size.to_i) %>)</p>
+  <p><strong>Download Limit:</strong> <%= @download_link.download_count %> of <%= @download_link.download_limit %> downloads used</p>
+  <p><strong>Expires On:</strong> <%= @download_link.expires_at.strftime("%B %d, %Y") %></p>
+  
+  <p>
+    <a href="<%= @download_url %>" class="button">Download Now</a>
+  </p>
+</div>
+
+<p>If you haven't downloaded your purchase yet, or need to download it again, please use the button above before your link expires.</p>
+
+<p>You can also access all your downloads from your account dashboard:</p>
+
+<p>
+  <a href="<%= downloads_url %>" class="button">View All My Downloads</a>
+</p>
+
+<p>If you're having any issues with your download, please contact our support team immediately.</p>
+
+<p>Thank you for shopping with Digital Store!</p>

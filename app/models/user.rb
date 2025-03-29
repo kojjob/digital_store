@@ -28,6 +28,7 @@ class User < ApplicationRecord
   has_many :activities, class_name: "UserActivity", dependent: :destroy if existing_tables.include?("user_activities")
   has_many :notifications, dependent: :destroy if existing_tables.include?("notifications")
   has_many :wishlist_items, dependent: :destroy if existing_tables.include?("wishlist_items")
+  has_many :download_links, dependent: :destroy if existing_tables.include?("download_links")
   has_one_attached :profile_picture
 
   # Validations
@@ -78,7 +79,12 @@ class User < ApplicationRecord
 
   # Check if user is an admin
   def admin?
-    admin == true
+    admin == true || super_admin == true
+  end
+
+  # Check if user is a super admin
+  def super_admin?
+    super_admin == true
   end
 
   # Check if user is a buyer (not a seller)
@@ -127,18 +133,25 @@ class User < ApplicationRecord
 
   # Create default action items for a new user
   def create_default_action_items
-    action_items.create(
-      title: "Complete your profile",
-      description: "Add your profile picture and complete your bio to help others know you better.",
-      priority: :medium,
-      due_date: 7.days.from_now
-    )
+    # Skip default action items for super admin
+    return if super_admin?
 
-    action_items.create(
-      title: "Browse products",
-      description: "Check out our selection of digital products matching your interests.",
-      priority: :low,
-      due_date: 3.days.from_now
-    )
+    begin
+      action_items.create(
+        title: "Complete your profile",
+        description: "Add your profile picture and complete your bio to help others know you better.",
+        priority: :medium,
+        due_date: 7.days.from_now
+      )
+
+      action_items.create(
+        title: "Browse products",
+        description: "Check out our selection of digital products matching your interests.",
+        priority: :low,
+        due_date: 3.days.from_now
+      )
+    rescue => e
+      Rails.logger.error("Error creating default action items: #{e.message}")
+    end
   end
 end

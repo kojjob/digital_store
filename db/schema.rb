@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_28_104301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -91,6 +91,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.index ["slug"], name: "index_categories_on_slug", unique: true
   end
 
+  create_table "download_links", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "user_id", null: false
+    t.string "token"
+    t.datetime "expires_at"
+    t.integer "download_count"
+    t.integer "download_limit"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_download_links_on_product_id"
+    t.index ["user_id"], name: "index_download_links_on_user_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title", null: false
@@ -115,6 +129,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.decimal "total_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "payment_processor"
+    t.string "payment_id"
+    t.string "payment_status", default: "pending"
+    t.text "payment_details"
+    t.text "notes"
+    t.index ["payment_id"], name: "index_orders_on_payment_id"
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -261,9 +281,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.boolean "super_admin", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["super_admin"], name: "index_users_on_super_admin"
   end
 
   create_table "wishlist_items", force: :cascade do |t|
@@ -284,6 +306,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
   add_foreign_key "categories", "categories", column: "parent_id"
+  add_foreign_key "download_links", "products"
+  add_foreign_key "download_links", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"
