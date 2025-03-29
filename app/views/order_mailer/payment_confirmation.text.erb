@@ -1,0 +1,38 @@
+Payment Received - Thank You!
+
+Hello <%= @user.first_name || @user.email %>,
+
+Good news! We've received your payment for order #<%= @order.id %>. Your order has been updated to <%= @order.status.capitalize %> status.
+
+<% if @additional_message.present? %>
+ADDITIONAL INFORMATION:
+<%= @additional_message %>
+<% end %>
+
+ORDER #<%= @order.id %> - PAID
+Ordered on <%= @order.created_at.strftime("%B %d, %Y") %> | Paid on <%= Time.current.strftime("%B %d, %Y") %>
+
+Product: <%= @product.name %>
+Price: $<%= sprintf("%.2f", @product.price) %>
+
+Total: $<%= sprintf("%.2f", @order.total_amount) %>
+Payment Method: <%= @order.payment_processor&.upcase || 'Online Payment' %>
+
+<% if @download_link && @download_link.valid_for_download? %>
+YOUR DIGITAL PRODUCT IS READY FOR DOWNLOAD!
+
+Your purchase included a digital product that is now ready to download.
+You can download <%= @product.name %> by visiting this link:
+<%= download_url(@download_link.token) %>
+
+This download link expires on <%= @download_link.expires_at.strftime("%B %d, %Y") %> and can be used <%= @download_link.download_limit %> times.
+<% end %>
+
+You can view the full details of your order here:
+<%= order_url(@order) %>
+
+Thank you for shopping with Digital Store! We hope you enjoy your purchase.
+
+---
+© <%= Date.today.year %> Digital Store. All rights reserved.
+If you have any questions, please contact our support team at support@digitalstore.com.

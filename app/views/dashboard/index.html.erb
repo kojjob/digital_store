@@ -2,8 +2,8 @@
   Dashboard Index View
   
   This is the main dashboard view that serves as the primary interface for users.
-  It dynamically loads different components based on user role and provides
-  a comprehensive overview of the user's activity and data.
+  It incorporates a modern design inspired by the provided examples while
+  being tailored to our digital_store project models.
 %>
 
 <div class="min-h-screen bg-gray-50">
@@ -19,10 +19,11 @@
       <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <!-- Page header -->
-          <div class="md:flex md:items-center md:justify-between">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div class="flex-1 min-w-0">
               <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                Welcome back, <%= current_user.respond_to?(:first_name) ? current_user.first_name : current_user.email.split('@').first %>
+                <%= Time.current.hour < 12 ? "Good morning" : (Time.current.hour < 18 ? "Good afternoon" : "Good evening") %>, 
+                <%= current_user.respond_to?(:first_name) ? current_user.first_name : current_user.email.split('@').first %>
                 <% if current_user.seller? %>
                   <span class="text-sm font-normal text-indigo-600">(Seller)</span>
                 <% end %>
@@ -52,16 +53,16 @@
                   </div>
                   View Analytics
                 <% end %>
-                <%= link_to new_sellers_product_path, class: "ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+                <%= link_to new_product_path, class: "ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
                   <div class="mr-2">
-                    <%= render 'shared/icon', name: "plus", size: "sm", color: "green" %>
+                    <%= render 'shared/icon', name: "plus", size: "sm", color: "white" %>
                   </div>
                   Add Product
                 <% end %>
               <% else %>
                 <%= link_to become_seller_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
                   <div class="mr-2">
-                    <%= render 'shared/icon', name: "store", size: "sm", color: "purple" %>
+                    <%= render 'shared/icon', name: "store", size: "sm", color: "white" %>
                   </div>
                   Become a Seller
                 <% end %>
@@ -71,43 +72,69 @@
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <!-- Notification banner -->
-          <% if @new_notifications && @new_notifications > 0 %>
-          <div class="mt-8 rounded-md bg-indigo-50 p-4">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <%= render 'shared/icon', name: "notification", size: "md", color: "blue" %>
+          <!-- Notifications -->
+          <div id="notifications-container" data-controller="notifications">
+            <% if @new_notifications && @new_notifications > 0 %>
+              <div class="mt-2 mb-6 rounded-md bg-indigo-50 p-4 animate-fadeIn" data-notifications-target="banner">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <%= render 'shared/icon', name: "notification", size: "md", color: "blue" %>
+                  </div>
+                  <div class="ml-3 flex-1 md:flex md:justify-between">
+                    <p class="text-sm text-indigo-700">
+                      You have <%= @new_notifications %> new notification<%= @new_notifications > 1 ? 's' : '' %>
+                    </p>
+                    <p class="mt-3 text-sm md:mt-0 md:ml-6">
+                      <a href="<%= notifications_path if defined?(notifications_path) %>" class="whitespace-nowrap font-medium text-indigo-700 hover:text-indigo-600">View all<span aria-hidden="true"> &rarr;</span></a>
+                    </p>
+                  </div>
+                  <button data-action="notifications#dismiss" class="ml-2 text-indigo-500 hover:text-indigo-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <div class="ml-3 flex-1 md:flex md:justify-between">
-                <p class="text-sm text-indigo-700">
-                  You have <%= @new_notifications %> new notification<%= @new_notifications > 1 ? 's' : '' %>
-                </p>
-                <p class="mt-3 text-sm md:mt-0 md:ml-6">
-                  <a href="<%= notifications_path if defined?(notifications_path) %>" class="whitespace-nowrap font-medium text-indigo-700 hover:text-indigo-600">View all<span aria-hidden="true"> &rarr;</span></a>
-                </p>
-              </div>
-            </div>
+            <% end %>
           </div>
-          <% end %>
-
+          
           <!-- Quick Actions -->
           <%= render 'dashboard/quick_actions' %>
           
-          <!-- Role-specific Dashboard Content -->
-          <% if current_user.seller? %>
-            <%= render 'dashboard/seller_dashboard' %>
-          <% else %>
-            <%= render 'dashboard/buyer_dashboard' %>
+          <!-- Turbo Stream for Dynamic Content Updates -->
+          <%= turbo_stream_from "user_#{current_user.id}_dashboard" if current_user %>
+          
+          <!-- Role-specific Dashboard Content with Turbo Frame -->
+          <%= turbo_frame_tag "dashboard_content", target: "_top" do %>
+            <% if current_user.seller? %>
+              <%= render 'dashboard/seller_dashboard' %>
+            <% else %>
+              <%= render 'dashboard/buyer_dashboard' %>
+            <% end %>
           <% end %>
 
-          <!-- Common Dashboard Components -->
-          <div class="action-items-container">
-            <%= render 'dashboard/action_items' %>
+          <!-- Two Column Layout for Dashboard Components -->
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Main Column (2/3 width) -->
+            <div class="md:col-span-2 space-y-6">
+              <!-- Activity Feed -->
+              <%= render 'dashboard/activity_feed' %>
+              
+              <!-- Recent Reviews -->
+              <%= render 'dashboard/recent_reviews' %>
+            </div>
+            
+            <!-- Sidebar Column (1/3 width) -->
+            <div class="space-y-6">
+              <!-- Action Items -->
+              <div class="action-items-container" data-controller="action-items">
+                <%= render 'dashboard/action_items' %>
+              </div>
+              
+              <!-- Help & Support -->
+              <%= render 'dashboard/help_support' %>
+            </div>
           </div>
-          
-          <%= render 'dashboard/activity_feed' %>
-          <%= render 'dashboard/recent_reviews' %>
-          <%= render 'dashboard/help_support' %>
         </div>
       </div>
     </div>
@@ -121,5 +148,10 @@
 <script>
   // Make action items available to the ActionItemsService
   window.actionItems = <%= raw @action_items.to_json %>;
+  
+  // Initialize Stimulus controllers
+  document.addEventListener('turbo:load', function() {
+    // Any additional initialization can go here
+  });
 </script>
 <% end %>

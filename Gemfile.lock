@@ -126,6 +126,8 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    groupdate (6.5.1)
+      activesupport (>= 7)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -277,6 +279,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
+    ransack (4.3.0)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     rdoc (6.13.0)
       psych (>= 4.0.0)
     regexp_parser (2.10.0)
@@ -351,6 +357,7 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.5)
+    stripe (13.5.0)
     tailwindcss-rails (4.2.1)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
@@ -409,6 +416,7 @@ DEPENDENCIES
   capybara
   debug
   devise
+  groupdate
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
@@ -418,12 +426,14 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)
+  ransack
   rubocop-rails-omakase
   selenium-webdriver
   solid_cable
   solid_cache
   solid_queue
   stimulus-rails
+  stripe
   tailwindcss-rails
   thruster
   turbo-rails

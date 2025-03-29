@@ -1,29 +1,30 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: Digital Product One
-  description: This is a detailed description for the first digital product that has enough characters.
+  name: Physical Product One
+  description: This is a detailed description for the first physical product that has enough characters.
   price: 19.99
   discounted_price: 14.99
   stock_quantity: 100
   sku: SKU001
   barcode: BARCODE001
-  weight: 0
-  dimensions: N/A
+  weight: 0.5
+  dimensions: 10x10x5
   condition: New
-  brand: Digital Brand
+  brand: Physical Brand
   featured: true
   currency: USD
   country_of_origin: Ghana
   available_in_ghana: true
   available_in_nigeria: true
-  shipping_time: Instant
+  shipping_time: 3-5 days
   category: one
   seller: one
   published: true
   published_at: 2025-03-25 21:23:05
-  meta_title: Digital Product One - Premium Digital Item
-  meta_description: This is a premium digital product available for instant download.
+  meta_title: Physical Product One - Premium Physical Item
+  meta_description: This is a premium physical product available for shipping.
+  is_digital: false
 
 two:
   name: Digital Product Two
@@ -49,3 +50,30 @@ two:
   published_at: 2025-03-25 21:23:05
   meta_title: Digital Product Two - Professional Digital Item
   meta_description: This is a professional digital product available for instant download.
+  is_digital: true
+
+digital:
+  name: Digital Product PDF
+  description: This is a premium PDF e-book that can be downloaded immediately after purchase.
+  price: 12.99
+  discounted_price: 9.99
+  stock_quantity: 999
+  sku: SKU003
+  barcode: BARCODE003
+  weight: 0
+  dimensions: N/A
+  condition: New
+  brand: Digital Publications
+  featured: true
+  currency: USD
+  country_of_origin: Ghana
+  available_in_ghana: true
+  available_in_nigeria: true
+  shipping_time: Instant
+  category: one
+  seller: one
+  published: true
+  published_at: 2025-03-26 10:00:00
+  meta_title: Premium Digital E-Book - Digital Publications
+  meta_description: Instant download of our premium e-book in PDF format.
+  is_digital: true

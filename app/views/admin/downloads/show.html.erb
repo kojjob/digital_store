@@ -1,0 +1,195 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">Download Link Details</h1>
+      <p class="mt-2 text-sm text-gray-700">
+        Details for download link of "<%= @download_link.product.name %>" for <%= @download_link.user.email %>
+      </p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none space-x-2">
+      <a href="<%= admin_downloads_path %>" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+        Back to Downloads
+      </a>
+      <a href="<%= edit_admin_download_path(@download_link) %>" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+        Edit Link
+      </a>
+    </div>
+  </div>
+
+  <!-- Download Link Details -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Link Information</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Details and status of the download link.</p>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+      <dl class="sm:divide-y sm:divide-gray-200">
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Product</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.product.name %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">User</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.user.email %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Status</dt>
+          <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0">
+            <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5 
+                <%= @download_link.valid_for_download? ? 'bg-green-100 text-green-800' : 
+                  @download_link.expired? ? 'bg-red-100 text-red-800' : 
+                  @download_link.download_limit_reached? ? 'bg-yellow-100 text-yellow-800' : 
+                  'bg-gray-100 text-gray-800' %>">
+                <%= @download_link.valid_for_download? ? 'Active' : 
+                  @download_link.expired? ? 'Expired' : 
+                  @download_link.download_limit_reached? ? 'Limit Reached' : 
+                  'Inactive' %>
+            </span>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Downloads</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.download_count %> / <%= @download_link.download_limit.zero? ? '∞' : @download_link.download_limit %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Token</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <code class="px-2 py-1 bg-gray-100 rounded"><%= @download_link.token %></code>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Expiration</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.expires_at.strftime("%B %d, %Y at %I:%M %p") %>
+            (<%= @download_link.expiration_in_words %>)
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">File Name</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.file_name || 'No file name' %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">File Size</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= number_to_human_size(@download_link.file_size || 0) %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Content Type</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.content_type || 'Unknown' %>
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Created At</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+            (<%= time_ago_in_words(@download_link.created_at) %> ago)
+          </dd>
+        </div>
+        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <%= @download_link.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+            (<%= time_ago_in_words(@download_link.updated_at) %> ago)
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Regenerate Link -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Regenerate Download Link</h3>
+      <div class="mt-2 max-w-xl text-sm text-gray-500">
+        <p>This will create a new token and reset the download count. The user will be notified by email.</p>
+      </div>
+      <div class="mt-5">
+        <%= form_with url: regenerate_admin_download_path(@download_link), method: :post, class: "sm:flex sm:items-center" do |f| %>
+          <div class="w-full sm:max-w-xs">
+            <label for="expires_at" class="block text-sm font-medium text-gray-700">New Expiration Date</label>
+            <div class="mt-1">
+              <input type="datetime-local" name="expires_at" id="expires_at" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" value="<%= 7.days.from_now.strftime('%Y-%m-%dT%H:%M') %>">
+            </div>
+          </div>
+          <button type="submit" class="mt-3 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            Regenerate Link
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Activity -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Download Activity</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Recent download activity for this product by this user.</p>
+    </div>
+    <div class="border-t border-gray-200">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% if @download_activities.any? %>
+          <% @download_activities.each do |activity| %>
+            <li class="px-4 py-4 sm:px-6">
+              <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-900">
+                  <%= activity.title %>
+                </div>
+                <div class="ml-2 flex flex-shrink-0">
+                  <p class="inline-flex rounded-full bg-blue-100 px-2 text-xs font-semibold leading-5 text-blue-800">
+                    <%= activity.activity_type %>
+                  </p>
+                </div>
+              </div>
+              <div class="mt-2 sm:flex sm:justify-between">
+                <div class="sm:flex">
+                  <p class="flex items-center text-sm text-gray-500">
+                    <svg class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                    <%= activity.user.email %>
+                  </p>
+                </div>
+                <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                  <svg class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                  </svg>
+                  <p>
+                    <%= activity.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                    (<%= time_ago_in_words(activity.created_at) %> ago)
+                  </p>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        <% else %>
+          <li class="px-4 py-4 sm:px-6 text-sm text-gray-500 italic">
+            No download activity recorded for this link yet.
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Danger Zone -->
+  <div class="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg font-medium leading-6 text-red-700">Danger Zone</h3>
+      <div class="mt-2 max-w-xl text-sm text-gray-500">
+        <p>Permanently delete this download link. This action cannot be undone.</p>
+      </div>
+      <div class="mt-5">
+        <%= button_to "Delete Download Link", admin_download_path(@download_link), method: :delete, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm", data: { confirm: "Are you sure you want to delete this download link? This action cannot be undone." } %>
+      </div>
+    </div>
+  </div>
+</div>

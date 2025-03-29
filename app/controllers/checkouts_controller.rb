@@ -27,26 +27,43 @@ class CheckoutsController < ApplicationController
   end
 
   def create
-    # Process the checkout
-    # This would typically include payment processing, order creation, etc.
-
-    # For now, just create a simple order
     @cart = current_user.ensure_cart
 
-    # Create order from cart
-    # This is a placeholder - you would need to implement actual order creation logic
-    order = Order.new(
-      user: current_user,
-      total_amount: @cart.total
-    )
+    # Validate the payment method selection
+    payment_method = params[:payment_method]
 
-    if order.save
-      # Clear the cart after successful order
-      @cart.clear
+    if payment_method.blank?
+      redirect_to checkout_path, alert: "Please select a payment method"
+      return
+    end
 
-      redirect_to order_path(order), notice: "Order placed successfully!"
-    else
-      redirect_to checkout_path, alert: "There was a problem processing your order."
+    # Create a pending order
+    begin
+      # Get the product (assuming single product checkouts for now)
+      product = @product || @cart.cart_items.first&.product
+
+      if product.nil?
+        redirect_to checkout_path, alert: "Your cart is empty"
+        return
+      end
+
+      # Create order
+      order = Order.create!(
+        user: current_user,
+        product: product,
+        total_amount: @cart.total,
+        status: "pending",
+        payment_status: "pending"
+      )
+
+      # Send order confirmation email
+      OrderMailer.order_confirmation(order).deliver_later
+
+      # Redirect to the payments controller to handle payment
+      redirect_to create_payment_path(payment_method: payment_method, order_id: order.id)
+    rescue => e
+      Rails.logger.error("Error creating order: #{e.message}")
+      redirect_to checkout_path, alert: "There was a problem processing your order. Please try again."
     end
   end
 

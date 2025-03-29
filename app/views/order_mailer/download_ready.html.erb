@@ -1,0 +1,35 @@
+<h2>Your Download is Ready!</h2>
+
+<p>Hello <%= @user.first_name || @user.email %>,</p>
+
+<p>Great news! Your digital product <strong><%= @product.name %></strong> from order #<%= @order.id %> is now ready for download.</p>
+
+<div class="download-info">
+  <h3>Download Details</h3>
+  <p><strong>Product:</strong> <%= @product.name %></p>
+  <p><strong>File:</strong> <%= @download_link.file_name %> (<%= number_to_human_size(@download_link.file_size.to_i) %>)</p>
+  <p><strong>Download Limit:</strong> <%= @download_link.download_count %> of <%= @download_link.download_limit %> downloads used</p>
+  <p><strong>Expires On:</strong> <%= @download_link.expires_at.strftime("%B %d, %Y") %></p>
+  
+  <p>
+    <a href="<%= @download_url %>" class="button">Download Now</a>
+  </p>
+</div>
+
+<p>For your security, please note the following about your download:</p>
+
+<ul>
+  <li>The download link is valid for a limited time only and will expire on <%= @download_link.expires_at.strftime("%B %d, %Y") %>.</li>
+  <li>You can download the file up to <%= @download_link.download_limit %> times.</li>
+  <li>The download link is tied to your account and should not be shared with others.</li>
+</ul>
+
+<p>You can also access all your downloads from your account dashboard:</p>
+
+<p>
+  <a href="<%= downloads_url %>" class="button">View All My Downloads</a>
+</p>
+
+<p>If you have any issues downloading your purchase, please contact our support team.</p>
+
+<p>Thank you for shopping with Digital Store!</p>

@@ -12,7 +12,9 @@
   <div class="bg-white shadow overflow-hidden sm:rounded-lg">
     <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
       <%= form_with url: admin_product_questions_path, method: :get, class: "flex items-center space-x-4" do |f| %>
-        <%= f.text_field :q, value: params[:q]&.dig(:question_or_answer_cont), name: "q[question_or_answer_cont]", placeholder: "Search questions or answers...", class: "shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+        <div class="flex-grow">
+          <%= text_field_tag 'q[question_or_answer_cont]', params[:q].is_a?(Hash) ? params[:q][:question_or_answer_cont] : '', placeholder: "Search questions or answers...", class: "shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+        </div>
         <%= f.submit "Search", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
       <% end %>
     </div>

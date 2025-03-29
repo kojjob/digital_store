@@ -1,0 +1,204 @@
+<div class="row">
+  <!-- Order Information Card -->
+  <div class="col-lg-6">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Order Information</h6>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Order ID:</div>
+          <div class="col-md-7">#<%= @order.id %></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Date Created:</div>
+          <div class="col-md-7"><%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Status:</div>
+          <div class="col-md-7"><%= payment_status_badge(@order.status) %></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Payment Status:</div>
+          <div class="col-md-7"><%= payment_status_badge(@order.payment_status) %></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Total Amount:</div>
+          <div class="col-md-7"><%= number_to_currency(@order.total_amount) %></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Payment Method:</div>
+          <div class="col-md-7"><%= @order.payment_processor.present? ? @order.payment_processor.titleize : 'Not specified' %></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Transaction ID:</div>
+          <div class="col-md-7">
+            <code><%= @order.payment_id %></code>
+            <button class="btn btn-sm btn-outline-secondary ml-2" onclick="copyToClipboard('<%= @order.payment_id %>')">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
+        </div>
+        
+        <% if @order.payment_details.present? %>
+          <div class="row mb-3">
+            <div class="col-md-5 font-weight-bold">Payment Details:</div>
+            <div class="col-md-7">
+              <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#paymentDetailsModal">
+                View Details
+              </button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- Update Order Status Card -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Update Order Status</h6>
+      </div>
+      <div class="card-body">
+        <%= form_for @order, url: admin_payment_path(@order), method: :patch do |f| %>
+          <div class="form-group">
+            <%= f.label :status %>
+            <%= f.select :status, Order.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "form-control" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :payment_status %>
+            <%= f.select :payment_status, Order.payment_statuses.keys.map { |s| [s.titleize, s] }, {}, class: "form-control" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :notes %>
+            <%= f.text_area :notes, class: "form-control", rows: 3 %>
+          </div>
+          
+          <%= f.submit "Update Order", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Customer Information Card -->
+  <div class="col-lg-6">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Customer Information</h6>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Customer:</div>
+          <div class="col-md-7">
+            <%= @order.user.full_name || "No name provided" %>
+            <%= link_to admin_user_path(@order.user), class: "btn btn-sm btn-outline-primary ml-2" do %>
+              <i class="fas fa-user"></i> View
+            <% end %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Email:</div>
+          <div class="col-md-7">
+            <%= @order.user.email %>
+            <button class="btn btn-sm btn-outline-secondary ml-2" onclick="copyToClipboard('<%= @order.user.email %>')">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
+        </div>
+        
+        <% if @order.user.phone_number.present? %>
+          <div class="row mb-3">
+            <div class="col-md-5 font-weight-bold">Phone:</div>
+            <div class="col-md-7"><%= @order.user.phone_number %></div>
+          </div>
+        <% end %>
+        
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Orders:</div>
+          <div class="col-md-7">
+            <%= @order.user.orders.count %> total
+            <%= link_to admin_payments_path(search: @order.user.email), class: "btn btn-sm btn-outline-secondary ml-2" do %>
+              <i class="fas fa-search"></i> View All
+            <% end %>
+          </div>
+        </div>
+        
+        <div class="row mb-3">
+          <div class="col-md-5 font-weight-bold">Customer Since:</div>
+          <div class="col-md-7"><%= @order.user.created_at.strftime("%B %d, %Y") %></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Product Information Card -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Product Information</h6>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <% if @order.product.primary_image.present? && @order.product.primary_image.attached? %>
+              <%= image_tag @order.product.primary_image.variant(resize_to_limit: [150, 150]), class: "img-fluid" %>
+            <% else %>
+              <div class="bg-light text-center py-4 px-2" style="width: 150px; height: 150px;">
+                <i class="fas fa-image fa-3x text-gray-300 mt-4"></i>
+                <p class="mt-2 text-gray-500">No image</p>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-md-8">
+            <h5><%= @order.product.name %></h5>
+            <p class="text-muted"><%= @order.product.description&.truncate(100) %></p>
+            <p class="mb-1">
+              <strong>Price:</strong> <%= number_to_currency(@order.product.price) %>
+            </p>
+            <p class="mb-1">
+              <strong>Type:</strong> <%= @order.product.is_digital? ? "Digital" : "Physical" %>
+            </p>
+            <%= link_to admin_product_path(@order.product), class: "btn btn-sm btn-primary mt-2" do %>
+              <i class="fas fa-info-circle"></i> View Product
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Details Modal -->
+<% if @order.payment_details.present? %>
+  <div class="modal fade" id="paymentDetailsModal" tabindex="-1" role="dialog" aria-labelledby="paymentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="paymentDetailsModalLabel">Payment Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <pre class="bg-light p-3"><%= JSON.pretty_generate(JSON.parse(@order.payment_details)) rescue @order.payment_details %></pre>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  function copyToClipboard(text) {
+    const temp = document.createElement('textarea');
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    document.body.removeChild(temp);
+    
+    // Show a temporary tooltip or notification
+    alert('Copied to clipboard: ' + text);
+  }
+</script>

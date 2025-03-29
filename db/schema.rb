@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_29_134500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -91,6 +91,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.index ["slug"], name: "index_categories_on_slug", unique: true
   end
 
+  create_table "download_links", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "user_id", null: false
+    t.string "token"
+    t.datetime "expires_at"
+    t.integer "download_count"
+    t.integer "download_limit"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_download_links_on_product_id"
+    t.index ["user_id"], name: "index_download_links_on_user_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title", null: false
@@ -115,8 +129,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.decimal "total_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "payment_processor"
+    t.string "payment_id"
+    t.string "payment_status", default: "pending"
+    t.text "payment_details"
+    t.text "notes"
+    t.index ["payment_id"], name: "index_orders_on_payment_id"
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "payment_audit_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "order_id", null: false
+    t.string "event_type", null: false
+    t.string "payment_processor", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "transaction_id"
+    t.text "metadata"
+    t.inet "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_type", "payment_processor"], name: "index_payment_audit_logs_on_event_type_and_payment_processor"
+    t.index ["order_id"], name: "index_payment_audit_logs_on_order_id"
+    t.index ["user_id"], name: "index_payment_audit_logs_on_user_id"
   end
 
   create_table "product_images", force: :cascade do |t|
@@ -169,6 +206,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.text "meta_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_digital", default: false
     t.index ["available_in_ghana"], name: "index_products_on_available_in_ghana"
     t.index ["available_in_nigeria"], name: "index_products_on_available_in_nigeria"
     t.index ["barcode"], name: "index_products_on_barcode", unique: true, where: "(barcode IS NOT NULL)"
@@ -182,6 +220,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.index ["dimensions"], name: "index_products_on_dimensions"
     t.index ["discounted_price"], name: "index_products_on_discounted_price"
     t.index ["featured"], name: "index_products_on_featured"
+    t.index ["is_digital"], name: "index_products_on_is_digital"
     t.index ["meta_description"], name: "index_products_on_meta_description"
     t.index ["meta_title"], name: "index_products_on_meta_title"
     t.index ["name"], name: "index_products_on_name"
@@ -261,9 +300,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.boolean "super_admin", default: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.boolean "active", default: true
+    t.index ["active"], name: "index_users_on_active"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["super_admin"], name: "index_users_on_super_admin"
   end
 
   create_table "wishlist_items", force: :cascade do |t|
@@ -284,9 +332,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_000001) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
   add_foreign_key "categories", "categories", column: "parent_id"
+  add_foreign_key "download_links", "products"
+  add_foreign_key "download_links", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "payment_audit_logs", "orders"
+  add_foreign_key "payment_audit_logs", "users"
   add_foreign_key "product_images", "products"
   add_foreign_key "product_questions", "products"
   add_foreign_key "product_questions", "users"

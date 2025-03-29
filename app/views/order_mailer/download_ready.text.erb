@@ -1,0 +1,30 @@
+Your Download is Ready!
+
+Hello <%= @user.first_name || @user.email %>,
+
+Great news! Your digital product <%= @product.name %> from order #<%= @order.id %> is now ready for download.
+
+DOWNLOAD DETAILS
+Product: <%= @product.name %>
+File: <%= @download_link.file_name %> (<%= number_to_human_size(@download_link.file_size.to_i) %>)
+Download Limit: <%= @download_link.download_count %> of <%= @download_link.download_limit %> downloads used
+Expires On: <%= @download_link.expires_at.strftime("%B %d, %Y") %>
+
+Download Link: <%= @download_url %>
+
+For your security, please note the following about your download:
+
+* The download link is valid for a limited time only and will expire on <%= @download_link.expires_at.strftime("%B %d, %Y") %>.
+* You can download the file up to <%= @download_link.download_limit %> times.
+* The download link is tied to your account and should not be shared with others.
+
+You can also access all your downloads from your account dashboard:
+<%= downloads_url %>
+
+If you have any issues downloading your purchase, please contact our support team.
+
+Thank you for shopping with Digital Store!
+
+---
+© <%= Date.today.year %> Digital Store. All rights reserved.
+If you have any questions, please contact our support team at support@digitalstore.com.

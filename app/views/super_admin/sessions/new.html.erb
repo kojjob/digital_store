@@ -1,0 +1,36 @@
+<div class="login-header">
+  <div class="login-logo">
+    <img src="<%= asset_path('logo.svg') %>" alt="Digital Store" class="h-12 w-auto">
+    <span class="ml-2 text-xl font-bold text-red-700">SUPER ADMIN</span>
+  </div>
+  <h1 class="login-title">Super Admin Login</h1>
+  <p class="login-subtitle">Sign in to access super admin controls</p>
+</div>
+
+<% if flash[:alert] %>
+  <div class="login-alert">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<% if flash[:notice] %>
+  <div class="login-notice">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<%= form_with url: super_admin_login_path, method: :post, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :email, "Email Address", class: "form-label" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, "Password", class: "form-label" %>
+    <%= f.password_field :password, autocomplete: "current-password", required: true, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Sign In", class: "submit-button" %>
+  </div>
+<% end %>

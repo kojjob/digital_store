@@ -1,0 +1,78 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Payment Security</h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="securityDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="securityDropdown">
+        <div class="dropdown-header">Actions:</div>
+        <%= link_to admin_security_payment_dashboard_index_path, class: "dropdown-item" do %>
+          <i class="fas fa-shield-alt fa-sm fa-fw mr-2 text-gray-400"></i>Security Dashboard
+        <% end %>
+        <%= link_to recent_events_admin_security_payment_dashboard_index_path(event_type: 'signature_invalid'), class: "dropdown-item" do %>
+          <i class="fas fa-exclamation-triangle fa-sm fa-fw mr-2 text-gray-400"></i>View Security Events
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <% 
+      # Get security stats for the last 7 days
+      start_date = 7.days.ago.beginning_of_day
+      end_date = Time.current
+      
+      # Count security events
+      signature_failures = PaymentAuditLog.where(event_type: 'signature_invalid')
+                                        .where(created_at: start_date..end_date)
+                                        .count
+                                        
+      # Count payment errors
+      payment_errors = PaymentAuditLog.where(event_type: 'payment_failed')
+                                    .where(created_at: start_date..end_date)
+                                    .count
+    %>
+    
+    <div class="row no-gutters">
+      <div class="col-md-6 mb-4">
+        <div class="card border-left-danger h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                  Signature Failures (7 days)</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= signature_failures %></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6 mb-4">
+        <div class="card border-left-warning h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                  Payment Errors (7 days)</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= payment_errors %></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center mt-2">
+      <%= link_to admin_security_payment_dashboard_index_path, class: "btn btn-danger btn-block" do %>
+        <i class="fas fa-shield-alt mr-1"></i> View Security Dashboard
+      <% end %>
+    </div>
+  </div>
+</div>

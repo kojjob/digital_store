@@ -11,7 +11,9 @@ class Product < ApplicationRecord
   has_many :wishlist_items, dependent: :destroy
   has_many :product_images, dependent: :destroy
   has_many :product_questions, dependent: :destroy
+  has_many :download_links, dependent: :destroy
   has_many_attached :images
+  has_one_attached :digital_file
 
   # Validations
   validates :name, presence: true, length: { minimum: 3, maximum: 100 }
@@ -33,6 +35,11 @@ class Product < ApplicationRecord
   scope :available_in_nigeria, -> { where(available_in_nigeria: true) }
 
   # Instance methods
+
+  # Check if product is a digital product
+  def is_digital?
+    digital_file.attached?
+  end
 
   # Calculate average rating from reviews
   def average_rating
@@ -87,6 +94,17 @@ class Product < ApplicationRecord
       product_images.first
     elsif images.attached?
       images.first
+    else
+      nil
+    end
+  end
+
+  # Get URL for primary image
+  def primary_image_url
+    if product_images.exists? && product_images.first.respond_to?(:url)
+      product_images.first.url
+    elsif images.attached?
+      nil # Return nil since we can't directly get URL from ActiveStorage in this context
     else
       nil
     end

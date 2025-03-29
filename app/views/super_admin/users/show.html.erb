@@ -1,0 +1,594 @@
+<div data-controller="user-details" class="bg-gray-50 min-h-screen">
+  <!-- Hero section with user profile overview -->
+  <div class="bg-gradient-to-r from-indigo-700 to-purple-700 relative overflow-hidden">
+    <div class="px-4 py-6 sm:px-6 lg:px-8 relative z-10">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
+        <div class="flex items-center">
+          <div class="mr-5 flex-shrink-0">
+            <% if @user.profile_picture.attached? %>
+              <%= image_tag @user.profile_picture.variant(resize_to_fill: [120, 120]), class: "h-24 w-24 rounded-full ring-4 ring-white" %>
+            <% else %>
+              <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-white ring-4 ring-white">
+                <svg class="h-12 w-12 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </span>
+            <% end %>
+          </div>
+          
+          <div class="text-white">
+            <h1 class="text-2xl sm:text-3xl font-bold"><%= @user.full_name %></h1>
+            <div class="flex items-center mt-1">
+              <svg class="h-5 w-5 text-indigo-200 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span class="text-indigo-100"><%= @user.email %></span>
+            </div>
+            
+            <div class="flex items-center mt-2 space-x-2">
+              <!-- Role Badge -->
+              <% if @user.super_admin? %>
+                <span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">Super Admin</span>
+              <% elsif @user.admin? %>
+                <span class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-800">Admin</span>
+              <% elsif @user.seller? %>
+                <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">Seller</span>
+              <% else %>
+                <span class="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-800">Buyer</span>
+              <% end %>
+              
+              <!-- Account Status -->
+              <% if @user.active? %>
+                <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">Active</span>
+              <% else %>
+                <span class="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-800">Inactive</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
+          <a href="<%= super_admin_users_path %>" class="inline-flex items-center rounded-md border border-transparent bg-white bg-opacity-20 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-700">
+            <svg class="mr-2 -ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Users
+          </a>
+          
+          <% unless @user == current_user || @user.super_admin? %>
+            <a href="<%= edit_super_admin_user_path(@user) %>" class="inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <svg class="mr-2 -ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              Edit User
+            </a>
+            
+            <%= button_to super_admin_user_path(@user), method: :delete, data: { confirm: "Are you sure you want to delete this user? This action cannot be undone." }, class: "inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" do %>
+              <svg class="mr-2 -ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Delete User
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Decorative pattern -->
+    <div class="absolute inset-y-0 right-0 hidden lg:block lg:left-2/3 xl:left-1/2">
+      <svg class="h-full w-full text-white text-opacity-5" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polygon points="0,0 100,0 50,100 0,100" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <div class="bg-white shadow">
+    <div class="px-4 sm:px-6 lg:px-8">
+      <div class="border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8">
+          <button 
+            type="button" 
+            data-user-details-target="tab" 
+            data-tab="profile" 
+            data-action="user-details#switchTab" 
+            class="border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+          >
+            Profile
+          </button>
+          <button 
+            type="button" 
+            data-user-details-target="tab" 
+            data-tab="orders" 
+            data-action="user-details#switchTab" 
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+          >
+            Orders
+          </button>
+          <button 
+            type="button" 
+            data-user-details-target="tab" 
+            data-tab="downloads" 
+            data-action="user-details#switchTab" 
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+          >
+            Downloads
+          </button>
+          <button 
+            type="button" 
+            data-user-details-target="tab" 
+            data-tab="activity" 
+            data-action="user-details#switchTab" 
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+          >
+            Activity
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- User Metrics Cards -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+      <!-- Account Age Card -->
+      <div class="bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden rounded-lg shadow">
+        <div class="px-4 py-5 sm:p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+              <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-blue-100 truncate">Account Age</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-white"><%= time_ago_in_words(@user.created_at) %></div>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Last Sign In Card -->
+      <div class="bg-gradient-to-br from-green-500 to-green-600 overflow-hidden rounded-lg shadow">
+        <div class="px-4 py-5 sm:p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+              <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-green-100 truncate">Last Sign In</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-white">
+                    <%= @user.last_sign_in_at ? time_ago_in_words(@user.last_sign_in_at) : 'Never' %>
+                  </div>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Orders Card -->
+      <div class="bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden rounded-lg shadow">
+        <div class="px-4 py-5 sm:p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+              <svg class="h-6 w-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-purple-100 truncate">Total Orders</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-white"><%= @orders.count %></div>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Downloads Card -->
+      <div class="bg-gradient-to-br from-pink-500 to-pink-600 overflow-hidden rounded-lg shadow">
+        <div class="px-4 py-5 sm:p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-pink-100 rounded-md p-3">
+              <svg class="h-6 w-6 text-pink-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-pink-100 truncate">Total Downloads</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-white"><%= @downloads.sum(:download_count) %></div>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Content -->
+    <!-- Profile Tab -->
+    <div data-user-details-target="tabContent" data-tab="profile" class="space-y-6">
+      <!-- User Information Card -->
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">User Information</h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and account status.</p>
+        </div>
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Full name</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <%= @user.full_name %>
+              </dd>
+            </div>
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Email address</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <%= @user.email %>
+              </dd>
+            </div>
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Role</dt>
+              <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0 flex items-center">
+                <% if @user.super_admin? %>
+                  <span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">Super Admin</span>
+                <% elsif @user.admin? %>
+                  <span class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-800">Admin</span>
+                  <% unless @user.super_admin? %>
+                    <%= button_to "Remove Admin Role", toggle_admin_super_admin_user_path(@user), method: :post, class: "ml-2 text-xs text-red-600 hover:text-red-900 bg-transparent" %>
+                  <% end %>
+                <% elsif @user.seller? %>
+                  <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">Seller</span>
+                  <% unless @user.admin? || @user.super_admin? %>
+                    <%= button_to "Make Admin", toggle_admin_super_admin_user_path(@user), method: :post, class: "ml-2 text-xs text-indigo-600 hover:text-indigo-900 bg-transparent" %>
+                  <% end %>
+                <% else %>
+                  <span class="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-800">Buyer</span>
+                  <% unless @user.admin? || @user.super_admin? %>
+                    <%= button_to "Make Admin", toggle_admin_super_admin_user_path(@user), method: :post, class: "ml-2 text-xs text-indigo-600 hover:text-indigo-900 bg-transparent" %>
+                  <% end %>
+                <% end %>
+              </dd>
+            </div>
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Account Status</dt>
+              <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0">
+                <% if @user.active? %>
+                  <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">Active</span>
+                <% else %>
+                  <span class="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-800">Inactive</span>
+                <% end %>
+              </dd>
+            </div>
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Created At</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <%= @user.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                (<%= time_ago_in_words(@user.created_at) %> ago)
+              </dd>
+            </div>
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Last Sign In</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <%= @user.last_sign_in_at&.strftime("%B %d, %Y at %I:%M %p") || 'Never' %>
+                <%= @user.last_sign_in_at ? "(#{time_ago_in_words(@user.last_sign_in_at)} ago)" : '' %>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Impersonate User Card -->
+      <% unless @user == current_user %>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <div class="sm:flex sm:items-center sm:justify-between">
+              <div>
+                <h3 class="text-lg font-medium leading-6 text-red-900">Impersonate User</h3>
+                <div class="mt-2 max-w-xl text-sm text-gray-500">
+                  <p>Sign in as this user to troubleshoot issues or assist them with their account. This action is logged.</p>
+                </div>
+              </div>
+              <div class="mt-5 sm:mt-0">
+                <%= button_to "Impersonate #{@user.email}", impersonate_super_admin_user_path(@user), method: :post, data: { confirm: "Are you sure you want to impersonate this user? You will be logged in as them until you choose to stop impersonation." }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Orders Tab -->
+    <div data-user-details-target="tabContent" data-tab="orders" class="hidden">
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Orders</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Purchases and transaction history.</p>
+          </div>
+          <a href="<%= admin_payments_path(search: @user.email) %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all orders</a>
+        </div>
+        
+        <div class="overflow-hidden">
+          <% if @orders.any? %>
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th scope="col" class="relative px-6 py-3">
+                    <span class="sr-only">View</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% @orders.each do |order| %>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">Order #<%= order.id %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900"><%= order.product.name %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500"><%= order.created_at.strftime("%b %d, %Y") %></div>
+                      <div class="text-sm text-gray-500"><%= time_ago_in_words(order.created_at) %> ago</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        <%= order.status == 'paid' ? 'bg-green-100 text-green-800' : 
+                          order.status == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-red-100 text-red-800' %>">
+                        <%= order.status.capitalize %>
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <a href="<%= admin_payment_path(order) %>" class="text-indigo-600 hover:text-indigo-900">View</a>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <div class="px-6 py-10 text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No orders found</h3>
+              <p class="mt-1 text-sm text-gray-500">This user hasn't made any purchases yet.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Downloads Tab -->
+    <div data-user-details-target="tabContent" data-tab="downloads" class="hidden">
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Downloads</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Digital products and download activity.</p>
+          </div>
+          <a href="<%= admin_downloads_path(search: @user.email) %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all downloads</a>
+        </div>
+        
+        <div class="overflow-hidden">
+          <% if @downloads.any? %>
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Downloads</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expiration</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th scope="col" class="relative px-6 py-3">
+                    <span class="sr-only">View</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% @downloads.each do |download| %>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900"><%= download.product.name %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">
+                        <%= download.download_count %> / <%= download.download_limit.zero? ? '∞' : download.download_limit %>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500"><%= download.expiration_in_words %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        <%= download.valid_for_download? ? 'bg-green-100 text-green-800' : 
+                          download.expired? ? 'bg-red-100 text-red-800' : 
+                          download.download_limit_reached? ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-gray-100 text-gray-800' %>">
+                        <%= download.valid_for_download? ? 'Active' : 
+                          download.expired? ? 'Expired' : 
+                          download.download_limit_reached? ? 'Limit Reached' : 
+                          'Inactive' %>
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <a href="<%= admin_download_path(download) %>" class="text-indigo-600 hover:text-indigo-900">View</a>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <div class="px-6 py-10 text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No downloads found</h3>
+              <p class="mt-1 text-sm text-gray-500">This user hasn't downloaded any digital products yet.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Tab -->
+    <div data-user-details-target="tabContent" data-tab="activity" class="hidden">
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">User Activity</h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500">Recent activities and interactions.</p>
+        </div>
+        
+        <div class="px-4 py-5 sm:p-6">
+          <% if @activities.any? %>
+            <div class="flow-root">
+              <ul role="list" class="-mb-8">
+                <% @activities.each_with_index do |activity, index| %>
+                  <li>
+                    <div class="relative pb-8">
+                      <% if index < @activities.length - 1 %>
+                        <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                      <% end %>
+                      <div class="relative flex items-start space-x-3">
+                        <div class="relative">
+                          <div class="h-10 w-10 rounded-full bg-indigo-500 flex items-center justify-center ring-8 ring-white">
+                            <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                          </div>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                          <div>
+                            <div class="text-sm font-medium text-gray-900">
+                              <%= activity.title %>
+                            </div>
+                            <p class="mt-0.5 text-sm text-gray-500">
+                              <%= time_ago_in_words(activity.created_at) %> ago
+                            </p>
+                          </div>
+                          <div class="mt-2 text-sm text-gray-700">
+                            <p><%= activity.description %></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% else %>
+            <div class="text-center py-10">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No activity recorded</h3>
+              <p class="mt-1 text-sm text-gray-500">We haven't logged any activities for this user yet.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stimulus Controller for User Details -->
+<script>
+  // This can go in a separate file (app/javascript/controllers/user_details_controller.js)
+  (() => {
+    // Define the controller when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Skip if Stimulus is not loaded or the controller is already registered
+      if (typeof window.Stimulus === 'undefined' || !document.querySelector('[data-controller="user-details"]')) {
+        console.log("Stimulus controller for user-details is not needed or already registered");
+        
+        // Simple fallback for tab switching if Stimulus is not available
+        document.querySelectorAll('[data-user-details-target="tab"]').forEach(tab => {
+          tab.addEventListener('click', function(event) {
+            const tabName = this.getAttribute('data-tab');
+            
+            // Update active tab styling
+            document.querySelectorAll('[data-user-details-target="tab"]').forEach(t => {
+              if (t.getAttribute('data-tab') === tabName) {
+                t.classList.add('border-indigo-500', 'text-indigo-600');
+                t.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+              } else {
+                t.classList.remove('border-indigo-500', 'text-indigo-600');
+                t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+              }
+            });
+            
+            // Show/hide tab content
+            document.querySelectorAll('[data-user-details-target="tabContent"]').forEach(content => {
+              if (content.getAttribute('data-tab') === tabName) {
+                content.classList.remove('hidden');
+              } else {
+                content.classList.add('hidden');
+              }
+            });
+          });
+        });
+        
+        return;
+      }
+      
+      // This part would only run if Stimulus is properly loaded
+      class UserDetailsController extends window.Stimulus.Controller {
+        static targets = ["tab", "tabContent"];
+        
+        connect() {
+          console.log("User details controller connected");
+        }
+        
+        switchTab(event) {
+          event.preventDefault();
+          const tabName = event.currentTarget.getAttribute('data-tab');
+          this.showTab(tabName);
+        }
+        
+        showTab(tabName) {
+          // Update active tab styling
+          this.tabTargets.forEach(tab => {
+            if (tab.getAttribute('data-tab') === tabName) {
+              tab.classList.add('border-indigo-500', 'text-indigo-600');
+              tab.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+            } else {
+              tab.classList.remove('border-indigo-500', 'text-indigo-600');
+              tab.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+            }
+          });
+          
+          // Show/hide tab content
+          this.tabContentTargets.forEach(content => {
+            if (content.getAttribute('data-tab') === tabName) {
+              content.classList.remove('hidden');
+            } else {
+              content.classList.add('hidden');
+            }
+          });
+        }
+      }
+      
+      // Register the controller
+      window.Stimulus.register("user-details", UserDetailsController);
+    });
+  })();
+</script>

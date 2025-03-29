@@ -1,0 +1,9 @@
+# Add CSV functionality to Rails
+require 'csv'
+
+# Make to_csv available on arrays
+class Array
+  def to_csv
+    CSV.generate_line(self)
+  end
+end

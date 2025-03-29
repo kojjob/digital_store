@@ -1,5 +1,5 @@
 <%#
-  Chart card component for dashboard
+  Chart card component for dashboard (modernized version)
   
   Required local variables:
   - id: String - unique identifier for the chart
@@ -9,7 +9,7 @@
   - show_periods: Boolean (optional) - whether to show period selection buttons
 %>
 
-<div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300">
+<div class="bg-white overflow-hidden shadow-md rounded-lg transform transition-all duration-300 hover:shadow-lg" data-controller="chart-card">
   <div class="p-5">
     <div class="flex items-center justify-between mb-4">
       <div>
@@ -19,23 +19,31 @@
         <% end %>
       </div>
       
-      <% if defined?(show_periods) && show_periods %>
-        <div class="flex rounded-md shadow-sm" role="group">
-          <button type="button" data-chart-id="<%= id %>" data-chart-period="week" class="py-1 px-3 text-xs font-medium rounded-l-md bg-white text-gray-500 hover:bg-gray-100 border border-gray-300">
-            Week
-          </button>
-          <button type="button" data-chart-id="<%= id %>" data-chart-period="month" class="py-1 px-3 text-xs font-medium bg-indigo-600 text-white hover:bg-indigo-700 border border-indigo-600">
-            Month
-          </button>
-          <button type="button" data-chart-id="<%= id %>" data-chart-period="year" class="py-1 px-3 text-xs font-medium rounded-r-md bg-white text-gray-500 hover:bg-gray-100 border border-gray-300">
-            Year
-          </button>
-        </div>
-      <% end %>
+      <div class="flex items-center space-x-2">
+        <% if defined?(show_periods) && show_periods %>
+          <div class="flex rounded-md shadow-sm" role="group" data-chart-card-target="periodSelector">
+            <button type="button" data-chart-id="<%= id %>" data-chart-period="week" data-action="chart-card#changePeriod" class="py-1 px-3 text-xs font-medium rounded-l-md bg-white text-gray-500 hover:bg-gray-100 border border-gray-300 transition-colors">
+              Week
+            </button>
+            <button type="button" data-chart-id="<%= id %>" data-chart-period="month" data-action="chart-card#changePeriod" class="py-1 px-3 text-xs font-medium bg-indigo-600 text-white hover:bg-indigo-700 border border-indigo-600 transition-colors">
+              Month
+            </button>
+            <button type="button" data-chart-id="<%= id %>" data-chart-period="year" data-action="chart-card#changePeriod" class="py-1 px-3 text-xs font-medium rounded-r-md bg-white text-gray-500 hover:bg-gray-100 border border-gray-300 transition-colors">
+              Year
+            </button>
+          </div>
+        <% end %>
+        
+        <button type="button" data-action="chart-card#toggleFullscreen" class="text-gray-400 hover:text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
     </div>
     
-    <div class="chart-container" style="height: <%= defined?(height) ? height : '300px' %>;">
-      <canvas id="<%= id %>" width="400" height="<%= defined?(height) ? height.to_i : 300 %>"></canvas>
+    <div class="chart-container" style="height: <%= defined?(height) ? height : '300px' %>;" data-chart-card-target="container">
+      <canvas id="<%= id %>" data-chart-card-target="canvas"></canvas>
     </div>
   </div>
 </div>
