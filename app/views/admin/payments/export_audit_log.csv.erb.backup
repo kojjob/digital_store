@@ -1,0 +1,14 @@
+<% require 'csv' %>
+<%= CSV.generate do |csv|
+  csv << ['Timestamp', 'Event Type', 'Payment Processor', 'Amount', 'Transaction ID', 'Metadata']
+  @audit_logs.each do |log|
+    csv << [
+      log.created_at,
+      log.event_type,
+      log.payment_processor,
+      log.amount,
+      log.transaction_id,
+      log.metadata.to_s
+    ]
+  end
+end.html_safe %>

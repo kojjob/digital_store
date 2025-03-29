@@ -1,0 +1,21 @@
+Fix: Implement proper webhook signature verification for MoMo payments
+
+* Replace placeholder signature verification with HMAC-SHA256 cryptographic validation
+* Add constant-time comparison to prevent timing attacks
+* Add error handling to prevent exceptions from bypassing verification
+* Implement comprehensive test coverage for the signature verification
+
+This fixes a critical security vulnerability where mobile money webhook signatures 
+were not properly verified, which could allow attackers to forge webhook notifications.
+The previous implementation only checked if a signature was present without
+validating it cryptographically against the payload.
+
+Security Impact:
+- Prevents unauthorized payment confirmations
+- Protects against potential financial fraud
+- Eliminates a vector for transaction forgery
+
+Testing:
+- All tests pass, including new tests that verify signature validation
+- Manually tested with sample webhook payloads and signatures
+- Verified behavior with missing/invalid signatures and valid signatures

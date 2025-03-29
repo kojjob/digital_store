@@ -17,16 +17,17 @@ class OrderMailer < ApplicationMailer
   end
 
   # Send payment confirmation email
-  def payment_confirmation(order)
+  def payment_confirmation(order, recipient = nil, additional_message = nil)
     @order = order
     @user = order.user
     @product = order.product
+    @additional_message = additional_message
 
     # Check for download link (will be nil if not a digital product)
     @download_link = DownloadLink.find_by(order: @order, user: @user)
 
     mail(
-      to: @user.email,
+      to: recipient || @user.email,
       subject: "Payment received for order ##{@order.id}"
     )
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_28_104301) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_29_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -137,6 +137,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_104301) do
     t.index ["payment_id"], name: "index_orders_on_payment_id"
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "payment_audit_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "order_id", null: false
+    t.string "event_type", null: false
+    t.string "payment_processor", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "transaction_id"
+    t.text "metadata"
+    t.inet "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_type", "payment_processor"], name: "index_payment_audit_logs_on_event_type_and_payment_processor"
+    t.index ["order_id"], name: "index_payment_audit_logs_on_order_id"
+    t.index ["user_id"], name: "index_payment_audit_logs_on_user_id"
   end
 
   create_table "product_images", force: :cascade do |t|
@@ -311,6 +328,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_104301) do
   add_foreign_key "notifications", "users"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "payment_audit_logs", "orders"
+  add_foreign_key "payment_audit_logs", "users"
   add_foreign_key "product_images", "products"
   add_foreign_key "product_questions", "products"
   add_foreign_key "product_questions", "users"

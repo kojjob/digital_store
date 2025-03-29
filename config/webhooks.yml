@@ -1,0 +1,70 @@
+# Webhook Configuration
+# This file contains configuration for various webhook providers
+
+default: &default
+  momo:
+    # IP addresses allowed to send webhooks - comma-separated list
+    allowed_ips: []
+    
+  stripe:
+    # Stripe webhook IPs: https://stripe.com/docs/webhooks/signatures
+    allowed_ips:
+      - 54.187.174.169
+      - 54.187.205.235
+      - 54.187.216.72
+      - 3.18.12.63
+      - 3.130.192.231
+      
+  paypal:
+    # PayPal webhook IPs
+    allowed_ips: []
+
+development:
+  <<: *default
+  # In development, don't restrict IPs to allow testing
+  momo:
+    allowed_ips: []
+  stripe:
+    allowed_ips: []
+  paypal:
+    allowed_ips: []
+
+test:
+  <<: *default
+  # In test environment, we want to test IP restriction
+  momo:
+    allowed_ips:
+      - 127.0.0.1
+      - 192.168.1.1
+  stripe:
+    allowed_ips:
+      - 127.0.0.1
+  paypal:
+    allowed_ips:
+      - 127.0.0.1
+
+staging:
+  <<: *default
+  # Staging should mirror production for testing
+  momo:
+    allowed_ips:
+      - 102.220.223.235  # MTN Ghana
+      - 102.220.223.236  # MTN Ghana
+      - 41.210.134.7     # Airtel Ghana
+      - 41.210.134.8     # Airtel Ghana
+      - 197.159.215.20   # Vodafone Ghana
+      - 197.159.215.21   # Vodafone Ghana
+
+production:
+  <<: *default
+  momo:
+    allowed_ips:
+      - 102.220.223.235  # MTN Ghana
+      - 102.220.223.236  # MTN Ghana
+      - 102.220.223.237  # MTN Ghana
+      - 41.210.134.7     # Airtel Ghana
+      - 41.210.134.8     # Airtel Ghana
+      - 41.210.134.9     # Airtel Ghana
+      - 197.159.215.20   # Vodafone Ghana
+      - 197.159.215.21   # Vodafone Ghana
+      - 197.159.215.22   # Vodafone Ghana
