@@ -1,0 +1,167 @@
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Payment Security Events</h1>
+    <div>
+      <%= link_to admin_security_payment_dashboard_index_path, class: "btn btn-sm btn-secondary mr-2" do %>
+        <i class="fas fa-arrow-left fa-sm text-white-50 mr-1"></i> Back to Dashboard
+      <% end %>
+      
+      <%= link_to recent_events_admin_security_payment_dashboard_index_path(format: :csv, params: request.query_parameters), class: "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" do %>
+        <i class="fas fa-download fa-sm text-white-50 mr-1"></i> Export CSV
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Filters Card -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Filter Events</h6>
+    </div>
+    <div class="card-body">
+      <%= form_tag recent_events_admin_security_payment_dashboard_index_path, method: :get, class: "form-inline" do %>
+        <div class="form-group mb-2 mr-2">
+          <label for="start_date" class="mr-2">Start Date:</label>
+          <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
+        </div>
+        <div class="form-group mb-2 mr-2">
+          <label for="end_date" class="mr-2">End Date:</label>
+          <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
+        </div>
+        <div class="form-group mb-2 mr-2">
+          <label for="event_type" class="mr-2">Event Type:</label>
+          <%= select_tag :event_type, 
+                        options_for_select(PaymentAuditLog.event_types.keys.map { |t| [t.humanize, t] }, params[:event_type]), 
+                        include_blank: "All Events", 
+                        class: "form-control" %>
+        </div>
+        <div class="form-group mb-2 mr-2">
+          <label for="payment_processor" class="mr-2">Payment Processor:</label>
+          <%= select_tag :payment_processor, 
+                        options_for_select(PaymentAuditLog.distinct.pluck(:payment_processor).map { |p| [p.titleize, p] }, params[:payment_processor]), 
+                        include_blank: "All Processors", 
+                        class: "form-control" %>
+        </div>
+        <div class="form-group mb-2 mr-4">
+          <label for="ip" class="mr-2">IP Address:</label>
+          <%= text_field_tag :ip, params[:ip], class: "form-control", placeholder: "Filter by IP" %>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Apply Filters</button>
+        <% if params[:start_date].present? || params[:end_date].present? || params[:event_type].present? || params[:payment_processor].present? || params[:ip].present? %>
+          <%= link_to "Clear Filters", recent_events_admin_security_payment_dashboard_index_path, class: "btn btn-outline-secondary mb-2 ml-2" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Events Table Card -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Security Events</h6>
+    </div>
+    <div class="card-body">
+      <% if @events.any? %>
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Event Type</th>
+                <th>Processor</th>
+                <th>Order ID</th>
+                <th>Amount</th>
+                <th>Transaction ID</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @events.each do |event| %>
+                <tr class="<%= row_class_for_event(event.event_type) %>">
+                  <td><%= event.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                  <td><%= event.event_type.humanize %></td>
+                  <td><%= event.payment_processor.titleize %></td>
+                  <td>
+                    <% if event.order.present? %>
+                      <%= link_to "##{event.order_id}", admin_payment_path(event.order) %>
+                    <% else %>
+                      -
+                    <% end %>
+                  </td>
+                  <td><%= number_to_currency(event.amount) %></td>
+                  <td><code><%= event.transaction_id.truncate(15) %></code></td>
+                  <td>
+                    <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#eventModal<%= event.id %>">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </td>
+                </tr>
+                
+                <!-- Event Modal -->
+                <div class="modal fade" id="eventModal<%= event.id %>" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel<%= event.id %>" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header <%= modal_header_class_for_event(event.event_type) %>">
+                        <h5 class="modal-title text-white" id="eventModalLabel<%= event.id %>"><%= event.event_type.humanize %> Event Details</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <h6>Event ID: <%= event.id %></h6>
+                            <h6>Time: <%= event.created_at.strftime("%Y-%m-%d %H:%M:%S") %></h6>
+                            <h6>Event Type: <%= event.event_type.humanize %></h6>
+                            <h6>Processor: <%= event.payment_processor.titleize %></h6>
+                          </div>
+                          <div class="col-md-6">
+                            <h6>Amount: <%= number_to_currency(event.amount) %></h6>
+                            <h6>Transaction ID: <%= event.transaction_id %></h6>
+                            <% if event.user.present? %>
+                              <h6>User: 
+                                <%= link_to event.user.email, admin_user_path(event.user) %>
+                              </h6>
+                            <% end %>
+                            <% if event.order.present? %>
+                              <h6>Order: 
+                                <%= link_to "##{event.order_id}", admin_payment_path(event.order) %>
+                              </h6>
+                            <% end %>
+                          </div>
+                        </div>
+                        
+                        <hr>
+                        <h6>Metadata:</h6>
+                        <pre class="bg-light p-3"><%= JSON.pretty_generate(event.metadata_hash) rescue event.metadata.to_s %></pre>
+                        
+                        <% ip_address = extract_ip_from_metadata(event.metadata_hash) %>
+                        <% if ip_address.present? %>
+                          <hr>
+                          <h6>IP Information:</h6>
+                          <p>IP Address: <%= ip_address %></p>
+                          <%= link_to "Filter events by this IP", recent_events_admin_security_payment_dashboard_index_path(ip: ip_address), class: "btn btn-sm btn-secondary" %>
+                        <% end %>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center">
+          <%= paginate @events if @events.respond_to?(:current_page) %>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          No events found matching your criteria.
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

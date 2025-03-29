@@ -1,0 +1,628 @@
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Payment Security Dashboard</h1>
+    <div>
+      <%= link_to recent_events_admin_security_payment_dashboard_index_path(format: :csv), class: "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" do %>
+        <i class="fas fa-download fa-sm text-white-50 mr-1"></i> Export Report
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Date Range Filter -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Filter by Date Range</h6>
+    </div>
+    <div class="card-body">
+      <%= form_tag admin_security_payment_dashboard_index_path, method: :get, class: "form-inline" do %>
+        <div class="form-group mb-2 mr-2">
+          <label for="start_date" class="mr-2">Start Date:</label>
+          <%= date_field_tag :start_date, @start_date, class: "form-control" %>
+        </div>
+        <div class="form-group mb-2 mr-2">
+          <label for="end_date" class="mr-2">End Date:</label>
+          <%= date_field_tag :end_date, @end_date, class: "form-control" %>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Apply Filter</button>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <!-- Signature Failures Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-danger shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                Signature Failures</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @security_summary[:total_signature_failures] %></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Success Rate Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <% 
+        total_success = @processor_stats.sum { |_, stats| stats[:success] }
+        total_failed = @processor_stats.sum { |_, stats| stats[:failed] }
+        total = total_success + total_failed
+        overall_success_rate = total > 0 ? (total_success.to_f / total * 100).round(1) : 0
+        success_color = overall_success_rate >= 95 ? "success" : (overall_success_rate >= 85 ? "warning" : "danger")
+      %>
+      <div class="card border-left-<%= success_color %> shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-<%= success_color %> text-uppercase mb-1">
+                Payment Success Rate</div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= overall_success_rate %>%</div>
+                </div>
+                <div class="col">
+                  <div class="progress progress-sm mr-2">
+                    <div class="progress-bar bg-<%= success_color %>" role="progressbar" style="width: <%= overall_success_rate %>%"
+                      aria-valuenow="<%= overall_success_rate %>" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clipboard-check fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Transactions Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                Total Transactions</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= total %></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suspicious Activity Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                Suspicious IPs</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @suspicious_ips.size %></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-shield-alt fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <!-- Area Chart -->
+    <div class="col-xl-8 col-lg-7">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Payment Events Trend</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="chart-area">
+            <canvas id="paymentTrendChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="col-xl-4 col-lg-5">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Payment Processor Success Rates</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="chart-pie pt-4 pb-2">
+            <canvas id="paymentProcessorChart"></canvas>
+          </div>
+          <div class="mt-4 text-center small">
+            <% @processor_stats.each_with_index do |(processor, _), index| %>
+              <span class="mr-2">
+                <i class="fas fa-circle" style="color: <%= chart_colors[index % chart_colors.size] %>;"></i> <%= processor.titleize %>
+              </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <!-- Recent Security Events -->
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-danger">Recent Security Events</h6>
+        </div>
+        <div class="card-body">
+          <% if @security_events.any? %>
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Processor</th>
+                    <th>Transaction ID</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @security_events.each do |event| %>
+                    <tr>
+                      <td><%= event.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+                      <td><%= event.payment_processor.titleize %></td>
+                      <td><code><%= event.transaction_id.truncate(15) %></code></td>
+                      <td>
+                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eventModal<%= event.id %>">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    
+                    <!-- Event Modal -->
+                    <div class="modal fade" id="eventModal<%= event.id %>" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel<%= event.id %>" aria-hidden="true">
+                      <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="eventModalLabel<%= event.id %>">Security Event Details</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <h6>Event: <%= event.event_type.humanize %></h6>
+                            <h6>Time: <%= event.created_at.strftime("%Y-%m-%d %H:%M:%S") %></h6>
+                            <h6>Processor: <%= event.payment_processor.titleize %></h6>
+                            <h6>Transaction ID: <%= event.transaction_id %></h6>
+                            
+                            <hr>
+                            <h6>Metadata:</h6>
+                            <pre class="bg-light p-3"><%= JSON.pretty_generate(event.metadata_hash) rescue event.metadata.to_s %></pre>
+                            
+                            <% if event.order.present? %>
+                              <hr>
+                              <h6>Related Order:</h6>
+                              <p>
+                                Order #<%= event.order_id %> 
+                                <%= link_to "View Order", admin_payment_path(event.order), class: "btn btn-sm btn-primary ml-2" %>
+                              </p>
+                            <% end %>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <%= link_to recent_events_admin_security_payment_dashboard_index_path, class: "btn btn-danger btn-sm float-right" do %>
+              <i class="fas fa-list mr-1"></i> View All
+            <% end %>
+          <% else %>
+            <div class="alert alert-success">
+              No security events detected in the selected period.
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Payment Errors -->
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-warning">Recent Payment Errors</h6>
+        </div>
+        <div class="card-body">
+          <% if @payment_errors.any? %>
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Processor</th>
+                    <th>Amount</th>
+                    <th>User</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @payment_errors.each do |error| %>
+                    <tr>
+                      <td><%= error.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+                      <td><%= error.payment_processor.titleize %></td>
+                      <td><%= number_to_currency(error.amount) %></td>
+                      <td>
+                        <% if error.user.present? %>
+                          <%= link_to error.user.email.truncate(15), admin_user_path(error.user) %>
+                        <% else %>
+                          <em>Unknown</em>
+                        <% end %>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#errorModal<%= error.id %>">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    
+                    <!-- Error Modal -->
+                    <div class="modal fade" id="errorModal<%= error.id %>" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel<%= error.id %>" aria-hidden="true">
+                      <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header bg-warning text-white">
+                            <h5 class="modal-title" id="errorModalLabel<%= error.id %>">Payment Error Details</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <h6>Event: <%= error.event_type.humanize %></h6>
+                            <h6>Time: <%= error.created_at.strftime("%Y-%m-%d %H:%M:%S") %></h6>
+                            <h6>Processor: <%= error.payment_processor.titleize %></h6>
+                            <h6>Amount: <%= number_to_currency(error.amount) %></h6>
+                            <h6>Transaction ID: <%= error.transaction_id %></h6>
+                            
+                            <hr>
+                            <h6>Metadata:</h6>
+                            <pre class="bg-light p-3"><%= JSON.pretty_generate(error.metadata_hash) rescue error.metadata.to_s %></pre>
+                            
+                            <% if error.order.present? %>
+                              <hr>
+                              <h6>Related Order:</h6>
+                              <p>
+                                Order #<%= error.order_id %> 
+                                <%= link_to "View Order", admin_payment_path(error.order), class: "btn btn-sm btn-primary ml-2" %>
+                              </p>
+                            <% end %>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <%= link_to recent_events_admin_security_payment_dashboard_index_path(event_type: 'payment_failed'), class: "btn btn-warning btn-sm float-right" do %>
+              <i class="fas fa-list mr-1"></i> View All
+            <% end %>
+          <% else %>
+            <div class="alert alert-success">
+              No payment errors detected in the selected period.
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Processor Stats Card -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Payment Processor Statistics</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Payment Processor</th>
+              <th>Success Count</th>
+              <th>Failure Count</th>
+              <th>Total Transactions</th>
+              <th>Success Rate</th>
+              <th>Signature Failures</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @processor_stats.each do |processor, stats| %>
+              <tr>
+                <td><%= processor.titleize %></td>
+                <td><%= stats[:success] %></td>
+                <td><%= stats[:failed] %></td>
+                <td><%= stats[:total] %></td>
+                <td>
+                  <div class="progress progress-sm mr-2">
+                    <div class="progress-bar <%= stats[:success_rate] >= 95 ? 'bg-success' : (stats[:success_rate] >= 85 ? 'bg-warning' : 'bg-danger') %>" role="progressbar" style="width: <%= stats[:success_rate] %>%"
+                      aria-valuenow="<%= stats[:success_rate] %>" aria-valuemin="0" aria-valuemax="100">
+                      <%= stats[:success_rate] %>%
+                    </div>
+                  </div>
+                </td>
+                <td><%= @security_summary[:by_processor][processor] || 0 %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suspicious IPs Card -->
+  <% if @suspicious_ips.any? %>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-danger">Suspicious IP Addresses</h6>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle mr-1"></i>
+          The following IP addresses have multiple failed signature verifications, which could indicate attempted tampering with payment data.
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>IP Address</th>
+                <th>Failed Attempts</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @suspicious_ips.each do |ip_data| %>
+                <tr>
+                  <td><%= ip_data[:ip] %></td>
+                  <td><%= ip_data[:count] %></td>
+                  <td>
+                    <%= link_to "#", class: "btn btn-sm btn-danger mr-2" do %>
+                      <i class="fas fa-ban mr-1"></i> Block
+                    <% end %>
+                    <%= link_to recent_events_admin_security_payment_dashboard_index_path(ip: ip_data[:ip]), class: "btn btn-sm btn-info" do %>
+                      <i class="fas fa-search mr-1"></i> View Events
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- JavaScript for Charts -->
+<script>
+  // Set new default font family and font color to mimic Bootstrap's default styling
+  Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  Chart.defaults.global.defaultFontColor = '#858796';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Chart colors
+    const chartColors = [
+      '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#5a5c69', 
+      '#6610f2', '#fd7e14', '#20c9a6', '#858796'
+    ];
+    
+    // Area Chart - Payment Trends
+    const ctx = document.getElementById("paymentTrendChart");
+    const chartData = <%= raw @chart_data.to_json %>;
+    
+    const myLineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: chartData.map(d => d.date),
+        datasets: [
+          {
+            label: "Successful",
+            lineTension: 0.3,
+            backgroundColor: "rgba(28, 200, 138, 0.05)",
+            borderColor: "rgba(28, 200, 138, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(28, 200, 138, 1)",
+            pointBorderColor: "rgba(28, 200, 138, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(28, 200, 138, 1)",
+            pointHoverBorderColor: "rgba(28, 200, 138, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: chartData.map(d => d.successful),
+          },
+          {
+            label: "Failed",
+            lineTension: 0.3,
+            backgroundColor: "rgba(246, 194, 62, 0.05)",
+            borderColor: "rgba(246, 194, 62, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(246, 194, 62, 1)",
+            pointBorderColor: "rgba(246, 194, 62, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(246, 194, 62, 1)",
+            pointHoverBorderColor: "rgba(246, 194, 62, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: chartData.map(d => d.failed),
+          },
+          {
+            label: "Security Issues",
+            lineTension: 0.3,
+            backgroundColor: "rgba(231, 74, 59, 0.05)",
+            borderColor: "rgba(231, 74, 59, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(231, 74, 59, 1)",
+            pointBorderColor: "rgba(231, 74, 59, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(231, 74, 59, 1)",
+            pointHoverBorderColor: "rgba(231, 74, 59, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: chartData.map(d => d.security),
+          }
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'date'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, values) {
+                return value;
+              }
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: true
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              return chart.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
+            }
+          }
+        }
+      }
+    });
+    
+    // Pie Chart - Processor Success Rates
+    const processorCtx = document.getElementById("paymentProcessorChart");
+    
+    const processorStats = <%= raw @processor_stats.to_json %>;
+    const processorLabels = Object.keys(processorStats).map(p => p.charAt(0).toUpperCase() + p.slice(1));
+    const processorData = Object.values(processorStats).map(s => s.success_rate);
+    
+    const myPieChart = new Chart(processorCtx, {
+      type: 'doughnut',
+      data: {
+        labels: processorLabels,
+        datasets: [{
+          data: processorData,
+          backgroundColor: chartColors.slice(0, processorLabels.length),
+          hoverBackgroundColor: chartColors.slice(0, processorLabels.length).map(c => shadeColor(c, -10)),
+          hoverBorderColor: "rgba(234, 236, 244, 1)",
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, data) {
+              const label = data.labels[tooltipItem.index];
+              const value = data.datasets[0].data[tooltipItem.index];
+              return label + ': ' + value + '% success rate';
+            }
+          }
+        },
+        legend: {
+          display: false
+        },
+        cutoutPercentage: 70,
+      },
+    });
+  });
+  
+  // Helper function to shade colors
+  function shadeColor(color, percent) {
+    let R = parseInt(color.substring(1,3),16);
+    let G = parseInt(color.substring(3,5),16);
+    let B = parseInt(color.substring(5,7),16);
+
+    R = parseInt(R * (100 + percent) / 100);
+    G = parseInt(G * (100 + percent) / 100);
+    B = parseInt(B * (100 + percent) / 100);
+
+    R = (R<255)?R:255;  
+    G = (G<255)?G:255;  
+    B = (B<255)?B:255;  
+
+    const RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+    const GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+    const BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+    return "#"+RR+GG+BB;
+  }
+</script>

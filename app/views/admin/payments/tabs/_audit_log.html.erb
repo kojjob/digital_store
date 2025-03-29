@@ -1,0 +1,86 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Payment Audit Log</h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Actions:</div>
+        <a class="dropdown-item" href="#" onclick="window.print();">
+          <i class="fas fa-print fa-sm fa-fw mr-2 text-gray-400"></i>Print Log
+        </a>
+        <%= link_to export_audit_log_admin_payments_path(order_id: @order.id, format: :csv), class: "dropdown-item" do %>
+          <i class="fas fa-download fa-sm fa-fw mr-2 text-gray-400"></i>Export to CSV
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <% if @audit_logs.any? %>
+      <div class="table-responsive">
+        <table class="table table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Event</th>
+              <th>Payment Processor</th>
+              <th>Amount</th>
+              <th>Transaction ID</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @audit_logs.each do |log| %>
+              <tr class="<%= log_event_class(log.event_type) %>">
+                <td><%= log.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                <td><%= log.event_description %></td>
+                <td><%= log.payment_processor.titleize %></td>
+                <td><%= number_to_currency(log.amount) %></td>
+                <td><%= log.transaction_id %></td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#logModal<%= log.id %>">
+                    View Details
+                  </button>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Modals for Log Details -->
+      <% @audit_logs.each do |log| %>
+        <div class="modal fade" id="logModal<%= log.id %>" tabindex="-1" role="dialog" aria-labelledby="logModalLabel<%= log.id %>" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="logModalLabel<%= log.id %>">Audit Log Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h6>Event: <%= log.event_type.humanize %></h6>
+                <h6>Time: <%= log.created_at.strftime("%Y-%m-%d %H:%M:%S") %></h6>
+                <h6>Processor: <%= log.payment_processor.titleize %></h6>
+                <h6>Transaction ID: <%= log.transaction_id %></h6>
+                
+                <hr>
+                <h6>Metadata:</h6>
+                <pre class="bg-light p-3"><%= JSON.pretty_generate(log.metadata_hash) rescue log.metadata.to_s %></pre>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="alert alert-info">
+        No audit logs found for this order.
+      </div>
+    <% end %>
+  </div>
+</div>

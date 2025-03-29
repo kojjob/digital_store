@@ -4,6 +4,13 @@
 
 <p>Good news! We've received your payment for order #<%= @order.id %>. Your order has been updated to <strong><%= @order.status.capitalize %></strong> status.</p>
 
+<% if @additional_message.present? %>
+<div class="additional-message" style="padding: 15px; background-color: #f5f5f5; border-left: 4px solid #4e73df; margin-bottom: 20px;">
+  <h4>Additional Information:</h4>
+  <p><%= @additional_message %></p>
+</div>
+<% end %>
+
 <div class="order-detail">
   <div class="order-header">
     <h3>Order #<%= @order.id %> - PAID</h3>

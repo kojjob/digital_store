@@ -1,0 +1,17 @@
+<% require 'csv' %>
+<%= CSV.generate do |csv|
+  csv << ['ID', 'Timestamp', 'Event Type', 'Payment Processor', 'Amount', 'Transaction ID', 'Order ID', 'User ID', 'Metadata']
+  @events.each do |event|
+    csv << [
+      event.id,
+      event.created_at,
+      event.event_type,
+      event.payment_processor,
+      event.amount,
+      event.transaction_id,
+      event.order_id,
+      event.user_id,
+      event.metadata.to_s
+    ]
+  end
+end.html_safe %>

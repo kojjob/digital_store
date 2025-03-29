@@ -2,8 +2,12 @@
 
 # MoMo service for handling mobile money payment operations
 class MomoService
-  # Available providers - use the shared constant from PhoneNumberValidator
-  PROVIDERS = PhoneNumberValidator::PROVIDERS
+  # Available providers
+  PROVIDERS = {
+    mtn: "MTN",
+    airtel: "Airtel",
+    vodafone: "Vodafone"
+  }.freeze
 
   # Transaction status values
   STATUS = {
@@ -13,9 +17,8 @@ class MomoService
     failed: "failed"
   }.freeze
 
-  def initialize(user, country: :ghana)
+  def initialize(user)
     @user = user
-    @phone_validator = PhoneNumberValidator.new(country: country)
   end
 
   # Initiate mobile money payment request
@@ -25,8 +28,8 @@ class MomoService
       return { success: false, error: "Invalid mobile money provider" }
     end
 
-    # Validate the phone number format using the validator
-    unless @phone_validator.valid?(phone_number, provider)
+    # Validate the phone number format (basic validation)
+    unless valid_phone_number?(phone_number, provider)
       return { success: false, error: "Invalid phone number format" }
     end
 
@@ -46,12 +49,9 @@ class MomoService
       status: "pending"
     )
 
-    # Format phone number for international use
-    formatted_phone = @phone_validator.format_international(phone_number)
-
     # Save the phone number with the order for future reference
     order.update(payment_details: {
-      phone_number: formatted_phone,
+      phone_number: phone_number,
       provider: provider,
       initiated_at: Time.current
     }.to_json)
@@ -62,7 +62,7 @@ class MomoService
       success: true,
       transaction_ref: transaction_ref,
       order_id: order.id,
-      message: "Payment request sent to #{formatted_phone} via #{PROVIDERS[provider.to_sym]}. Please check your phone to complete the payment."
+      message: "Payment request sent to #{phone_number} via #{PROVIDERS[provider.to_sym]}. Please check your phone to complete the payment."
     }
   end
 
@@ -106,7 +106,7 @@ class MomoService
 
   # Process a mobile money webhook from the provider
   def self.process_webhook(provider, payload, signature)
-    # Use the WebhookSignatureVerifier service
+    # Use the new WebhookSignatureVerifier service
     verifier = WebhookSignatureVerifier.new(provider: provider, payload: payload, signature: signature)
     unless verifier.verify
       Rails.logger.error("SECURITY WARNING: Invalid MoMo webhook signature for provider #{provider}")
@@ -221,6 +221,36 @@ class MomoService
       return reference unless Order.exists?(payment_id: reference)
       
       # If not unique, try again with a new reference
+    end
+  end
+
+  # Validate phone number format based on provider
+  def valid_phone_number?(phone_number, provider)
+    # Strip spaces and any other characters
+    cleaned_number = phone_number.to_s.gsub(/\D/, "")
+
+    case provider.to_sym
+    when :mtn
+      # MTN Ghana numbers start with 024, 054, 055, or 059
+      # Nigeria MTN starts with 0803, 0806, 0810, 0813, 0816, 0703, 0706, 0903, 0906
+      ghana_pattern = /^(0)(24|54|55|59)\d{7}$/
+      nigeria_pattern = /^(0)(803|806|810|813|816|703|706|903|906)\d{7}$/
+      
+      ghana_pattern.match?(cleaned_number) || nigeria_pattern.match?(cleaned_number)
+    when :airtel
+      # Airtel Ghana numbers start with 026 or 056
+      # Nigeria Airtel starts with 0802, 0808, 0812, 0701, 0708, 0902, 0907
+      ghana_pattern = /^(0)(26|56)\d{7}$/
+      nigeria_pattern = /^(0)(802|808|812|701|708|902|907)\d{7}$/
+      
+      ghana_pattern.match?(cleaned_number) || nigeria_pattern.match?(cleaned_number)
+    when :vodafone
+      # Vodafone Ghana numbers start with 020 or 050
+      ghana_pattern = /^(0)(20|50)\d{7}$/
+      
+      ghana_pattern.match?(cleaned_number)
+    else
+      false
     end
   end
 end

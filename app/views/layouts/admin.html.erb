@@ -30,6 +30,7 @@
                 <%= link_to "Analytics", admin_analytics_path, class: "#{current_page?(admin_analytics_path) ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
                 <%= link_to "Downloads", admin_downloads_path, class: "#{controller_name == 'downloads' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
                 <%= link_to "Payments", admin_payments_path, class: "#{controller_name == 'payments' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
+                <%= link_to "Payment Security", admin_security_payment_dashboard_index_path, class: "#{controller_name == 'payment_dashboard' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
                 <%= link_to "Product Questions", admin_product_questions_path, class: "#{controller_name == 'product_questions' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} rounded-md px-3 py-2 text-sm font-medium" %>
               </div>
             </div>
@@ -81,6 +82,7 @@
           <%= link_to "Analytics", admin_analytics_path, class: "#{current_page?(admin_analytics_path) ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
           <%= link_to "Downloads", admin_downloads_path, class: "#{controller_name == 'downloads' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
           <%= link_to "Payments", admin_payments_path, class: "#{controller_name == 'payments' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
+          <%= link_to "Payment Security", admin_security_payment_dashboard_index_path, class: "#{controller_name == 'payment_dashboard' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
           <%= link_to "Product Questions", admin_product_questions_path, class: "#{controller_name == 'product_questions' ? 'bg-indigo-700 text-white' : 'text-white hover:bg-indigo-500 hover:bg-opacity-75'} block rounded-md px-3 py-2 text-base font-medium" %>
         </div>
         <div class="border-t border-indigo-700 pb-3 pt-4">

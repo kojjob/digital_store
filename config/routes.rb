@@ -85,7 +85,27 @@ Rails.application.routes.draw do
         post :regenerate
       end
     end
-    resources :payments, only: [ :index, :show, :update ]
+    resources :payments, only: [ :index, :show, :update ] do
+      member do
+        post :resend_receipt
+        post :generate_download
+        post :reset_download
+        post :email_download
+        delete :revoke_download
+      end
+      collection do
+        get :export_audit_log
+      end
+    end
+    
+    # Payment Security Dashboard
+    namespace :security do
+      resources :payment_dashboard, only: [:index] do
+        collection do
+          get :recent_events
+        end
+      end
+    end
 
     # Admin dashboard
     get "/", to: "dashboard#index", as: :dashboard

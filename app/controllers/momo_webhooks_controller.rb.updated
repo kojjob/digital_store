@@ -1,0 +1,150 @@
+# frozen_string_literal: true
+
+class MomoWebhooksController < ApplicationController
+  # Skip CSRF protection for webhooks
+  skip_before_action :verify_authenticity_token
+  # Skip authentication for webhook endpoints
+  skip_before_action :authenticate_user!
+  # Add IP allowlist check
+  before_action :verify_webhook_source
+
+  def create
+    provider = params[:provider]&.downcase
+    payload = request.body.read
+    signature = request.headers["X-Momo-Signature"]
+
+    # Log the webhook receipt but sanitize sensitive data
+    Rails.logger.info("MoMo webhook received from provider: #{provider}. Request ID: #{request.request_id}")
+
+    # Validate provider
+    unless MomoService::PROVIDERS.key?(provider.to_sym)
+      log_and_respond("Invalid provider: #{provider}", :bad_request)
+      return
+    end
+
+    # Return error if signature header is missing
+    unless signature
+      log_and_respond("Signature header missing", :bad_request)
+      return
+    end
+
+    # Create an audit log entry for the webhook receipt
+    create_webhook_audit_log(provider, payload)
+
+    # Process the webhook
+    result = MomoService.process_webhook(provider, payload, signature)
+
+    if result[:status] == 200
+      render json: { status: "success" }, status: :ok
+    else
+      # Don't expose detailed error messages in response
+      render json: { status: "error" }, status: result[:status] || :bad_request
+
+      # Log the actual error internally
+      Rails.logger.error("MoMo webhook error: #{result[:error]}")
+    end
+  rescue => e
+    # Log the error but return a generic response
+    Rails.logger.error("Unexpected error in MoMo webhook processing: #{e.class.name} - #{e.message}")
+    render json: { status: "error" }, status: :internal_server_error
+  end
+
+  private
+
+  # Verify the webhook request is coming from an allowed IP address
+  def verify_webhook_source
+    allowed_ips = allowed_webhook_ips
+
+    # Skip the check if no IPs are configured (development mode)
+    return true if allowed_ips.blank?
+
+    unless allowed_ips.include?(request.remote_ip)
+      Rails.logger.error("SECURITY WARNING: MoMo webhook called from unauthorized IP: #{request.remote_ip}")
+      render json: { status: "error", error: "Unauthorized source" }, status: :forbidden
+      return false
+    end
+
+    true
+  end
+
+  # Get the list of allowed webhook IPs
+  def allowed_webhook_ips
+    # Get the list from configuration, with a different list per environment
+    config_ips = Rails.application.config_for(:webhooks).dig(:momo, :allowed_ips)
+    
+    # Convert to an array if a string was provided
+    return config_ips.split(',').map(&:strip) if config_ips.is_a?(String)
+    
+    # Return as is if it's already an array
+    return config_ips if config_ips.is_a?(Array)
+    
+    # Fall back to environment variables if config is missing
+    env_ips = ENV.fetch('MOMO_WEBHOOK_ALLOWED_IPS', nil)
+    return env_ips.split(',').map(&:strip) if env_ips.present?
+    
+    # Return an empty array if no configuration is found
+    []
+  end
+
+  # Log a webhook error and respond with an error
+  def log_and_respond(error_message, status)
+    Rails.logger.error("MoMo webhook error: #{error_message}")
+    render json: { status: "error", error: error_message }, status: status
+  end
+
+  # Create an audit log entry for the webhook
+  def create_webhook_audit_log(provider, payload)
+    begin
+      # Parse the payload to extract necessary information
+      data = JSON.parse(payload)
+      transaction_ref = data["transaction_reference"]
+      
+      # Find the order associated with this transaction
+      order = Order.find_by(payment_id: transaction_ref, payment_processor: "momo")
+      
+      # If we can't find the order, we still log the webhook but without order association
+      if order
+        PaymentAuditLog.create(
+          user_id: order.user_id,
+          order_id: order.id,
+          event_type: "webhook_received",
+          payment_processor: provider,
+          amount: order.total_amount,
+          transaction_id: transaction_ref,
+          ip_address: request.remote_ip,
+          user_agent: request.user_agent,
+          metadata: {
+            headers: sanitize_headers(request.headers),
+            timestamp: Time.current,
+            webhook_id: request.request_id
+          }.to_json
+        )
+      else
+        # Create a placeholder log without user/order - we'll link it later if possible
+        Rails.logger.warn("MoMo webhook received for unknown transaction: #{transaction_ref}")
+      end
+    rescue => e
+      # Don't fail webhook processing if audit logging fails
+      Rails.logger.error("Failed to create webhook audit log: #{e.message}")
+    end
+  end
+
+  # Sanitize headers to remove sensitive information
+  def sanitize_headers(headers)
+    safe_headers = {}
+    
+    # Only include specific headers we care about
+    %w[
+      HTTP_USER_AGENT
+      HTTP_ACCEPT
+      REMOTE_ADDR
+      REQUEST_METHOD
+      SERVER_NAME
+      X_MOMO_SIGNATURE
+    ].each do |key|
+      safe_headers[key] = headers[key] if headers[key].present?
+    end
+    
+    safe_headers
+  end
+end

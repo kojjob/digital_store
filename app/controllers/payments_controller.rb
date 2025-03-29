@@ -2,20 +2,11 @@
 
 class PaymentsController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_cart, only: [:create, :momo_initiate]
+  before_action :validate_order, only: [:create]
 
   def create
-    @cart = current_user.ensure_cart
     payment_method = params[:payment_method]
-    order_id = params[:order_id]
-
-    # Find the order if order_id is provided
-    if order_id.present?
-      @order = current_user.orders.find_by(id: order_id)
-      if @order.nil?
-        redirect_to new_checkout_path, alert: "Order not found"
-        return
-      end
-    end
 
     case payment_method
     when "stripe"
@@ -28,83 +19,93 @@ class PaymentsController < ApplicationController
   end
 
   def stripe_success
-    # Get the session ID from the Rails session, not from params
-    checkout_session_id = session.delete(:checkout_session_id)
-    pending_order_id = session.delete(:pending_order_id)
+    begin
+      # Get the session ID from the Rails session, not from params
+      checkout_session_id = session.delete(:checkout_session_id)
+      pending_order_id = session.delete(:pending_order_id)
 
-    # Verify we have the expected session data
-    if checkout_session_id.present? && pending_order_id.present?
-      # Get the order and validate it belongs to the current user (prevents session fixation)
-      order = current_user.orders.find_by(id: pending_order_id)
+      # Verify we have the expected session data
+      if checkout_session_id.present? && pending_order_id.present?
+        # Get the order and validate it belongs to the current user (prevents session fixation)
+        order = current_user.orders.find_by(id: pending_order_id)
 
-      if order && order.payment_id == checkout_session_id
-        # Process the successful payment
-        stripe_service = StripeService.new(current_user)
-        checkout_session = stripe_service.retrieve_checkout_session(checkout_session_id)
+        if order && order.payment_id == checkout_session_id
+          # Process the successful payment
+          stripe_service = StripeService.new(current_user)
+          checkout_session = stripe_service.retrieve_checkout_session(checkout_session_id)
 
-        if checkout_session.payment_status == "paid"
-          # Update the existing pending order
-          order.update(status: "paid", payment_status: "paid")
+          if checkout_session.payment_status == "paid"
+            # Update the existing pending order
+            order.update(status: "paid", payment_status: "paid")
 
-          # Create a download link if this is a digital product with a file
-          if order.product.digital_file.attached?
-            download_link = DownloadLink.create!(
-              user: current_user,
-              product: order.product,
-              order: order,
-              expires_at: 30.days.from_now,
-              download_limit: 5,
-              file_name: order.product.digital_file.filename.to_s,
-              file_size: order.product.digital_file.byte_size,
-              content_type: order.product.digital_file.content_type
-            )
+            # Create a download link if this is a digital product with a file
+            if order.product.digital_file.attached?
+              download_link = DownloadLink.create!(
+                user: current_user,
+                product: order.product,
+                order: order,
+                expires_at: 30.days.from_now,
+                download_limit: 5,
+                file_name: order.product.digital_file.filename.to_s,
+                file_size: order.product.digital_file.byte_size,
+                content_type: order.product.digital_file.content_type
+              )
 
-            # Send the payment confirmation and download ready emails
-            OrderMailer.payment_confirmation(order).deliver_later
-            OrderMailer.download_ready(download_link).deliver_later
+              # Send the payment confirmation and download ready emails
+              OrderMailer.payment_confirmation(order).deliver_later
+              OrderMailer.download_ready(download_link).deliver_later
+            else
+              # Send only the payment confirmation email
+              OrderMailer.payment_confirmation(order).deliver_later
+            end
+
+            # Clear the cart after successful order
+            @cart.clear
+
+            redirect_to order_path(order), notice: "Payment successful! Your order has been placed."
           else
-            # Send only the payment confirmation email
-            OrderMailer.payment_confirmation(order).deliver_later
+            redirect_to cart_path, alert: "Payment is still being processed. We will notify you when confirmed."
           end
-
-          # Clear the cart after successful order
-          @cart.clear
-
-          redirect_to order_path(order), notice: "Payment successful! Your order has been placed."
         else
-          redirect_to cart_path, alert: "Payment is still being processed. We will notify you when confirmed."
+          # Order not found or validation failed - security issue
+          Rails.logger.error("Security warning: Payment session validation failed for user #{current_user.id}")
+          redirect_to cart_path, alert: "Payment verification failed. Please contact support."
         end
       else
-        # Order not found or validation failed - security issue
-        Rails.logger.error("Security warning: Payment session validation failed for user #{current_user.id}")
-        redirect_to cart_path, alert: "Payment verification failed. Please contact support."
+        redirect_to cart_path, alert: "Could not verify payment. Please contact support."
       end
-    else
-      redirect_to cart_path, alert: "Could not verify payment. Please contact support."
+    ensure
+      # Always clear session data for security
+      session.delete(:checkout_session_id)
+      session.delete(:pending_order_id)
     end
   end
 
   def stripe_cancel
-    # Clean up session data
-    checkout_session_id = session.delete(:checkout_session_id)
-    pending_order_id = session.delete(:pending_order_id)
+    begin
+      # Clean up session data
+      checkout_session_id = session.delete(:checkout_session_id)
+      pending_order_id = session.delete(:pending_order_id)
 
-    # If we had a pending order, mark it as cancelled
-    if pending_order_id.present?
-      order = current_user.orders.find_by(id: pending_order_id)
-      if order && order.status == "pending"
-        order.update(status: "cancelled", payment_status: "cancelled")
-        Rails.logger.info("Order ##{order.id} cancelled by user during checkout")
+      # If we had a pending order, mark it as cancelled
+      if pending_order_id.present?
+        order = current_user.orders.find_by(id: pending_order_id)
+        if order && order.status == "pending"
+          order.update(status: "cancelled", payment_status: "cancelled")
+          Rails.logger.info("Order ##{order.id} cancelled by user during checkout")
+        end
       end
-    end
 
-    redirect_to cart_path, alert: "Payment was cancelled. Your cart is still saved."
+      redirect_to cart_path, alert: "Payment was cancelled. Your cart is still saved."
+    ensure
+      # Always clear session data for security
+      session.delete(:checkout_session_id)
+      session.delete(:pending_order_id)
+    end
   end
 
   # Mobile Money payment flow
   def momo_initiate
-    @cart = current_user.ensure_cart
-
     # Validate the provider and phone number
     provider = params[:provider]&.downcase
     phone_number = params[:phone_number]
@@ -159,6 +160,25 @@ class PaymentsController < ApplicationController
 
   private
 
+  def ensure_cart
+    @cart = current_user.ensure_cart
+  end
+
+  def validate_order
+    order_id = params[:order_id]
+    
+    # Find the order if order_id is provided
+    if order_id.present?
+      @order = current_user.orders.find_by(id: order_id)
+      if @order.nil?
+        redirect_to new_checkout_path, alert: "Order not found"
+        return false
+      end
+    end
+    
+    true
+  end
+
   def create_momo_payment
     # Render the mobile money payment form
     render :momo_payment
@@ -183,13 +203,5 @@ class PaymentsController < ApplicationController
     session[:pending_order_id] = order.id
 
     redirect_to checkout_session.url, allow_other_host: true
-  end
-
-  # This method is no longer used - we now create a pending order first and update it
-  # Keeping this as a reference for now
-  def legacy_create_order_from_session(checkout_session)
-    # This is only kept for reference and should not be used
-    Rails.logger.warn("SECURITY WARNING: legacy_create_order_from_session should not be called")
-    nil
   end
 end

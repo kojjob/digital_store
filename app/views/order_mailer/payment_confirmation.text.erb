@@ -4,6 +4,11 @@ Hello <%= @user.first_name || @user.email %>,
 
 Good news! We've received your payment for order #<%= @order.id %>. Your order has been updated to <%= @order.status.capitalize %> status.
 
+<% if @additional_message.present? %>
+ADDITIONAL INFORMATION:
+<%= @additional_message %>
+<% end %>
+
 ORDER #<%= @order.id %> - PAID
 Ordered on <%= @order.created_at.strftime("%B %d, %Y") %> | Paid on <%= Time.current.strftime("%B %d, %Y") %>
 
